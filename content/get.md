@@ -25,8 +25,8 @@ To get the FATES EMERALD platform version, CLONE from NordicESM hub
     git clone -b release-clm5.0 https://github.com/NordicESMhub/ctsm.git ${HOME}/ctsm_fates_emerald
 
 In this example we are checking out the release-clm5.0 tag and create a
-new local branch (recomended). The destination of the checkout is a
-directoy (e.g. ctsm\_fates\_emerald) in our home directory.
+new local branch (recommended). The destination of the checkout is a
+directory (e.g. ctsm\_fates\_emerald) in our home directory.
 
 ### How to get a specific branch
 
@@ -43,7 +43,7 @@ into a new local branch (e.g. new\_branch\_name)
 
     git checkout release-emerald-platform2.0.1 -b new_branch_name
 
-For later reference, it is usefull to choose new\_branch\_name according
+For later reference, it is useful to choose new\_branch\_name according
 to function and include the version and your username, e.g.
 username\_release-emerald-platform2.0.1.
 
@@ -75,7 +75,7 @@ Follow the steps above, but checkout the fates\_emerald\_api instead
 
     git checkout fates_emerald_api -b new_branch_name
 
-For later reference, it is usefull to choose new\_branch\_name according
+For later reference, it is useful to choose new\_branch\_name according
 to function and include the version and your username, e.g.
 username\_fates\_emerald\_api. After checking out the externals, change
 to cime directory and create your own branch to record all your changes
@@ -112,7 +112,7 @@ Create a local branch
 
     git checkout master -b my_branch_name
 
-For later reference, it is usefull to choose `my_branch_name` according
+For later reference, it is useful to choose `my_branch_name` according
 to function and include the version and your username.
 
 To fetch the proper externals (CIME, FATES, etc.) run

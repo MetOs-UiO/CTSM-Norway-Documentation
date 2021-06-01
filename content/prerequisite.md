@@ -23,4 +23,4 @@ and you\'re good to go.
 ## Input data folders 
 All the runs of CTSM require certain input data for forcing data, grids, etc. Usually these files are downloaded automatically from [NCAR's service](https://escomp.github.io/CESM/release-cesm2/downloading_cesm.html#downloading-input-data), but be aware of the size of the files! 
 
-To avoid duplication of input files in the order of TB the users and developers of NorESM, CTSM, and other related climate models in Norway share diskspace on the clusters. To get access to this folder you need to ask about the premission of the group owner. 
+To avoid duplication of input files in the order of TB the users and developers of NorESM, CTSM, and other related climate models in Norway share diskspace on the clusters. To get access to this folder you need to ask about the permission of the group owner. Y 
