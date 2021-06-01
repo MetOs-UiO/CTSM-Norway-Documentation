@@ -26,6 +26,7 @@ but rather offer some guidelines of best practices for running and developing CT
    :maxdepth: 1
    :caption: Content
 
+   get.md
    wishlist.md
    tools.md
    in-code-documentation.md
