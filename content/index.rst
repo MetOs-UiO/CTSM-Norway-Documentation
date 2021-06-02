@@ -1,4 +1,4 @@
-Code documentation lesson
+CTSM-Norway
 =========================
 
 The documentation on this webpage is made to help users of the clusters offered by `Sigma2 <https://www.sigma2.no/>`__ to run and contribute to the development of the `Community Terrestrial Systems Model (CTSM) <https://github.com/ESCOMP/CTSM>`__. 

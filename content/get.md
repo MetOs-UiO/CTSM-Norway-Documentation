@@ -1,35 +1,31 @@
 # Get CTSM
+Dependent on what you want to do you might want to use different strategies for starting your CTSM work at the right place. 
+
+```{keypoints} Path variables
+Throughout all this documentation we define some path variables:  
+- `HOME`; your home directory on the computer you are currently working on (remote or local)
+- `CTSM_ROOT`; the top folder of whereever you cloned CTSM 
+```
 
 
-That\'s where you should start.
-
-NordicESMhub maintains a CTSM repository with all the configuration
-files for running on machines in the Nordics. For now we support:
-
+## Supported machines
+Currently (June 2021), we support machine configurations for: 
 -   saga (sigma2, Norway)
 -   fram (sigma2, Norway)
 
 If your machine is not in the list and you would like us to support it,
 please contact us.
 
-For compatibility, load git version 2.23.0 or higher on your super
-computer
-
-    git/2.23.0-GCCcore-8.3.0
-
 ## How to get CTSM (for users)
+A user is a person that runs CTSM without modifying the source code. To get the FATES EMERALD platform version, CLONE from NordicESM hub
 
-
-To get the FATES EMERALD platform version, CLONE from NordicESM hub
-
-    git clone -b release-clm5.0 https://github.com/NordicESMhub/ctsm.git ${HOME}/ctsm_fates_emerald
+    [~/HOME]$ git clone -b release-clm5.0 https://github.com/NordicESMhub/ctsm.git ${HOME}/ctsm_fates_emerald
 
 In this example we are checking out the release-clm5.0 tag and create a
 new local branch (recommended). The destination of the checkout is a
 directory (e.g. ctsm\_fates\_emerald) in our home directory.
 
 ### How to get a specific branch
-
 Change into the created ctsm directory
 
     cd ${HOME}/ctsm_fates_emerald
