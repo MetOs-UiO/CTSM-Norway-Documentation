@@ -27,6 +27,7 @@ but rather offer some guidelines of best practices for running and developing CT
    :caption: Content
 
    get.md
+   setup.md
    wishlist.md
    tools.md
    in-code-documentation.md
