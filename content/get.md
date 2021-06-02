@@ -4,7 +4,7 @@ Dependent on what you want to do you might want to use different strategies for 
 ```{keypoints} Path variables
 Throughout all this documentation we define some path variables:  
 - `HOME`; your home directory on the computer you are currently working on (remote or local)
-- `CTSM_ROOT`; the top folder of whereever you cloned CTSM 
+- `CTSM_ROOT`; the top folder or wherever you cloned CTSM 
 ```
 
 
@@ -13,7 +13,7 @@ Currently (June 2021), we support machine configurations for:
 -   saga (sigma2, Norway)
 -   fram (sigma2, Norway)
 
-If your machine is not in the list and you would like us to support it,
+If your machine is not on the list and you would like us to support it,
 please contact us.
 
 ## How to get CTSM (for users)
@@ -21,7 +21,7 @@ A user is a person that runs CTSM without modifying the source code. To get the 
 
     [~/HOME]$ git clone -b release-clm5.0 https://github.com/NordicESMhub/ctsm.git ${HOME}/ctsm_fates_emerald
 
-In this example we are checking out the release-clm5.0 tag and create a
+In this example, we are checking out the release-clm5.0 tag and create a
 new local branch (recommended). The destination of the checkout is a
 directory (e.g. ctsm\_fates\_emerald) in our home directory.
 
@@ -34,7 +34,7 @@ Check all existing branches
 
     [~/HOME/ctsm_fates_emerald]$ git branch --all
 
-To checkout the FATES EMERALD platform (in this example release 2.0.1)
+To check out the FATES EMERALD platform (in this example release 2.0.1)
 into a new local branch (e.g. new\_branch\_name)
 
     [~/HOME/ctsm_fates_emerald]$ git checkout release-emerald-platform2.0.1 -b new_branch_name
@@ -54,9 +54,9 @@ your first case.
 
 ## How to get CTSM (for developers)
 A developer is someone that wishes to change the source code of CTSM. 
-Dependent on which project you wish to contribute to you might want to
+Dependening on which project you wish to contribute to you might want to
 start your development from different versions of CTSM. For the
-CLM-Norway team we have to mainly two startingpoints:
+CLM-Norway team we have to mainly two starting points:
 
 > -   The [NordicESM-hub](https://github.com/NordicESMhub/ctsm) (note
 >     that this is a project for developers in the Nordics)
@@ -66,7 +66,7 @@ CLM-Norway team we have to mainly two startingpoints:
 
 ### From the [NordicESM-hub](https://github.com/NordicESMhub/ctsm)
 
-Follow the steps [above](https://metos-uio.github.io/CTSM-Norway-Documentation/get/#how-to-get-ctsm-for-users), but checkout the fates\_emerald\_api instead
+Follow the steps [above](https://metos-uio.github.io/CTSM-Norway-Documentation/get/#how-to-get-ctsm-for-users), but `checkout` the fates\_emerald\_api instead
 
     [~/HOME/ctsm_fates_emerald]$ git checkout fates_emerald_api -b new_branch_name
 
@@ -92,7 +92,7 @@ first case.
 ### From the latest version of [CTSM](https://github.com/ESCOMP/CTSM)
 
 This tutorial assumes that you are logged into one of the clusters (fram
-or saga) at sigma2. For access to those see (future referance to
+or saga) at sigma2. For access to those see (future reference to
 prerequisites section).
 
 Start from your home folder and clone CTSM from ESCOMP 
@@ -116,13 +116,13 @@ To fetch the proper externals (CIME, FATES, etc.) run
 
 #### Porting of cime
 
-Now you need to add machine specifics for the norwegian clusters. This
+Now you need to add machine specifics for the Norwegian clusters. This
 can be done in two ways (check the
 [original](https://esmci.github.io/cime/versions/master/html/users_guide/porting-cime.html#steps-for-porting)
 documentation for a detailed explanation):
 
 1. You can replace some default configuration files with configuration files that contain details for these clusters.
-2. You can create a [.cime]{.title-ref} folder with the machine configurations under your home diretory.
+2. You can create a [.cime]{.title-ref} folder with the machine configurations under your home directory.
 
 
 ##### Replace the default configurations
