@@ -1,9 +1,9 @@
 # Prerequisites
-This page is where you should start. You will have problems with following the steps in the documentation if some of these concepts are unfamiliar to you or you haven't been granted all the needed accesses. 
+This page is where you should start. You will have problems with following the steps in the documentation if some of these concepts are unfamiliar to you or you haven't been granted all the needed accesse. 
 
 
 ## Technical concepts
-CTSM is a big code written in modern fortran. This requires its users to have high technical competence. 
+CTSM is a big code written in modern Fortran. This requires its users to have high technical competence. 
 
 ### Git
 To start working with CTSM you need some basic understanding of the version control system `git` and the web interface `GitHub`. 
@@ -18,8 +18,8 @@ To start working with CTSM you need some basic understanding of how to work with
 ```
 
 ## Needed accesses  
-This page is a guide to setup and use of CTSM on the norwegian clusters
-rund by Sigma2. 
+This section is a guide to setup and use of CTSM on the Norwegian clusters
+run by Sigma2. 
 
 ### The Sigma2-clusters
 To get access to these you need to create an account by
