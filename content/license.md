@@ -7,7 +7,7 @@ The information you can find here are maintained by CTSM-Norway and is maintaine
 
 The people that has contributed to the content of this webpage are (listed in alfabethical order): 
 
-[![](./img/profile_pictures/octocat.png)](https://github.com/ecaas) Elin Ristrop Aas
+[![](./img/profile_pictures/octocat.png)](https://github.com/ecaas) Elin Ristorp Aas
 
 [![](./img/profile_pictures/kjetilaas.png)](https://github.com/kjetilaas) Kjetil Schanke Aas
 
