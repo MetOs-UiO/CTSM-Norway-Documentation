@@ -3,7 +3,7 @@ Dependent on what you want to do you might want to use different strategies for 
 
 ```{keypoints} Path variables
 Throughout all this documentation we define some path variables:  
-- `HOME`; your home directory on the computer you are currently working on (remote or local)
+- `HOME`; your home directory on the computer you are currently working on (remote or local). Typically predefined on a UNIX-system.
 - `CTSM_ROOT`; the top folder or wherever you cloned CTSM 
 ```
 
