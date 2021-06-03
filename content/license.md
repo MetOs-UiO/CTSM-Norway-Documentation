@@ -15,17 +15,23 @@ The people that has contributed to the content of this webpage are (listed in al
 
 [![](./img/profile_pictures/ziu1986.png)](https://github.com/ziu1986) Stefanie Falk 
 
+[![](./img/profile_pictures/annefou.png)](https://github.com/annefou) Anne Fouilloux 
+
 [![](./img/profile_pictures/octocat.png)](https://github.com/emiliano-gelati) Emiliano Gelati
 
 [![](./img/profile_pictures/sunnivin.png)](https://github.com/sunnivin) Sunniva Indrehus 
 
 [![](./img/profile_pictures/lasseke.png)](https://github.com/lasseke) Lasse Keetz
 
+[![](./img/profile_pictures/octocat.png)](https://github.com/mariuslam) Marius Lambert
+
 [![](./img/profile_pictures/octocat.png)](https://github.com/gunnartl) Gunnar Thorsen Liahjell
 
 [![](./img/profile_pictures/devarajun.png)](https://github.com/devarajun) Devaraju Narayanappa
 
 [![](./img/profile_pictures/octocat.png)](https://github.com/huitang-earth) Hui Tang
+
+[![](./img/profile_pictures/yelizy.png)](https://github.com/yelizy) Yeliz Yilmaz 
  
 
 ## Template 
