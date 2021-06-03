@@ -9,6 +9,9 @@ Throughout all this documentation we define some path variables:
 
 
 ## Supported machines
+This tutorial assumes that you are logged into one of the clusters (fram
+or saga) at sigma2. (For access to those see [this](https://metos-uio.github.io/CTSM-Norway-Documentation/prerequisite/#needed-accesses) information). 
+
 Currently (June 2021), we support machine configurations for: 
 -   saga (sigma2, Norway)
 -   fram (sigma2, Norway)
@@ -90,11 +93,6 @@ previous `cime` and `fates`. You should now be ready to create your
 first case.
 
 ### From the latest version of [CTSM](https://github.com/ESCOMP/CTSM)
-
-This tutorial assumes that you are logged into one of the clusters (fram
-or saga) at sigma2. For access to those see (future reference to
-prerequisites section).
-
 Start from your home folder and clone CTSM from ESCOMP 
 
     [~/HOME]$ git clone --origin escomp <https://github.com/ESCOMP/CTSM.git> CTSM
