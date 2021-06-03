@@ -100,17 +100,21 @@ To run for the Brazil test site do the following:
     ./xmlchange NTASKS=1 #(number of CPU's, can be increased if excitation error)
 
 ## Run a regional case
-Here, the regional case procedure is explained for running the model
-over Fennoscandia and Svalbard region at 0.25 degree spatial resolution
-on Abel.
+Follow the below procedure to run CTSM over a specific region of interest for a specific resolution.
 
-Required input files (domain and surface data) are already produced and
-stored under the main inputdata directory. So, start with linking the
-main inputdata files to your working directory.
+For example, to run over Scandinavia region (latitude 41N to 48N, longitude 4E to 42E) at 0.5 degree resolution:
+    - First produce the domain and surface data files for the region using the python script `subset_surfdata.py` available under the CTSM tools directory (`~/ctsm/tools/contrib/`).
 
-    cd ~/ctsm/cime/scripts
-    ./link_dirtree $CESM_DATA /work/users/$USER/inputdata
-    export MYCTSMDATA=/work/users/$USER/inputdata
+### Domain and surface data
+Change the variable values ln1 to 4.0,ln2 to 42.0, lt1 to 41.0 and lt2 to 48.0 in the `subset_data.py`-file.
+The python script file can be found [here](https://github.com/ESCOMP/CTSM/blob/master/tools/contrib/subset_data.py). 
+It the domain file and surface data file.
+
+### Inputdata
+Use the already available inputdata stored under shared directory on both FRAM and SAGA machines. To use the atmospheric forcing data you must export the environmental variable `ATMDATA` to point to the right place
+
+    export ATMDATA=/cluster/shared/noresm/inputdata/atm/datm7/
+
 
 ### Definitions
 As mentioned earlier in this documentation, you need to define your
@@ -131,20 +135,14 @@ To run the model with Satellite Phenology mode, do the following
 
     cd $CTSMROOT/cime/scripts
     ./create_newcase -case ~/cases/SCA_SpRun -res CLM_USRDAT -compset I2000Clm50SpGs --machine abel --run-unsupported --project $CESM_ACCOUNT
+    
+Here, the compset `I2000Clm50SpGs` initialize the model from 2000 conditions with GSWP3 atmospheric forcing data. If you want to run CTSM with BGC mode and force with CRU NCEP v7 data set, use the `I2000Clm50BgcCruGs` compset. 
 
-Here, the compset **I2000Clm50SpGs** initialize the model from 2000
-conditions with GSWP3 atmospheric forcing data. If you want to run CTSM
-with BGC mode and force with CRU NCEP v7 data set, use
-**I2000Clm50BgcCruGs** compset. 
-
-To see available compset aliases and
-their long names, type the following:
+You can see the available compset aliases and their long names by typing the following :
 
     $CTSMROOT/cime/scripts/query_config --compsets clm
 
-**NB** you can use only the compsets with **SGLC** (Stub glacier
-(land ice) component) for single point and regional cases. Otherwise,
-simulation fails.
+**NB** you can only use the compsets with `SGLC` (Stub glacier (land ice) component) for single point and regional cases. Otherwise, the simulation will fail.
 
 ### Set up the case 
 Now, we are setting up our test
@@ -175,21 +173,21 @@ simulation for three years between 2000-2002.
     ./preview_run
 
 ### Customizing the CLM namelist 
-In order to define the location of surface data file for our Scandinavia region, we add the
-**fsurdat** setting to the land model's namelist.
+In order to define the location of surface data file for our Scandinavia region, we add the variable
+`fsurdat` setting to the land model's namelist.
 
     cat << EOF > user_nl_clm
     fsurdat="$MYCTSMDATA/lnd/clm2/surfdata_map/surfdata_0.25_SCA_hist_16pfts_Irrig_CMIP6_simyr2000_c190814.nc"
     EOF
 
-If you run your simulation with **BGC** mode, then you need to set
+If you run your simulation with the `BGC`-mode, then you need to set
 another surface data map as follows:
 
     cat << EOF > user_nl_clm
     fsurdat="$MYCTSMDATA/lnd/clm2/surfdata_map/surfdata_0.25_SCA_hist_78pfts_CMIP6_simyr2000_c190819.nc"
     EOF
 
-If you want to print out only selected variables in hourly resolution in
+If you want to print out only selected variables with hourly resolution in
 the model output files for each year:
 
     cat << EOF > user_nl_clm
