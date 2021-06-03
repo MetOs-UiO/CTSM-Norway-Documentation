@@ -11,8 +11,7 @@ after logging to a remote HPC-computer. This will return something that looks li
     nn2806k
     nn1000k
 
-In the example above, two projects can be used (nn2806k and nn1000k).
-Then make sure you choose the right project when running CTSM.
+In the example above, two projects can be used (nn2806k and nn1000k). The project you are affiliated with will depend on the accout you used when you applied for resources. Make sure you choose the right project when running CTSM. 
 
 ## Setting up and running a case 
 The [original documentation](https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/setting-up-and-running-a-case/index.html) gives a detailed description of how to create and run a case.  
