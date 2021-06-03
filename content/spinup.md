@@ -1,24 +1,4 @@
-# Setup CTSM
-
-For running CTSM on the Norwegian cluster you will be affilicated with a project account. 
-
-To check which project you are affiliated with can run by typing
-
-    [~/HOME]$ projects
-
-after logging to a remote HPC-computer. This will return something that looks like this
-
-    nn2806k
-    nn1000k
-
-In the example above, two projects can be used (nn2806k and nn1000k). The project you are affiliated with will depend on the accout you used when you applied for resources. Make sure you choose the right project when running CTSM. 
-
-## Setting up and running a case 
-The [original documentation](https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/setting-up-and-running-a-case/index.html) gives a detailed description of how to create and run a case.  
-
-
-
-### Why do we do a spin-up?
+# Spin-up CTSM
 The idea behind doing a so-called **spin-up** is to reach an
 equilibrium state in your model. Typically any perturbation (e.g. 2x CO2) experiment starts from such a state.
 
