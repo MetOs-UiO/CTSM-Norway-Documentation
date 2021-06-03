@@ -9,8 +9,7 @@ Throughout all this documentation we define some path variables:
 
 
 ## Supported machines
-This tutorial assumes that you are logged into one of the clusters (fram
-or saga) at sigma2. (For access to those see [this](https://metos-uio.github.io/CTSM-Norway-Documentation/prerequisite/#needed-accesses) information). 
+This tutorial assumes that you are logged into one of the clusters of Sigma2. (See [here](https://metos-uio.github.io/CTSM-Norway-Documentation/prerequisite/#needed-accesses) for ahow to get a cluster access). 
 
 Currently (June 2021), we support machine configurations for: 
 -   saga (sigma2, Norway)
@@ -59,13 +58,13 @@ your first case.
 A developer is someone that wishes to change the source code of CTSM. 
 Depending on which project you wish to contribute to you might want to
 start your development from different versions of CTSM. For the
-CLM-Norway team we have to mainly two starting points:
+CLM-Norway team we have mainly two starting points:
 
-> -   The [NordicESM-hub](https://github.com/NordicESMhub/ctsm) (note
->     that this is a project for developers in the Nordics)
-> -   The latest version of the original
->     [CTSM](https://github.com/ESCOMP/CTSM) (this is the original
->     version of CTSM developed by NCAR)
+-   The [NordicESM-hub](https://github.com/NordicESMhub/ctsm) (note
+    that this is a project for developers in the Nordics)
+-   The latest version of the original
+    [CTSM](https://github.com/ESCOMP/CTSM) (this is the original
+    version of CTSM developed by NCAR)
 
 ### From the [NordicESM-hub](https://github.com/NordicESMhub/ctsm)
 
