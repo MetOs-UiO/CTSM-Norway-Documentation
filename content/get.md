@@ -54,7 +54,7 @@ your first case.
 
 ## How to get CTSM (for developers)
 A developer is someone that wishes to change the source code of CTSM. 
-Dependening on which project you wish to contribute to you might want to
+Depending on which project you wish to contribute to you might want to
 start your development from different versions of CTSM. For the
 CLM-Norway team we have to mainly two starting points:
 
