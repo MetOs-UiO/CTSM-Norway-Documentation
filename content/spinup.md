@@ -16,7 +16,7 @@ check the *health* of your vegetation. The variable directly associated with the
 is `Total Leaf Area
 Index (TLAI)`. 
 
-If `TLAI=0` your vegetation is dead and something went really
+If `TLAI=0` your vegetation is dead and something went
 wrong.
 
 ### How long should a spin-up be?
