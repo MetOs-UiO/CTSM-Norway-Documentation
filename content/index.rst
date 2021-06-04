@@ -29,6 +29,7 @@ but rather offer some guidelines of best practices for running and developing CT
    get.md
    run.md
    spinup.md
+   wrf-ctsm.md
    wishlist.md
    tools.md
    in-code-documentation.md
