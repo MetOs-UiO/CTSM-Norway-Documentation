@@ -3,9 +3,9 @@ The documentation on this webpage is made to help users of the clusters offered 
 
 
 ## Content 
-The information you can find here are maintained by CTSM-Norway and is maintained as a collective effort. 
+The information you can find here is maintained by CTSM-Norway-Team and is maintained as a collective effort. 
 
-The people that has contributed to the content of this webpage are (listed in alfabethical order): 
+The people that have contributed to the content of this webpage are (listed in alphabethical order): 
 
 [![](./img/profile_pictures/octocat.png)](https://github.com/ecaas) Elin Ristorp Aas
 
