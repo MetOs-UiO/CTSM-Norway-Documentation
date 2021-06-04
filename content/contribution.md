@@ -22,4 +22,4 @@ How to automatically update the documentation locally during development:
 $[~/PROJECT_ROOT] sphinx-autobuild content/ _build
 ```
 
-The static webpage is hosted on Github and automatically build be pushing changes to the `main` branch. The build web-page is displayed as the stuff build on the `gh-pages` branch. This process is automatic. A guide to the principles can be found [here](https://pythonrepo.com/repo/executablebooks-sphinx-autobuild-python-documentation). 
+The static webpage is hosted on Github and automatically builded with GitHub-Actions by pushing changes from the `main` to the `gh-pages` branch. The built web-page is displayed as the stuff build on the `gh-pages` branch. This process is automatic. A guide to the principles can be found [here](https://pythonrepo.com/repo/executablebooks-sphinx-autobuild-python-documentation). 

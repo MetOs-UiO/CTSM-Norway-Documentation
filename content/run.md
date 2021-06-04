@@ -9,7 +9,7 @@ To check which project you are affiliated with can run by typing
 
     [~/HOME]$ projects
 
-after logging into a remote HPC-computer. This will return something that looks like this
+after logging into a remote HPC-cluster. This will return something that looks like this
 
     nn2806k
     nn1000k
@@ -23,7 +23,7 @@ To change the variable `CESM_ACCOUNT` in a script
 ```
 
 ### Environmental variables
-Along with the proper definition of your project you should make sure that some other environmental variables are properly defined. 
+Along with the proper definition of your project, you should make sure that some other environmental variables are properly defined. 
 
 An example of environmental variables your might want to change are
 
@@ -37,7 +37,7 @@ An example of environmental variables your might want to change are
 
 
 ## Your first CTSM case
-After you have completing one of the methods in the [Get CTSM](https://metos-uio.github.io/CTSM-Norway-Documentation/get/#get-ctsm) step you need to load the correct external repositories. This you do with the command  
+After you have completed one of the methods in the [Get CTSM](https://metos-uio.github.io/CTSM-Norway-Documentation/get/#get-ctsm) step you need to load the correct external repositories. This you do with the command  
 
     [~/CTSM_ROOT]$ ./manage_externals/checkout_externals
 
@@ -45,7 +45,7 @@ After you have completing one of the methods in the [Get CTSM](https://metos-uio
 If you are updating FATES go [here](https://github.com/NordicESMhub/ctsm-dev/blob/master/Updating_FATES.md) first.  
 ```
 
-### Inputdata
+### The input data directory
 The first time, or whenever your `$WORKDIR` is cleaned, you need to link your working directory with your input data
 
     [~/CTSM_ROOT]$ cd cime/scripts

@@ -29,16 +29,8 @@ but rather offer some guidelines of best practices for running and developing CT
    get.md
    run.md
    spinup.md
-   wishlist.md
-   tools.md
-   in-code-documentation.md
-   writing-readme-files.md
-   sphinx.md
-   rtd.md
-   gh-pages.md
-   summary.md
-
-
+   wrf-ctsm.md
+  
 .. toctree::
    :maxdepth: 1
    :caption: Reference

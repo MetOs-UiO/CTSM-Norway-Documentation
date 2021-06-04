@@ -3,13 +3,13 @@ Dependent on what you want to do you might want to use different strategies for 
 
 ```{keypoints} Path variables
 Throughout all this documentation we define some path variables:  
-- `HOME`; your home directory on the computer you are currently working on (remote or local). Typically predefined on a UNIX-system.
+- `HOME`; your home directory on the computer you are currently working on (remote or local). Typically predefined on a Unix system.
 - `CTSM_ROOT`; the top folder or wherever you cloned CTSM 
 ```
 
 
 ## Supported machines
-This tutorial assumes that you are logged into one of the clusters of Sigma2. (See [here](https://metos-uio.github.io/CTSM-Norway-Documentation/prerequisite/#needed-accesses) for ahow to get a cluster access). 
+This tutorial assumes that you are logged into one of the clusters of Sigma2. (See [here](https://metos-uio.github.io/CTSM-Norway-Documentation/prerequisite/#needed-accesses) for how to get cluster access). 
 
 Currently (June 2021), we support machine configurations for: 
 -   saga (sigma2, Norway)
@@ -24,7 +24,7 @@ A user is a person that runs CTSM without modifying the source code. To get the 
     [~/HOME]$ git clone -b release-clm5.0 https://github.com/NordicESMhub/ctsm.git ${HOME}/ctsm_fates_emerald
 
 In this example, we are checking out the release-clm5.0 tag and create a
-new local branch (recommended). The destination of the checkout is a
+new local branch (recommended). The destination of the `checkout` is a
 directory (e.g. ctsm\_fates\_emerald) in our home directory.
 
 ### How to get a specific branch
