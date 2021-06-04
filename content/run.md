@@ -91,7 +91,7 @@ To properly configure your case there are several steps you might need to do.
 
 4. Change history filelds 
 
-    The history filelds controls which varaibles that are written to file during a run. `hist_mfilt` allows you to specify the number of output
+    The history filelds controls which variables that are written to file during a run. `hist_mfilt` allows you to specify the number of output
     files and `hist_nhtfrq` the frequency.
 
     To change the history files you can edit the `user_nl_clm.xlm` add the following lines below
