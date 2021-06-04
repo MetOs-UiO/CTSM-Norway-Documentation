@@ -30,6 +30,7 @@ but rather offer some guidelines of best practices for running and developing CT
    run.md
    spinup.md
    wrf-ctsm.md
+   develop.md
   
 .. toctree::
    :maxdepth: 1
