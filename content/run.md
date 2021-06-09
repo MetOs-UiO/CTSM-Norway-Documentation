@@ -114,28 +114,21 @@ To properly configure your case there are several steps you might need to do.
 
 ## Running a FATES case
 
-```{discussion} Remark 
-Fates is not automatically checked out with the latest version (as
-it is still under development), and this has to be done manually.
-```
-
-Follow the tips given at [NordicESMhub](https://github.com/NordicESMhub/ctsm-dev/blob/master/Updating_FATES), which is based on [this](https://github.uio.no/huit/clm5.0_notes/issues/26) insctruction, and the [ESCOMP guide](https://github.com/ESCOMP/ctsm/wiki/Protocols-on-updating-FATES-within-CTSM).
+Follow the tips given at [ESCOMP guide](https://github.com/ESCOMP/ctsm/wiki/Protocols-on-updating-FATES-within-CTSM).
 
     [~/CTSM_ROOT/cime/scripts]$ ./create_newcase --case ../../../ctsm_cases/fates_f19_g17 --compset 2000_DATM%GSWP3v1_CLM50%FATES_SICE_SOCN_MOSART_SGLC_SWAV --res f19_g17 --machine saga --run-unsupported --project $CESM_ACCOUNT
 
 ## Run a single cell case
-CLM supports running using single-point or [regional](ttps://metos-uio.github.io/CTSM-Norway-Documentation/run/#run-a-regional-case) datasets that are
-customized to a particular region.
+CLM supports running single-point simulations. Available options are summarized at [ESCOMP guide](https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/single-point-and-regional-grid-configurations.html#single-and-regional-grid-configurations). 
 
-In the section below we show you how to run ready-to-use single-point
-configurations (out of the box) and then show you how to create your own
-dataset for any location of your choice.
-
-### Out of the box
-To run for the Brazil test site do the following:
+For testing purpose, we recommend running a single point using global data, i.e., [PTS_MODE](https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/running-pts_mode-configurations.html#running-a-single-point-using-global-data-pts-mode). Below we show you how to create a single-point case using global data.
 
     [~/CTSM_ROOT/cime/scripts]$ export CESM_ACCOUNT=nn2806k
-    [~/CTSM_ROOT/cime/scripts]$ ./create_newcase -case ~/cases/testSPDATASET --res 1x1_brazil --compset I2000Clm50SpGs  --machine saga --run-unsupported --project $CESM_ACCOUNT
+    [~/CTSM_ROOT/cime/scripts]$ ./create_newcase -case ~/cases/testPTS_MODE --res f19_g17_gl4 --compset I2000Clm50SpGs -pts_lat 40.0 -pts_lon -105 --machine saga --run-unsupported --project $CESM_ACCOUNT
+
+For dedicated single-cell simulation in order to compare with site-level observation data, we recommend running single-cell simulation using your own datasets following the examples (1.6.3.4 - 1.6.3.6) from [ESCOMP guide] (https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/running-single-point-configurations.html#example-using-clm-usrdat-name-to-run-a-simulation-using-user-datasets-for-a-specific-region-over-alaska) 
+
+There are dedicated tools and workflow for running single-cell simulations over Norwegian ecological observation sites using CLM and CLM-FATES, please check [NorESM_LandSites_Platform](https://github.com/NorESMhub/NorESM_LandSites_Platform) and follow the instructions there.
 
 ## Run a regional case
 Follow the below procedure to run CTSM over a specific region of interest for a specific resolution. 
