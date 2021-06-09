@@ -4,7 +4,7 @@ CTSM-Norway
 The documentation on this webpage is made to help users of the clusters offered by `Sigma2 <https://www.sigma2.no/>`__ to run and contribute to the development of the `Community Terrestrial Systems Model (CTSM) <https://github.com/ESCOMP/CTSM>`__. 
 
 Our mission is not to duplicate the information you can find in CTSM's `documentation <https://escomp.github.io/ctsm-docs/versions/master/html/index.html>`__, 
-but rather offer some guidelines of best practices for running and developing CTSM with examples that are specific for the Norwegian cluster. 
+and NorESM's `documentation <https://noresm-docs.readthedocs.io/en/latest/configurations/clm.html>`__, but rather offer some up-to-date guidelines of best practices for running and developing CTSM and CTSM-FATES with examples that are specific for the Norwegian cluster.
 
 
 
