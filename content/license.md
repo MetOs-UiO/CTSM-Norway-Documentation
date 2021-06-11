@@ -27,6 +27,8 @@ The people that have contributed to the content of this webpage are (listed in a
 
 [![](./img/profile_pictures/octocat.png)](https://github.com/gunnartl) Gunnar Thorsen Liahjell
 
+[![](./img/profile_pictures/irismuz.png)](https://github.com/irismuz) Iris Mužić
+
 [![](./img/profile_pictures/devarajun.png)](https://github.com/devarajun) Devaraju Narayanappa
 
 [![](./img/profile_pictures/octocat.png)](https://github.com/huitang-earth) Hui Tang
