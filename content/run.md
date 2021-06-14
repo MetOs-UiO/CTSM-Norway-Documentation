@@ -134,7 +134,7 @@ There are dedicated tools and workflow for running single-cell simulations over 
 Follow the below procedure to run CTSM over a specific region of interest for a specific resolution. 
 
 ### Domain and surface data
-To run over the Scandinavia region (latitude 41N to 48N, longitude 4E to 42E) at 0.5 degree resolution you first need to produce the domain and surface data files for the region using the python script `subset_data.py` available under the CTSM tools directory `CTSM_ROOT/tools/contrib/subset_data.py`. The python script file can be found [here](https://github.com/ESCOMP/CTSM/blob/master/tools/contrib/subset_data.py). 
+To run over the Scandinavia region (latitude 48N to 81N, longitude 4E to 42E) at 0.5 degree resolution you first need to produce the domain and surface data files for the region using the python script `subset_data.py` available under the CTSM tools directory `CTSM_ROOT/tools/contrib/subset_data.py`. The python script file can be found [here](https://github.com/ESCOMP/CTSM/blob/master/tools/contrib/subset_data.py). 
 
 The python scripts requires input arguments corresponding to your region of interest. Command below helps you to understand on how to provide
 input argument variables:
@@ -145,9 +145,14 @@ First, you need to change the global input data directory variable inside the sc
 
     dir_inputdata='/cluster/shared/noresm/inputdata/'
 
+```{Attention} You need to also choose what resolution global surface data you like to use? For example:
+for 0.5x0.5 resolution, choose /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc
+and add this file location in the python script
+```
+
 Run the script as below with the input arguments for Scandinavia region:
 
-    [~/CTSM_ROOT/tools/contrib] ./subset_data.py --reg scand --lat1 41.0 --lat2 48.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA  #(choose where you want to store the regional data eg. /cluste/projects/nn2806k/)
+    [~/CTSM_ROOT/tools/contrib] ./subset_data.py --reg scand --lat1 48.0 --lat2 81.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA  #(choose where you want to store the regional data eg. /cluste/projects/nn2806k/)
 
 ### Create a case for the compset of your interest
 
@@ -162,9 +167,12 @@ The compset chosen here is I2000Clm50BgcCropGs. Initialize the model for the yea
     
 ### Inputdata
 
-Add domain file path following below commands in the case directory:
+Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH) file paths following below commands in the case directory:
 
     [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MEREGDATA,LND_DOMAIN_PATH=$MYREGDATA
+
+Add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE):
+
     [~/cases/scand]$export LNDDOM=domain.0.5x0.5_scand.nc
     [~/cases/scand]$./xmlchange ATM_DOMAIN_FILE=$ATMDOM,LND_DOMAIN_FILE=$ATMDOM
     
