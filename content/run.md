@@ -176,9 +176,9 @@ Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH
 
     [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MEREGDATA,LND_DOMAIN_PATH=$MYREGDATA
     
-     ```{discussion} xlm-files
-    Manually editing the `*.xml`-files is **not** recommended!
-    ```
+```{discussion} xml-files
+Manually editing the `*.xml`-files is **not** recommended!
+```
 
 To add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE) first set the environment variable for file name:
 
