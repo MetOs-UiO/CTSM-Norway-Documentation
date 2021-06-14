@@ -145,19 +145,19 @@ First, you need to change the global input data directory variable inside the sc
 
     dir_inputdata='/cluster/shared/noresm/inputdata/'
     
-Choose a location for storing the domain and surface data files for Scandinavia. Set the environment variable 
-for the directory as below:
+Choose a location for storing the domain and surface data files for Scandinavia (eg. /cluste/projects/nn2806k/$USER/regiondata). 
+Set the environment variable for the directory as below:
 
-    REGDATA='/cluste/projects/nn2806k/$USER/'
+    MYREGDATA='/cluste/projects/nn2806k/$USER/regiondata/'
 
-```{discussion} Choose what resolution global surface data you like to use? 
+```{discussion} Choose the global surface data file corresponding to the resolution! 
 For example: for 0.5x0.5 resolution, choose /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc
 and add this file location in the python script subset_data.py
 ```
 
 Run the script as below with the input arguments for Scandinavia region:
 
-    [~/CTSM_ROOT/tools/contrib] ./subset_data.py --reg scand --lat1 48.0 --lat2 81.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA  #(choose where you want to store the regional data eg. )
+    [~/CTSM_ROOT/tools/contrib] ./subset_data.py --reg scand --lat1 48.0 --lat2 81.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA
 
 ### Create a case for the compset of your interest
 
@@ -176,9 +176,12 @@ Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH
 
     [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MEREGDATA,LND_DOMAIN_PATH=$MYREGDATA
 
-Add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE):
+To add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE) first set the environment variable for file name:
 
     [~/cases/scand]$export DOMFILE=domain.0.5x0.5_scand.nc
+
+and use the xmlchange command to add the file nanme in the xml files of the case directory.
+
     [~/cases/scand]$./xmlchange ATM_DOMAIN_FILE=$DOMFILE,LND_DOMAIN_FILE=$DOMFILE
     
 Add region name into env_run.xml file (eg.choose the same name as created case name):
