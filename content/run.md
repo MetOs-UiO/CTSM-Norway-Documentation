@@ -165,7 +165,7 @@ You can see the available compset aliases and their long names by typing the fol
 
     [~/CTSM_ROOT/cime/scripts]$ ./query_config --compsets clm
 
-The compset chosen here is I2000Clm50BgcCropGs. Initialize the model for the year 2000 conditions with GSWP3 atmospheric forcing data.
+The compset chosen here is I2000Clm50BgcCropGs. Initializes the model for the year 2000 conditions with GSWP3 atmospheric forcing data.
     
     [~/CTSM_ROOT/cime/scripts]$ export CESM_ACCOUNT=nn2806k
     [~/CTSM_ROOT/cime/scripts]$ ./create_newcase -case ~/cases/scand --res CLM_USRDAT --compset I2000Clm50BgcCropGs  --machine fram --run-unsupported --project $CESM_ACCOUNT
@@ -175,6 +175,10 @@ The compset chosen here is I2000Clm50BgcCropGs. Initialize the model for the yea
 Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH) file paths following below commands in the case directory:
 
     [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MEREGDATA,LND_DOMAIN_PATH=$MYREGDATA
+    
+     ```{discussion} xlm-files
+    Manually editing the `*.xml`-files is **not** recommended!
+    ```
 
 To add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE) first set the environment variable for file name:
 
