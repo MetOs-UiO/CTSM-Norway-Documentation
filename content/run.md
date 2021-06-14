@@ -184,7 +184,7 @@ To add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_
 
     [~/cases/scand]$export DOMFILE=domain.0.5x0.5_scand.nc
 
-and use the xmlchange command to add the file nanme in the xml files of the case directory.
+and use the xmlchange command to add the file names into the xml files.
 
     [~/cases/scand]$./xmlchange ATM_DOMAIN_FILE=$DOMFILE,LND_DOMAIN_FILE=$DOMFILE
     
