@@ -45,13 +45,12 @@ For later reference, it is useful to choose new\_branch\_name according
 to function and include the version and your username, e.g.
 username\_release-emerald-platform2.0.1.
 
-To fetch the proper externals (CIME, FATES, etc.) run
+Some components of CTSM are maintained and developed independently of the main model. We call these externals.
+To fetch the proper externals (CIME, FATES, etc.) run the below command from the main CTSM directory (we are going to call this \$CTSM\_ROOT from now on).
 
     [~/HOME/ctsm_fates_emerald]$ ./manage_externals/checkout_externals
 
-from the main ctsm directory (we are going to call this \$CTSM\_ROOT
-from now on). All should be set by this and you should be able to create
-your first case.
+All should be set by this and you should be able to create your first case.
 
 
 ## How to get CTSM (for developers)
