@@ -175,17 +175,10 @@ The compset chosen here is I2000Clm50BgcCropGs. Initializes the model for the ye
 Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH) file paths following below commands in the case directory:
 
     [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MEREGDATA,LND_DOMAIN_PATH=$MYREGDATA
-<<<<<<< HEAD
     
 ```{discussion} xml-files
 Manually editing the `*.xml`-files is **not** recommended!
 ```
-=======
-   
- ```{discussion} xml-files
- Manually editing the `*.xml`-files is **not** recommended!
- ```
->>>>>>> ebb1e844661d9dd9bef68ee93a904febd088714c
 
 To add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE) first set the environment variable for file name:
 
