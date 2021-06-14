@@ -151,7 +151,7 @@ Set the environment variable for the directory as below:
     MYREGDATA='/cluste/projects/nn2806k/$USER/regiondata/'
 
 ```{discussion} Choose the global surface data file corresponding to the resolution! 
-For example: for 0.5x0.5 resolution, choose /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc
+For example: for 0.5x0.5 resolution, choose surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc (under shared noresm folder)
 and add this file location in the python script subset_data.py
 ```
 
