@@ -37,13 +37,22 @@ An example of environmental variables your might want to change are
 
 
 ## Your first CTSM case
-After you have completed one of the methods in the [Get CTSM](https://metos-uio.github.io/CTSM-Norway-Documentation/get/#get-ctsm) step you need to load the correct external repositories. This you do with the command  
-
-    [~/CTSM_ROOT]$ ./manage_externals/checkout_externals
 
 ```{discussion} Updating Fates?  
 If you are updating FATES go [here](https://github.com/NordicESMhub/ctsm-dev/blob/master/Updating_FATES.md) first.  
 ```
+
+```{discussion} For reference: manage_externals  
+Whenever you want to update to the most recent version of the external components, you need to rerun the command below.
+
+If you are doing changes to the code, remember to create your own branches for the external repositories before you run the command (see [here](https://metos-uio.github.io/CTSM-Norway-Documentation/get/#from-the-nordicesm-hub)).
+
+    [~/CTSM_ROOT]$ ./manage_externals/checkout_externals
+
+Read more about how manage_externals/checkout_externals work [here](https://github.com/ESMCI/manage_externals).
+
+```
+
 
 ### The input data directory
 The first time, or whenever your `$WORKDIR` is cleaned, you need to link your working directory with your input data
