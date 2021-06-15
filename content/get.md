@@ -122,19 +122,19 @@ documentation for a detailed explanation):
 
 
 ##### Replace the default configurations
-Execute the following steps: 
+Execute the following steps:
 1. Go into the cime-config folder
 
-        [~/CTSM_ROOT]$ cd cime/config/cesm/machines 
-    
-2. Delete the default files: 
+        [~/CTSM_ROOT]$ cd cime/config/cesm/machines
+
+2. Delete the default files:
 
         [~/CTSM_ROOT/cime/config/cesm/machine]$ rm config_machines.xml config_batch.xml config_compilers.xml
 
 3. Fetch replacementfiles from [this](https://github.com/gunnartl/config_files_sigma2.git) repository by typing
 
-        [~/CTSM_ROOT/cime/config/cesm/machine]$ git init 
-        [~/CTSM_ROOT/cime/config/cesm/machine]$ git remote add origin <https://github.com/gunnartl/config_files_sigma2.git> 
+        [~/CTSM_ROOT/cime/config/cesm/machine]$ git init
+        [~/CTSM_ROOT/cime/config/cesm/machine]$ git remote add origin <https://github.com/gunnartl/config_files_sigma2.git>
         [~/CTSM_ROOT/cime/config/cesm/machine]$ git pull origin main
 
 ##### Create a dotcime folder
