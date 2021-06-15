@@ -118,7 +118,7 @@ can be done in two ways (check the
 documentation for a detailed explanation):
 
 1. You can replace some default configuration files with configuration files that contain details for these clusters.
-2. You can create a [.cime]{.title-ref} folder with the machine configurations under your home directory.
+2. You can create a **.cime** folder with the machine configurations under your home directory.
 
 
 ##### Replace the default configurations
