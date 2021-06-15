@@ -25,7 +25,7 @@ A user is a person that runs CTSM without modifying the source code. To get the 
 
 In this example, we are checking out the release-clm5.0 tag and create a
 new local branch (recommended). The destination of the `checkout` is a
-directory (e.g. ctsm\_fates\_emerald) in our home directory.
+directory (e.g. ctsm\_fates\_emerald) in our home directory. From now on, we will call this directory `CTSM_ROOT`.
 
 ### How to get a specific branch
 Change into the created ctsm directory
@@ -34,12 +34,12 @@ Change into the created ctsm directory
 
 Check all existing branches
 
-    [~/HOME/ctsm_fates_emerald]$ git branch --all
+    [~/CTSM_ROOT]$ git branch --all
 
 To check out the FATES EMERALD platform (in this example release 2.0.1)
 into a new local branch (e.g. new\_branch\_name)
 
-    [~/HOME/ctsm_fates_emerald]$ git checkout release-emerald-platform2.0.1 -b new_branch_name
+    [~/CTSM_ROOT]$ git checkout release-emerald-platform2.0.1 -b new_branch_name
 
 For later reference, it is useful to choose new\_branch\_name according
 to function and include the version and your username, e.g.
@@ -48,7 +48,7 @@ username\_release-emerald-platform2.0.1.
 Some components of CTSM are maintained and developed independently of the main model. We call these externals.
 To fetch the proper externals (CIME, FATES, etc.) run the below command from the main CTSM directory.
 
-    [~/HOME/ctsm_fates_emerald]$ ./manage_externals/checkout_externals
+    [~/CTSM_ROOT]$ ./manage_externals/checkout_externals
 
 All should be set by this and you should be able to create your first case.
 
@@ -69,21 +69,21 @@ CLM-Norway team we have mainly two starting points:
 
 Follow the steps [above](https://metos-uio.github.io/CTSM-Norway-Documentation/get/#how-to-get-ctsm-for-users), but `checkout` the fates\_emerald\_api instead
 
-    [~/HOME/ctsm_fates_emerald]$ git checkout fates_emerald_api -b new_branch_name
+    [~/CTSM_ROOT]$ git checkout fates_emerald_api -b new_branch_name
 
 For later reference, it is useful to choose new\_branch\_name according
 to function and include the version and your username, e.g.
 username\_fates\_emerald\_api. After checking out the externals, change
 to cime directory and create your own branch to record all your changes
 
-    [~/HOME/ctsm_fates_emerald]$ cd externals/cime
-    [~/HOME/ctsm_fates_emerald/externals/cime]$ git checkout -b username_cime
+    [~/CTSM_ROOT]$ cd externals/cime
+    [~/CTSM_ROOT/externals/cime]$ git checkout -b username_cime
 
 Change to fates directory and create your own branch to record all your
 changes
 
-    [~/HOME/ctsm_fates_emerald/externals/cime]$ cd ../externals/fates
-    [~/HOME/ctsm_fates_emerald/externals/fates]$ git checkout -b username_fates
+    [~/CTSM_ROOT/externals/cime]$ cd ../externals/fates
+    [~/CTSM_ROOT/externals/fates]$ git checkout -b username_fates
 
 If you do not create your own branch for `cime` and `fates`, running
 `./manage_externals/checkout_externals`, will overwrite your
@@ -99,16 +99,16 @@ Change into the new directory
 
     [~/HOME]$ cd CTSM
 
-Create a local branch 
+Create a local branch
 
-    [~/HOME/CTSM]$ git checkout master -b my_branch_name
+    [~/CTSM_ROOT]$ git checkout master -b my_branch_name
 
 For later reference, it is useful to choose `my_branch_name` according
 to function and include the version and your username.
 
 To fetch the proper externals (CIME, FATES, etc.) run
 
-    [~/HOME/CTSM]$ ./manage_externals/checkout_externals
+    [~/CTSM_ROOT]$ ./manage_externals/checkout_externals
 
 #### Porting of cime
 
