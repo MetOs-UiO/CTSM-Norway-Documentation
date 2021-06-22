@@ -154,19 +154,19 @@ First, you need to change the global input data directory variable inside the sc
 
     dir_inputdata='/cluster/shared/noresm/inputdata/'
     
-Choose a location for storing the domain and surface data files for Scandinavia. Set the environment variable 
-for the directory as below:
+Choose a location for storing the domain and surface data files for Scandinavia (eg. /cluster/projects/nn2806k/$USER/regiondata). 
+Set the environment variable for the directory as below:
 
-    REGDATA='/cluste/projects/nn2806k/$USER/'
+    MYREGDATA='/cluster/projects/nn2806k/$USER/regiondata/'
 
-```{discussion} Choose what resolution global surface data you like to use? 
-For example: for 0.5x0.5 resolution, choose /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc
-and add this file location in the python script subset_data.py
+```{discussion} Choose the global surface data file corresponding to the resolution! 
+For example: for 0.5x0.5 resolution, choose `surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc` (under shared noresm folder)
+and add this file location in the python script `subset_data.py`
 ```
 
 Run the script as below with the input arguments for Scandinavia region:
 
-    [~/CTSM_ROOT/tools/contrib] ./subset_data.py --reg scand --lat1 48.0 --lat2 81.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA  #(choose where you want to store the regional data eg. )
+    [~/CTSM_ROOT/tools/contrib] ./subset_data.py --reg scand --lat1 48.0 --lat2 81.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA
 
 ### Create a case for the compset of your interest
 
@@ -174,27 +174,34 @@ You can see the available compset aliases and their long names by typing the fol
 
     [~/CTSM_ROOT/cime/scripts]$ ./query_config --compsets clm
 
-The compset chosen here is I2000Clm50BgcCropGs. Initialize the model for the year 2000 conditions with GSWP3 atmospheric forcing data.
+The compset chosen here is I2000Clm50BgcCropGs. Initializes the model for the year 2000 conditions with GSWP3 atmospheric forcing data.
     
     [~/CTSM_ROOT/cime/scripts]$ export CESM_ACCOUNT=nn2806k
     [~/CTSM_ROOT/cime/scripts]$ ./create_newcase -case ~/cases/scand --res CLM_USRDAT --compset I2000Clm50BgcCropGs  --machine fram --run-unsupported --project $CESM_ACCOUNT
     
 ### Inputdata
 
-Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH) file paths following below commands in the case directory:
+Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH) paths following below commands in the case directory:
 
-    [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MEREGDATA,LND_DOMAIN_PATH=$MYREGDATA
+    [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MYREGDATA,LND_DOMAIN_PATH=$MYREGDATA
+    
+```{discussion} xml-files
+Manually editing the `*.xml`-files is **not** advised!
+```
 
-Add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE):
+To add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE) first set the environment variable for file name:
 
     [~/cases/scand]$export DOMFILE=domain.0.5x0.5_scand.nc
+
+and use the xmlchange command to add the file names into the xml files.
+
     [~/cases/scand]$./xmlchange ATM_DOMAIN_FILE=$DOMFILE,LND_DOMAIN_FILE=$DOMFILE
     
 Add region name into env_run.xml file (eg.choose the same name as created case name):
 
     [~/cases/scand]$./xmlchange CLM_USRDAT_NAME=scand
     
-Change the number of CPUs and few other variables: 
+Change the number of CPUs and project number: 
 
     [~/cases/scand]$./xmlchange NTASKS=32
     [~/cases/scand]$./xmlchange PROJECT=$CESM_ACCOUNT
