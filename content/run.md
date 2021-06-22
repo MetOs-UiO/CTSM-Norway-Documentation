@@ -154,14 +154,14 @@ First, you need to change the global input data directory variable inside the sc
 
     dir_inputdata='/cluster/shared/noresm/inputdata/'
     
-Choose a location for storing the domain and surface data files for Scandinavia (eg. /cluste/projects/nn2806k/$USER/regiondata). 
+Choose a location for storing the domain and surface data files for Scandinavia (eg. /cluster/projects/nn2806k/$USER/regiondata). 
 Set the environment variable for the directory as below:
 
     MYREGDATA='/cluster/projects/nn2806k/$USER/regiondata/'
 
 ```{discussion} Choose the global surface data file corresponding to the resolution! 
-For example: for 0.5x0.5 resolution, choose 'surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc' (under shared noresm folder)
-and add this file location in the python script subset_data.py
+For example: for 0.5x0.5 resolution, choose `surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc` (under shared noresm folder)
+and add this file location in the python script `subset_data.py`
 ```
 
 Run the script as below with the input arguments for Scandinavia region:
@@ -181,9 +181,9 @@ The compset chosen here is I2000Clm50BgcCropGs. Initializes the model for the ye
     
 ### Inputdata
 
-Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH) file paths following below commands in the case directory:
+Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH) paths following below commands in the case directory:
 
-    [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MEREGDATA,LND_DOMAIN_PATH=$MYREGDATA
+    [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MYREGDATA,LND_DOMAIN_PATH=$MYREGDATA
     
 ```{discussion} xml-files
 Manually editing the `*.xml`-files is **not** advised!
@@ -201,7 +201,7 @@ Add region name into env_run.xml file (eg.choose the same name as created case n
 
     [~/cases/scand]$./xmlchange CLM_USRDAT_NAME=scand
     
-Change the number of CPUs and few other variables: 
+Change the number of CPUs and project number: 
 
     [~/cases/scand]$./xmlchange NTASKS=32
     [~/cases/scand]$./xmlchange PROJECT=$CESM_ACCOUNT
