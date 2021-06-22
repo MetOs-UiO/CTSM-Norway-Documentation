@@ -157,10 +157,10 @@ First, you need to change the global input data directory variable inside the sc
 Choose a location for storing the domain and surface data files for Scandinavia (eg. /cluste/projects/nn2806k/$USER/regiondata). 
 Set the environment variable for the directory as below:
 
-    MYREGDATA='/cluste/projects/nn2806k/$USER/regiondata/'
+    MYREGDATA='/cluster/projects/nn2806k/$USER/regiondata/'
 
 ```{discussion} Choose the global surface data file corresponding to the resolution! 
-For example: for 0.5x0.5 resolution, choose surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc (under shared noresm folder)
+For example: for 0.5x0.5 resolution, choose 'surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc' (under shared noresm folder)
 and add this file location in the python script subset_data.py
 ```
 
@@ -186,7 +186,7 @@ Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH
     [~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MEREGDATA,LND_DOMAIN_PATH=$MYREGDATA
     
 ```{discussion} xml-files
-Manually editing the `*.xml`-files is **not** recommended!
+Manually editing the `*.xml`-files is **not** advised!
 ```
 
 To add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE) first set the environment variable for file name:
