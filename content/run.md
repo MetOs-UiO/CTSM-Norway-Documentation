@@ -143,7 +143,7 @@ There are dedicated tools and workflow for running single-cell simulations over 
 Follow the below procedure to run CTSM over a specific region of interest for a specific resolution. 
 
 ### Domain and surface data
-To run over the Scandinavia region (latitude 48N to 81N, longitude 4E to 42E) at 0.5 degree resolution you first need to produce the domain and surface data files for the region using the python script `subset_data.py` available under the CTSM tools directory `CTSM_ROOT/tools/contrib/subset_data.py`. The python script file can be found [here](https://github.com/ESCOMP/CTSM/blob/master/tools/contrib/subset_data.py). 
+To run over the Scandinavia region (latitude 48N to 81N, longitude 4E to 42E) at 0.5 degree resolution you first need to produce the domain and surface data files for the region using the python script `subset_data.py` available under the CTSM tools directory `CTSM_ROOT/tools/contrib/subset_data.py`. The python script file can be found [here](https://github.com/ESCOMP/CTSM/blob/master/tools/site_and_regional/subset_data.py). 
 
 The python scripts requires input arguments corresponding to your region of interest. Command below helps you to understand on how to provide
 input argument variables:
