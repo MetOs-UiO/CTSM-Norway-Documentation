@@ -35,7 +35,9 @@ In addition to the decribed steps, it is necessary to set the path to the Fortra
 Set the path variables
 
     [~/HOME]$ export NETCDF=${EBROOTNETCDFMINFORTRAN}
-    [~/HOME]$ export NETCDF_classic=1    
+    [~/HOME]$ export NETCDF_classic=1
+    
+When running `./configure` you will be asked for a set of compiler options [1-75]. A good choice is 15.
 
 ```{discussion} Compiling WRF
 Compiling WRF takes a long time. Therefore, you should put the compiling job into the background. If your conection to FRAM breaks the job will still run!
