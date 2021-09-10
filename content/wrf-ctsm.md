@@ -19,11 +19,26 @@ To set `ESMFMKFILE`. Login to fram and
 
     [~/HOME]$ load module ESMF/same_version_as_in_config_compilers
   
-Set the environmental variable
+Set the path variable
 
     [~/HOME]$ export ESMFMKFILE=$EBROOTESMF/lib/esmf.mk
 
 Clear all loaded modules
 
     [~/HOME]$ module purge
+    
+## 3.4.1.3. Building WRF with CTSM
+
+```{discussion} NETCDF
+In addition to the decribed steps, it is necessary to set the path to the Fortran NetCDF on FRAM before running `./configure`.
+```
+Set the path variables
+
+    [~/HOME]$ export NETCDF=${EBROOTNETCDFMINFORTRAN}
+    [~/HOME]$ export NETCDF_classic=1    
+
+```{discussion} Compiling WRF
+Compiling WRF takes a long time. Therefore, you should put the compiling job into the background. If your conection to FRAM breaks the job will still run!
+```
+    [~/WRF-CTSM]$ nohup ./compile em_real 2>&1 > compile.log & 
     
