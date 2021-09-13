@@ -4,8 +4,16 @@
 A detailed documentation](https://escomp.github.io/ctsm-docs/versions/master/html/lilac/specific-atm-models/index.html)] about how to set up and run CTSM with WRF can be found in the original. 
 ```
 
-Please follow the steps described there! 
-In the following, special advices for the supported HPC machines at UiO are given.
+Please follow the steps described there!
+Special advices for the supported HPC machines at UiO are given in the following.
+
+```{discussion} Build directory
+- It is good practice to NOT build your software in the source directory.
+- Choose a build directory, e.g. in your home or project directory
+```
+    
+    [~/HOME]$ export CTSM_BUILD_DIRECTORY=~/ctsm_build_directory
+    
 
 ## 3.4.1.2 Building CTSM
 
