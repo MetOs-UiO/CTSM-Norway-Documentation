@@ -87,3 +87,17 @@ module load libpng/1.6.37-GCCcore-10.3.0
 export WRF_GEOG_PATH=/cluster/shared/wrf/geog_wrfv4
 
 ```
+
+## 3.4.1.5. Run WPS Programs
+
+```{discussion} plotgrid_new.ncl
+To have a look at your created domain you need to load NCL.
+
+`module load NCL/6.6.2-intel-2018b`
+
+Because we are using a new version of NCL, `plotgrid.ncl` may not work.
+Note: `namelist.wps` has to be in your working directory! But you can call it from anywhere using its absolute path. 
+
+```
+
+    [WORK/cases] ncl ${WPS_ROOT}/util/plotgrid_new.ncl
