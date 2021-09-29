@@ -61,6 +61,7 @@ Because `jasper` is one of the compiler options you have to load two additional 
 ## Example setpath script
 
 Reoccuring setting of environmental variables and loading of modules can be automated. We assume that you have set
+
 `export WORK=/cluster/work/users/${USER}`
 
 ```bash
