@@ -49,8 +49,8 @@ The automatic creation of the configuration (option 19 is a good choice) fails t
 
 Change 
 
-    `DM_FC= mpiifort`
-    `DM_CC= mpiicc`
+    DM_FC= mpiifort
+    DM_CC= mpiicc
     
 and add `-gopenmp` to the end of the line which reads `LDFLAGS`.
 Because `jasper` is one of the compiler options you have to load two additional modules beforehand
