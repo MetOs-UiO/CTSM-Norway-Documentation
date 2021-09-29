@@ -20,21 +20,10 @@ Special advices for the supported HPC machines at UiO are given in the following
 ```{discussion} ESMF
 A 3. party software (ESMF) is needed for coupling to WRF. 
 - The version required (currently >= 8.1.0, 2018-09-10) is only available on FRAM.
-- Update your dotcime to include ESMF ([experimental, checkout branch wrf_ctsm](https://github.com/ziu1986/dotcime)).
-- Building CTSM with LILAC requires the path variable `ESMFMKFILE` to be set beforehand.
+- Update or clone `dotcime` to include ESMF (commit 092d9f9).
 ```
-To set `ESMFMKFILE`. Login to fram and
+For building CTSM with LILAC the path variable `ESMFMKFILE` has to be set in `config_machines`. 
 
-    [~/HOME]$ load module ESMF/same_version_as_in_config_compilers
-  
-Set the path variable
-
-    [~/HOME]$ export ESMFMKFILE=$EBROOTESMF/lib/esmf.mk
-
-Clear all loaded modules
-
-    [~/HOME]$ module purge
-    
 ## 3.4.1.3. Building WRF with CTSM
 
 ```{discussion} NETCDF
