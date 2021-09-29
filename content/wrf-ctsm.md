@@ -41,3 +41,20 @@ Compiling WRF takes a long time. Therefore, you should put the compiling job int
 ```
     [~/WRF-CTSM]$ nohup ./compile em_real 2>&1 > compile.log & 
     
+## 3.4.1.4 Building WPS
+
+The automatic creation of the configuration (option 19 is a good choice) fails to recognize the compilers, therefore you have to make some changes in `configure.wps` manually.
+
+    [~/WRF-CTSM/WPS] nano configure.wps
+
+Change 
+
+    `DM_FC= mpiifort`
+    `DM_CC= mpiicc`
+    
+and add `-gopenmp` to the end of the line which reads `LDFLAGS`.
+Because `jasper` is one of the compiler options you have to load two additional modules beforehand
+    
+    [~/WRF-CTSM/WPS] module load JasPer/2.0.28-GCCcore-10.3.0
+    [~/WRF-CTSM/WPS] module load libpng/1.6.37-GCCcore-10.3.0
+    
