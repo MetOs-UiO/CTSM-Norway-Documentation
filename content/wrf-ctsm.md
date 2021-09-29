@@ -58,3 +58,31 @@ Because `jasper` is one of the compiler options you have to load two additional 
     [~/WRF-CTSM/WPS] module load JasPer/2.0.28-GCCcore-10.3.0
     [~/WRF-CTSM/WPS] module load libpng/1.6.37-GCCcore-10.3.0
     
+## Example setpath script
+
+Reoccuring setting of environmental variables and loading of modules can be automated. We assume that you have set
+`export WORK=/cluster/work/users/${USER}`
+
+```bash
+# Location of your CTSM clone
+export CTSM_ROOT=~/WRF-CTSM/CTSM/
+# Location of your CTSM build
+export CTSM_BUILD_DIRECTORY=~/ctsm_build_directory
+# Load all modules which WRF and CTSM have in common
+source $CTSM_BUILD_DIR/ctsm_build_environment.sh
+# For building WRF
+export WRF_ROOT=$WORKSPACE/WRF-CTSM
+export WRF_CTSM_MKFILE=$CTSM_BUILD_DIR/bld/ctsm.mk
+export WRF_EM_CORE=1
+export WRF_DA_CORE=0
+export NETCDF=${EBROOTNETCDFMINFORTRAN}
+export NETCDF_classic=1
+# For building WPS
+export WPS_ROOT=$WORKSPACE/WPS
+export WRF_DIR=$WRF_ROOT
+module load JasPer/2.0.28-GCCcore-10.3.0
+module load libpng/1.6.37-GCCcore-10.3.0
+# For running WRF
+export WRF_GEOG_PATH=/cluster/shared/wrf/geog_wrfv4
+
+```
