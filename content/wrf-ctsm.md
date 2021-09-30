@@ -58,13 +58,37 @@ Because `jasper` is one of the compiler options you have to load two additional 
     [~/WRF-CTSM/WPS] module load JasPer/2.0.28-GCCcore-10.3.0
     [~/WRF-CTSM/WPS] module load libpng/1.6.37-GCCcore-10.3.0
     
-## Example setpath script
+## 3.4.1.5. Run WPS Programs
+
+```{discussion} plotgrid_new.ncl
+To have a look at your created domain you need to load NCL.
+
+`module load NCL/6.6.2-intel-2018b`
+
+Because we are using a new version of NCL, `plotgrid.ncl` may not work.
+Note: `namelist.wps` has to be in your working directory! But you can call it from anywhere using its absolute path. 
+
+```
+
+    [WORK/cases] ncl ${WPS_ROOT}/util/plotgrid_new.ncl
+    
+## Example scripts
 
 Reoccuring setting of environmental variables and loading of modules can be automated. We assume that you have set
 
 `export WORK=/cluster/work/users/${USER}`
 
+`````{tabs}
+
+````{tab} setpaths
+This example Bash script shows the environment needed to run WSP and WRF on FRAM.
+You would copy it to your home directory (e.g. to a subfolder bin) and execute it
+
+    [~] source ~/bin/setpaths
+
 ```bash
+#! /bin/bash
+
 # Location of your CTSM clone
 export CTSM_ROOT=~/WRF-CTSM/CTSM/
 # Location of your CTSM build
@@ -87,17 +111,121 @@ module load libpng/1.6.37-GCCcore-10.3.0
 export WRF_GEOG_PATH=/cluster/shared/wrf/geog_wrfv4
 
 ```
+````
 
-## 3.4.1.5. Run WPS Programs
+````{tab} run_wps
+This example Bash script shows how to use WSP to process WRF input data (e.g. atmosphere and sea surface temperature).
 
-```{discussion} plotgrid_new.ncl
-To have a look at your created domain you need to load NCL.
+```bash
+#! /bin/bash
+# Before running this script for the first time 
+# make a new case directory in your home and
+# put a copy of $WPS_ROOT/namelist.wps into it.
+# Edit namelist.wps according to your domain.
+# Usage: ./run_wps <case_name>
+# Specify data source
+data_dir=$WORKSPACE/DATA/matthew
+# Reference to the case
+case=${1}
 
-`module load NCL/6.6.2-intel-2018b`
+case_root=${HOME}/wrf_cases
+tmp_dir=(atm sst)
 
-Because we are using a new version of NCL, `plotgrid.ncl` may not work.
-Note: `namelist.wps` has to be in your working directory! But you can call it from anywhere using its absolute path. 
+# Loop through the data
+for each in ${tmp_dir[@]}; do
+    if [ ! -d ${case_root}/${case}/${case}.${each} ]; then
+        echo "Make new directory ${case_root}/${case}/${case}.${each}"
+        mkdir -p ${case_root}/${case}/${case}.${each}
+    fi
+
+    cd  ${case_root}/${case}/${case}.${each}
+
+    if [ $each == atm ]; then
+        echo "Ungribing the atmosphere"
+        ln -sf ${WPS_ROOT}/ungrib/Variable_Tables/Vtable.GFS Vtable
+        ${WPS_ROOT}/link_grib.csh ${data_dir}/fnl
+        ln -sf ${case_root}/${case}/namelist.wps.atm namelist.wps
+    else 
+        echo "Ungribing the the sea surface temperatures"
+        ln -sf ${WPS_ROOT}/ungrib/Variable_Tables/Vtable.SST Vtable
+        ${WPS_ROOT}/link_grib.csh ${data_dir}_sst/rtg_sst_grb
+        ln -sf ${case_root}/${case}/namelist.wps.sst namelist.wps
+    fi
+
+    #if [ ls FILE | grep -c FILE == 0 -o ]
+    ${WPS_ROOT}/ungrib.exe
+
+    for exe in (geogrid metgrid); do
+        mkdir ${exe} && ln -s ${WPS_ROOT}/${exe}/${exe^^}.TBL.ARW ${exe}/${exe^^}.TBL
+        mpirun -np 2 ${WPS_ROOT}/${exe}.exe
+    done
+done
 
 ```
+````
 
-    [WORK/cases] ncl ${WPS_ROOT}/util/plotgrid_new.ncl
+````{tab} submit_wrf
+This example Bash script shows how to submit a WRF case to the queueing system on FRAM.
+
+
+```bash
+#! /bin/bash
+# Script for running on Abel. (c) Johanne Rydsaa
+# 2021-09-14 Update for fram. (c) Stefanie Falk
+# --------------------------------------------------------------------------
+# Job name:
+#SBATCH --job-name=wrf_exe
+#
+# Project:
+#SBATCH --account=nn2806k
+#
+# Number of cores/nodes:
+#SBATCH --ntasks=4
+#
+# Wall clock limit:
+#SBATCH --time=1:59:00
+#
+# Development queue for testing
+#SBATCH --qos=short
+#
+#
+## Recommended safety settings:
+set -o errexit # Make bash exit on any error
+#set -o nounset # Treat unset variables as errors
+# Must set large stack size (unlimited for simplicity)
+ulimit -s unlimited
+#
+# Set environment variables specifically used by WRF
+source ~/bin/setpaths
+# --------------------------------------------------------------------------
+# Make your changes here
+# WRF case name (create subcases by writing, e.g. matthew/01)
+CASE=matthew
+# Directory of WRF executable
+WRF_EXE=${WRF_DIR}/test/em_real
+
+#----------------------------------------------------------------------------
+# No need to change this section
+# Output directory
+SCRATCH=${WORK}/${CASE}
+# Make the work directory if not existent
+if [ ! -d $SCRATCH ]; then mkdir -p $SCRATCH; fi 
+
+## Copy files to work directory:
+cp ${WRF_EXE}/ozone*            $SCRATCH
+cp ${WRF_EXE}/RRTM*             $SCRATCH
+cp ${WRF_EXE}/wrf.exe           $SCRATCH
+## Change to work directory
+cd ${SCRATCH}
+
+## Run command
+mpirun -np 4 ./wrf.exe
+
+## Finish the script
+exit 0
+
+
+```
+````
+`````
+
