@@ -164,7 +164,7 @@ For example: for 0.5x0.5 resolution, choose `surfdata_360x720cru_16pfts_Irrig_CM
 and add this file location in the python script `subset_data.py`. 
 ```
 
-Run the script as below with the input arguments for Scandinavia region (make sure you have created a conda environment for python including xarray, netcdf4 installed):
+Run the script as below with the input arguments for Scandinavia region. Make sure you have created a conda environment for python3 including xarray, netcdf4 installed:
 
     [~/CTSM_ROOT/tools/site_and_regional] ./subset_data.py reg --reg scand --lat1 48.0 --lat2 81.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA
 
