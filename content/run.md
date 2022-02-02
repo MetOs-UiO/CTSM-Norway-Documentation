@@ -143,7 +143,7 @@ There are dedicated tools and workflow for running single-cell simulations over 
 Follow the below procedure to run CTSM over a specific region of interest for a specific resolution. 
 
 ### Domain and surface data
-To run over the Scandinavia region (latitude 48N to 81N, longitude 4E to 42E) at 0.5 degree resolution you first need to produce the domain and surface data files for the region using the python script `subset_data.py` available under the CTSM tools directory `CTSM_ROOT/tools/contrib/subset_data.py`. The python script file can be found [here](https://github.com/ESCOMP/CTSM/blob/master/tools/site_and_regional/subset_data.py). 
+To run over the Scandinavia region (latitude 48N to 81N, longitude 4E to 42E) at 0.5 degree resolution you first need to produce the domain and surface data files for the region using the python script `subset_data.py` available under the CTSM tools directory `CTSM_ROOT/tools/site_and_regional/subset_data.py`. The python script file can also be found [here](https://github.com/ESCOMP/CTSM/blob/master/tools/site_and_regional/subset_data.py). 
 
 The python scripts requires input arguments corresponding to your region of interest. Command below helps you to understand on how to provide
 input argument variables:
@@ -152,7 +152,7 @@ input argument variables:
     
 First, you need to change the global input data directory variable inside the script (standard global CTSM dataset) as below:
 
-    dir_inputdata='/cluster/shared/noresm/inputdata/'
+    dir_inputdata='/cluster/shared/noresm/inputdata/'  (few lines after region.create-tag())
     
 Choose a location for storing the domain and surface data files for Scandinavia (eg. /cluster/projects/nn2806k/$USER/regiondata). 
 Set the environment variable for the directory as below:
@@ -161,12 +161,12 @@ Set the environment variable for the directory as below:
 
 ```{discussion} Choose the global surface data file corresponding to the resolution! 
 For example: for 0.5x0.5 resolution, choose `surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc` (under shared noresm folder)
-and add this file location in the python script `subset_data.py`
+and add this file location in the python script `subset_data.py`. 
 ```
 
-Run the script as below with the input arguments for Scandinavia region:
+Run the script as below with the input arguments for Scandinavia region. Make sure you have created a conda environment for python3 including xarray, netcdf4 installed:
 
-    [~/CTSM_ROOT/tools/contrib] ./subset_data.py --reg scand --lat1 48.0 --lat2 81.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA
+    [~/CTSM_ROOT/tools/site_and_regional] ./subset_data.py reg --reg scand --lat1 48.0 --lat2 81.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA
 
 ### Create a case for the compset of your interest
 
