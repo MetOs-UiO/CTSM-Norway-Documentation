@@ -26,6 +26,7 @@ and NorESM's `documentation <https://noresm-docs.readthedocs.io/en/latest/config
    :maxdepth: 1
    :caption: Content
 
+   quick-start.md
    get.md
    run.md
    spinup.md

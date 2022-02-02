@@ -11,7 +11,7 @@ Throughout all this documentation we define some path variables:
 ## Supported machines
 This tutorial assumes that you are logged into one of the clusters of Sigma2. (See [here](https://metos-uio.github.io/CTSM-Norway-Documentation/prerequisite/#needed-accesses) for how to get cluster access). 
 
-Currently (June 2021), we support machine configurations for: 
+Currently (February 2022), we support machine configurations for: 
 -   saga (sigma2, Norway)
 -   fram (sigma2, Norway)
 
@@ -24,13 +24,17 @@ A user is a person that runs CTSM without modifying the source code. To get the 
     [~/HOME]$ git clone -b release-clm5.0 https://github.com/NordicESMhub/ctsm.git ${HOME}/ctsm_fates_emerald
 
 In this example, we are checking out the release-clm5.0 tag and create a
-new local branch (recommended). The destination of the `checkout` is a
+new local branch (recommended). The destination of the `clone` is a
 directory (e.g. ctsm\_fates\_emerald) in our home directory. From now on, we will call this directory `CTSM_ROOT`.
+
+You can export this path as a variable for easier access in your workspace:
+
+    [~/HOME]$ export CTSM_ROOT=${HOME}/ctsm_fates_emerald
 
 ### How to get a specific branch
 Change into the created ctsm directory
 
-    [~/HOME]$ cd ctsm_fates_emerald
+    [~/HOME]$ cd $CTSM_ROOT
 
 Check all existing branches
 
@@ -76,24 +80,24 @@ to function and include the version and your username, e.g.
 username\_fates\_emerald\_api. After checking out the externals, change
 to cime directory and create your own branch to record all your changes
 
-    [~/CTSM_ROOT]$ cd externals/cime
-    [~/CTSM_ROOT/externals/cime]$ git checkout -b username_cime
+    [~/CTSM_ROOT]$ cd cime
+    [~/CTSM_ROOT/cime]$ git checkout -b username_cime
 
 Change to fates directory and create your own branch to record all your
 changes
 
-    [~/CTSM_ROOT/externals/cime]$ cd ../externals/fates
-    [~/CTSM_ROOT/externals/fates]$ git checkout -b username_fates
+    [~/CTSM_ROOT/cime]$ cd ../src/fates
+    [~/CTSM_ROOT/fates]$ git checkout -b username_fates
 
 If you do not create your own branch for `cime` and `fates`, running
-`./manage_externals/checkout_externals`, will overwrite your
+`./manage_externals/checkout_externals` will overwrite your
 previous `cime` and `fates`. You should now be ready to create your
 first case.
 
 ### From the latest version of [CTSM](https://github.com/ESCOMP/CTSM)
 Start from your home folder and clone CTSM from ESCOMP 
 
-    [~/HOME]$ git clone --origin escomp <https://github.com/ESCOMP/CTSM.git> CTSM
+    [~/HOME]$ git clone --origin escomp https://github.com/ESCOMP/CTSM.git CTSM
 
 Change into the new directory
 
@@ -117,12 +121,11 @@ can be done in two ways (check the
 [original](https://esmci.github.io/cime/versions/master/html/users_guide/porting-cime.html#steps-for-porting)
 documentation for a detailed explanation):
 
-1. You can replace some default configuration files with configuration files that contain details for these clusters.
-2. You can create a **.cime** folder with the machine configurations under your home directory.
+##### 1) Replace the default configurations
 
-
-##### Replace the default configurations
+You can replace some default configuration files with configuration files that contain details for these clusters.
 Execute the following steps:
+
 1. Go into the cime-config folder
 
         [~/CTSM_ROOT]$ cd cime/config/cesm/machines
@@ -131,13 +134,16 @@ Execute the following steps:
 
         [~/CTSM_ROOT/cime/config/cesm/machine]$ rm config_machines.xml config_batch.xml config_compilers.xml
 
-3. Fetch replacementfiles from [this](https://github.com/gunnartl/config_files_sigma2.git) repository by typing
+3. Fetch replacement files from [this](https://github.com/gunnartl/config_files_sigma2.git) repository by typing
 
         [~/CTSM_ROOT/cime/config/cesm/machine]$ git init
-        [~/CTSM_ROOT/cime/config/cesm/machine]$ git remote add origin <https://github.com/gunnartl/config_files_sigma2.git>
+        [~/CTSM_ROOT/cime/config/cesm/machine]$ git remote add origin https://github.com/gunnartl/config_files_sigma2.git
         [~/CTSM_ROOT/cime/config/cesm/machine]$ git pull origin main
 
-##### Create a dotcime folder
+##### 2) Create a .cime folder
+
+You can create a **.cime** folder with the machine configurations under your home directory.
+
 Clone [this](https://github.com/MetOs-UiO/dotcime) repository and
 consult the `README.md` file for the details when making a new
 case.
