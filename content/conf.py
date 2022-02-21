@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = "CTSM-Norway"
-copyright = "2021, CTSM-Norway team"
+copyright = "2022, CTSM-Norway team"
 author = "CTSM-Norway team"
 github_user = "MetOs-UiO"
 github_repo_name = "CTSM-Norway-Documentation"  # auto-detected from dirname if blank

@@ -31,10 +31,21 @@ An example of environmental variables your might want to change are
     [~/HOME]$ export PROJECT=nn2806k
     [~/HOME]$ export CTSM_ROOT=/cluster/home/$USER/ctsm
 
-    [~/HOME]$ export INC_NETCDF=/cluster/software/VERSIONS/netcdf.intel-4.3.3.1/
-    [~/HOME]$ export LIB_NETCDF=/cluster/software/VERSIONS/netcdf.intel-4.3.3.1/
-    [~/HOME]$ export NETCDF_ROOT=/cluster/software/VERSIONS/netcdf.intel-4.3.3.1/
+    [~/HOME]$ export INC_NETCDF=/cluster/software/netCDF/4.4.0-intel-2016a/
+    [~/HOME]$ export LIB_NETCDF=/cluster/software/netCDF/4.4.0-intel-2016a/
+    [~/HOME]$ export NETCDF_ROOT=/cluster/software/netCDF/4.4.0-intel-2016a/
 
+You can store all these variables in a shell script file and enable them in your workspace by sourcing that file.
+E.g. create a file in `~/Workspace/scripts/` called `ctsm_setup.sh` with the following content:
+
+```
+export CESM_ACCOUNT=nn2806k
+export PROJECT=nn2806k
+export CTSM_ROOT=/cluster/home/$USER/Workspace/ctsm
+export CESM_DATA=/cluster/shared/noresm/inputdata
+```
+
+You can now run `source ~/Workspace/scripts/ctsm_setup.sh` to activate all these variables.
 
 ## Your first CTSM case
 
@@ -49,16 +60,9 @@ If you are doing changes to the code, remember to create your own branches for t
 
     [~/CTSM_ROOT]$ ./manage_externals/checkout_externals
 
-Read more about how manage_externals/checkout_externals work [here](https://github.com/ESMCI/manage_externals).
+Read more about how `manage_externals/checkout_externals` work [here](https://github.com/ESMCI/manage_externals).
 
 ```
-
-
-### The input data directory
-The first time, or whenever your `$WORKDIR` is cleaned, you need to link your working directory with your input data
-
-    [~/CTSM_ROOT]$ cd cime/scripts
-    [~/CTSM_ROOT/cime/scripts]$ ./link_dirtree $CESM_DATA /work/users/$USER/inputdata
 
 ### Create a case
 Before you can run the model you must create a new case. 
@@ -133,9 +137,14 @@ CLM supports running single-point simulations. Available options are summarized 
 For testing purpose, we recommend running a single point using global data, i.e., [PTS_MODE](https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/running-pts_mode-configurations.html#running-a-single-point-using-global-data-pts-mode). Below we show you how to create a single-point case using global data.
 
     [~/CTSM_ROOT/cime/scripts]$ export CESM_ACCOUNT=nn2806k
-    [~/CTSM_ROOT/cime/scripts]$ ./create_newcase -case ~/cases/testPTS_MODE --res f19_g17_gl4 --compset I2000Clm50SpGs -pts_lat 40.0 -pts_lon -105 --machine saga --run-unsupported --project $CESM_ACCOUNT
+    [~/CTSM_ROOT/cime/scripts]$ ./create_newcase --case ~/cases/testPTS_MODE --res f19_g17_gl4 --compset I1850Clm50BgcCropCru --machine saga --run-unsupported --project $CESM_ACCOUNT
 
-For dedicated single-cell simulation in order to compare with site-level observation data, we recommend running single-cell simulation using your own datasets following the examples (1.6.3.4 - 1.6.3.6) from [ESCOMP guide] (https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/running-single-point-configurations.html#example-using-clm-usrdat-name-to-run-a-simulation-using-user-datasets-for-a-specific-region-over-alaska) 
+Now go to the new case folder and update the point latitude and longitude:
+
+    [~/cases/testPTS_MODE] ./xmlchange PTS_LAT=40.0
+    [~/cases/testPTS_MODE] ./xmlchange PTS_LON=-105
+
+For dedicated single-cell simulation in order to compare with site-level observation data, we recommend running single-cell simulation using your own datasets following the examples (1.6.3.4 - 1.6.3.6) from [ESCOMP guide](https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/running-single-point-configurations.html#example-using-clm-usrdat-name-to-run-a-simulation-using-user-datasets-for-a-specific-region-over-alaska).
 
 There are dedicated tools and workflow for running single-cell simulations over Norwegian ecological observation sites using CLM and CLM-FATES, please check [NorESM_LandSites_Platform](https://github.com/NorESMhub/NorESM_LandSites_Platform) and follow the instructions there.
 
@@ -157,7 +166,7 @@ First, you need to change the global input data directory variable inside the sc
 Choose a location for storing the domain and surface data files for Scandinavia (eg. /cluster/projects/nn2806k/$USER/regiondata). 
 Set the environment variable for the directory as below:
 
-    MYREGDATA='/cluster/projects/nn2806k/$USER/regiondata/'
+    MYREGDATA=/cluster/projects/nn2806k/$USER/regiondata/
 
 ```{discussion} Choose the global surface data file corresponding to the resolution! 
 For example: for 0.5x0.5 resolution, choose `surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc` (under shared noresm folder)
