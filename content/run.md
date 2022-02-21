@@ -147,8 +147,22 @@ Now go to the new case folder and update the point latitude and longitude:
 For dedicated single-cell simulation in order to compare with site-level observation data, we recommend running single-cell simulation using your own datasets following the examples (1.6.3.4 - 1.6.3.6) from [ESCOMP guide](https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/running-single-point-configurations.html#example-using-clm-usrdat-name-to-run-a-simulation-using-user-datasets-for-a-specific-region-over-alaska).
 
 There are dedicated tools and workflow for running single-cell simulations over Norwegian ecological observation sites using CLM and CLM-FATES, please check [NorESM_LandSites_Platform](https://github.com/NorESMhub/NorESM_LandSites_Platform) and follow the instructions there.
-## Run a single case by subsetting surfdata
-Follow the below steps to run CTSM for single site by using surface data created by python [script](https://github.com/ESCOMP/CTSM/blob/master/python/ctsm/subset_data.py) from NCAR
+
+## Run a single cell case by creating surface data
+CLM also supports running single-point simulations by creating single point surface data using python [script](https://github.com/ESCOMP/CTSM/blob/master/python/ctsm/subset_data.py) from NCAR. Note that you need to change the global input data directory variable inside the script (standard global CTSM dataset) as below:
+dir_inputdata='/cluster/shared/noresm/inputdata/' (few lines after region.create-tag()).
+
+To run the python script, you need to create a conda environment `python-xarray` and install python3 with xarray and netcdf4. See how to create conda environment
+on sigma2 HPC machines [install python](https://documentation.sigma2.no/software/userinstallsw/python.html).
+
+conda activate `python-xarray`
+  
+Create surface data for finse site (lat 60.59383774, lon 7.527008533)
+
+MYSITEDATA=/cluster/projects/nn2806k/dev/sites_forcing/
+
+python subset_data.py point --site finse --lat 60.59383774 --lon 7.527008533 --create_domain True --create_surface True --create_landuse True --create_datm True --datm_syr 1971 --datm_eyr 2014 --outdir $MYSITEDATA
+
 
 ## Run a regional case
 Follow the below procedure to run CTSM over a specific region of interest for a specific resolution. 
