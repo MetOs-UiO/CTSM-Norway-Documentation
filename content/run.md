@@ -147,6 +147,8 @@ Now go to the new case folder and update the point latitude and longitude:
 For dedicated single-cell simulation in order to compare with site-level observation data, we recommend running single-cell simulation using your own datasets following the examples (1.6.3.4 - 1.6.3.6) from [ESCOMP guide](https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/running-single-point-configurations.html#example-using-clm-usrdat-name-to-run-a-simulation-using-user-datasets-for-a-specific-region-over-alaska).
 
 There are dedicated tools and workflow for running single-cell simulations over Norwegian ecological observation sites using CLM and CLM-FATES, please check [NorESM_LandSites_Platform](https://github.com/NorESMhub/NorESM_LandSites_Platform) and follow the instructions there.
+## Run a single case by subsetting surfdata
+Follow the below steps to run CTSM for single site by using surface data created by python [script](https://github.com/ESCOMP/CTSM/blob/master/python/ctsm/subset_data.py) from NCAR
 
 ## Run a regional case
 Follow the below procedure to run CTSM over a specific region of interest for a specific resolution. 
