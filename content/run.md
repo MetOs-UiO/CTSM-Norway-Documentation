@@ -164,7 +164,9 @@ Set environment variable
     MYSITEDATA=/cluster/projects/nn2806k/dev/sites_forcing/
 
     [~/CTSM_ROOT/python/ctsm] python subset_data.py point --site finse --lat 60.59383774 --lon 7.527008533 --create_domain True --create_surface True   --create_landuse True --create_datm True --datm_syr 1971 --datm_eyr 2014 --outdir $MYSITEDATA
+
 ### create a case for finse site simulation using the bash script
+`````{tabs}
 
 ````{tab} Finse Site
 
@@ -234,7 +236,7 @@ mv datm.streams.txt.topo.observed user_datm.streams.txt.topo.observed
 
 ```
 ````
-
+`````
 
 ## Run a regional case
 Follow the below procedure to run CTSM over a specific region of interest for a specific resolution. 
