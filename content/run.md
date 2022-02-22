@@ -150,18 +150,20 @@ There are dedicated tools and workflow for running single-cell simulations over 
 
 ## Run a single cell case by creating surface data
 CLM also supports running single-point simulations by creating single point surface data using python [script](https://github.com/ESCOMP/CTSM/blob/master/python/ctsm/subset_data.py) from NCAR. Note that you need to change the global input data directory variable inside the script (standard global CTSM dataset) as below:
-dir_inputdata='/cluster/shared/noresm/inputdata/' (few lines after region.create-tag()).
+`dir_inputdata='/cluster/shared/noresm/inputdata/'` (few lines after region.create-tag()).
 
 To run the python script, you need to create a conda environment `python-xarray` and install python3 with xarray and netcdf4. See how to create conda environment
 on sigma2 HPC machines [install python](https://documentation.sigma2.no/software/userinstallsw/python.html).
 
 conda activate `python-xarray`
   
-Create surface data for finse site (lat 60.59383774, lon 7.527008533)
+Create surface, domain, and climate forcing data for finse site lat=60.59383774 and lon=7.527008533
 
-MYSITEDATA=/cluster/projects/nn2806k/dev/sites_forcing/
+Set environment variable
 
-python subset_data.py point --site finse --lat 60.59383774 --lon 7.527008533 --create_domain True --create_surface True --create_landuse True --create_datm True --datm_syr 1971 --datm_eyr 2014 --outdir $MYSITEDATA
+    MYSITEDATA=/cluster/projects/nn2806k/dev/sites_forcing/
+
+    [~/CTSM_ROOT/python/ctsm] python subset_data.py point --site finse --lat 60.59383774 --lon 7.527008533 --create_domain True --create_surface True   --create_landuse True --create_datm True --datm_syr 1971 --datm_eyr 2014 --outdir $MYSITEDATA
 
 
 ## Run a regional case
