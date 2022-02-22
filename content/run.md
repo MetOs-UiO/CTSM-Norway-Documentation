@@ -238,6 +238,11 @@ mv datm.streams.txt.topo.observed user_datm.streams.txt.topo.observed
 ````
 `````
 
+After creating the case, edit the files(`user_datm.streams.txt.CLMGSWP3v1.Precip, user_datm.streams.txt.CLMGSWP3v1.Solar, and user_datm.streams.txt.CLMGSWP3v1.TPQW`) to change the directory path for climate forcing data and domain file name.
+More details can be found at the NCAR [tutorial](https://www.cgd.ucar.edu/events/2019/ctsm/files/practical4-wieder.pdf)
+
+Build and submit the case.
+
 ## Run a regional case
 Follow the below procedure to run CTSM over a specific region of interest for a specific resolution. 
 
