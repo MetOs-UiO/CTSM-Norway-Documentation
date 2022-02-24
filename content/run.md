@@ -149,7 +149,7 @@ For dedicated single-cell simulation in order to compare with site-level observa
 There are dedicated tools and workflow for running single-cell simulations over Norwegian ecological observation sites using CLM and CLM-FATES, please check [NorESM_LandSites_Platform](https://github.com/NorESMhub/NorESM_LandSites_Platform) and follow the instructions there.
 
 ## Run a single cell case by creating surface data
-CLM also supports running single-point simulations (referring to version ctsm5.1.dev061-3-g7a85024) by creating single point surface data using python [script](https://github.com/devarajun/python-scripts/blob/main/subset_data.py). Copy this script in your project or home smadirectory. Make sure the global inputdata directory path is correct:
+CLM also supports running single-point simulations (referring to version ctsm5.1.dev061-3-g7a85024) by creating single point surface data using python [script](https://github.com/devarajun/python-scripts/blob/main/subset_data.py). Copy this script in your project or home directory. Make sure the global inputdata directory path is correct:
 for example: `dir_inputdata='/cluster/shared/noresm/inputdata/'` (few lines after region.create-tag()).
 
 To run the python script, you need to create a conda environment `python-xarray` and install python3 with xarray and netcdf4. See how to create conda environment
