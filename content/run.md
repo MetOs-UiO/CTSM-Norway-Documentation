@@ -148,50 +148,65 @@ For dedicated single-cell simulation in order to compare with site-level observa
 
 There are dedicated tools and workflow for running single-cell simulations over Norwegian ecological observation sites using CLM and CLM-FATES, please check [NorESM_LandSites_Platform](https://github.com/NorESMhub/NorESM_LandSites_Platform) and follow the instructions there.
 
-## Run a single cell case by creating surface data
-CLM also supports running single-point simulations (referring to version ctsm5.1.dev061-3-g7a85024) by creating single point surface data using python [script](https://github.com/devarajun/python-scripts/blob/main/subset_data.py). Copy this script in your project or home directory. Make sure the global inputdata directory path is correct:
-for example: `dir_inputdata='/cluster/shared/noresm/inputdata/'` (few lines after region.create-tag()).
+## Run a single cell case by creating surface data (tested with ctsm5.1.dev081)
 
-To run the python script, you need to create a conda environment `python-xarray` and install python3 with xarray and netcdf4. See how to create conda environment
-on sigma2 HPC machines [install python](https://documentation.sigma2.no/software/userinstallsw/python.html).
+CLM also supports running single-point simulations by creating single point surface data.
 
-    conda activate python-xarray
-  
-Create surface, domain, and climate forcing data for finse site lat=60.59383774 and lon=7.527008533
+### Create subset data
+- Create a conda environment and install the following in it: `conda install numpy xarray netcdf4 cftime`.
+- Make sure you have the latest version of git loaded on your system (the default git on Fram and Saga as of 25/2/2022 is 1.8, which doesn't support some of the flags used by `subset_data.py`): e.g. `module load git/2.33.1-GCCore-11.2.0-nodocs`.
+- Go to `$CTSM_ROOT/tools/site_and_regional` and edit `default_data.cfg` with to the following diff:
+    ```
+    diff --git a/tools/site_and_regional/default_data.cfg b/tools/site_and_regional/default_data.cfg
+    index f689c9904..a1f8347b7 100644
+    --- a/tools/site_and_regional/default_data.cfg
+    +++ b/tools/site_and_regional/default_data.cfg
+    @@ -1,8 +1,8 @@
+    [main]
+    -clmforcingindir = /glade/p/cesmdata/inputdata
+    +clmforcingindir = /cluster/shared/noresm/inputdata
+    
+    [datm_gswp3]
+    -dir = /glade/p/cgd/tss/CTSM_datm_forcing_data/atm_forcing.datm7.GSWP3.0.5d.v1.c170516
+    +dir = /cluster/shared/noresm/inputdata/share/domains/atm_forcing.datm7.GSWP3.0.5d.v1.c170516
+    domain = domain.lnd.360x720_gswp3.0v1.c170606.nc
+    solardir = Solar
+    precdir = Precip
+    ```
+- You can now run the script to generate the data for your case. Here's a sample run: `./subset_data point --site finse --lat 60.59383774 --lon 7.527008533 --create-domain --create-surface --create-landuse --create-datm --datm-syr 1970 --datm-eyr 1972 --dompft 7`. This generates the data in `subset_data_single_point` in the working directory. Run `./subset_data --help` to see all the available flags and their descriptions.
 
-Set environment variable
-
-    MYSITEDATA=/cluster/projects/nn2806k/dev/sites_forcing/
-
-    [~/CTSM_ROOT/python/ctsm] python subset_data.py point --site finse --lat 60.59383774 --lon 7.527008533 --create_domain True --create_surface True   --create_landuse True --create_datm True --datm_syr 1971 --datm_eyr 2014 --outdir $MYSITEDATA
+```{discussion} Note
+Not all the required data for different periods exist on Sigma2 server. If you get an error about missing files, you can download them from https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/atm/datm7/ and put them in `/cluster/shared/noresm/inputdata/share/domains` and the relevant sub-folders there. The data for the example above should already exist on Fram.
+```
 
 ### create a case for finse site simulation using the bash script
 `````{tabs}
 
 ````{tab} Finse Site
 
-This example Bash script shows the steps needed to create a case for site simulation
-on Fram
+This example Bash script shows the steps needed to create a case for site simulation on Fram
 
 ```bash
 export PROJECT=nn2806k
-export CTSM_ROOT=/cluster/home/devarajun/ctsm
+export CTSM_ROOT=/cluster/home/$USER/ctsm
 export MYSITEDATA=/cluster/projects/nn2806k/dev/sites_forcing/
 # Input
 export DIR_SURF=$MYSITEDATA
-export DIR_DOM =$MYSITEDATA
-export DOMFILE=domain.lnd.fv0.9x1.25_gx1v7_finse_c211202.nc
-export SURF_DATA=${DIR_SURF}/surfdata_hist_16pfts_Irrig_CMIP6_simyr2000_finse-c3arcgr_c211202.nc
+export DIR_DOM=$MYSITEDATA
+export DOMFILE=domain.lnd.fv0.9x1.25_gx1v7_finse_c220225.nc
+export SURF_DATA=${DIR_SURF}/surfdata_hist_16pfts_Irrig_CMIP6_simyr2000_finse-c3arcgr_c220225.nc
 export DIR_DATM=$MYSITEDATA/datmdata
-export DIR_CASE=/cluster/home/devarajun/cases_site/${casename}
 # Model components (COMPSET)
 export COMPSET=2000_DATM%GSWP3v1_CLM50%SP_SICE_SOCN_SROF_SGLC_SWAV
 # (listed by $CTSM_ROOT/cime/scripts/query_config --COMPSETs clm)
+export CLM_USRDAT=f09_g17
+export CASENAME=Finse_I2000Clm50SpRs_f09_g17
+export DIR_CASE=/cluster/home/$USER/cases_site/$CASENAME
 
 # Create case
 if ! [ -d $DIR_CASE ]; then
     cd $CTSM_ROOT/cime/scripts
-    ./create_newcase --case $DIR_CASE --compset $COMPSET --res CLM_USRDAT \
+    ./create_newcase --case $DIR_CASE --compset $COMPSET --res $CLM_USRDAT \
         --machine fram --driver mct --run-unsupported --project $PROJECT
 fi;
 
@@ -199,12 +214,12 @@ fi;
 cd $DIR_CASE
 ./xmlchange ATM_DOMAIN_PATH=$DIR_DOM,LND_DOMAIN_PATH=$DIR_DOM
 ./xmlchange ATM_DOMAIN_FILE=$DOMFILE,LND_DOMAIN_FILE=$DOMFILE
-./xmlchange CLM_USRDAT_NAME=$casename
+./xmlchange CLM_USRDAT_NAME=$CASENAME
 ./xmlchange STOP_OPTION="nyears"
 ./xmlchange STOP_N=30
 ./xmlchange NTASKS=1
 ./xmlchange JOB_WALLCLOCK_TIME="00:30:00"
-./xmlchange PROJECT=$CESM_ACCOUNT
+./xmlchange PROJECT=$PROJECT
 ./xmlchange RUN_STARTDATE="2000-01-01"
 ./xmlchange DATM_CLMNCEP_YR_ALIGN="2000"
 ./xmlchange DATM_CLMNCEP_YR_START="2000"
