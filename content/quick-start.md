@@ -6,8 +6,8 @@ The guide works with ESCOMP CTSM ctsm5.1.dev098. All commands should work as the
 
 ## Create and run a case:
 
-- If you don't already have a Sigma2 account, request one here (talk to your supervisor for project name to include in the application form): https://www.metacenter.no/user/application/.
-- After your account is activated, ssh into one of the Sigma2 machines you have access to, e.g. fram:
+1. If you don't already have a Sigma2 account, request one here (talk to your supervisor for project name to include in the application form): https://www.metacenter.no/user/application/.
+2. After your account is activated, ssh into one of the Sigma2 machines you have access to, e.g. fram:
 
     `ssh <your-sigma2-username>@fram.sigma2.no`.
     ```{keypoints} Note
@@ -15,48 +15,46 @@ The guide works with ESCOMP CTSM ctsm5.1.dev098. All commands should work as the
     For access on Windows see [here](https://documentation.sigma2.no/getting_started/create_ssh_keys.html#login-via-ssh-keys).
     The link also has detailed description of ssh access for all systems.
     ```
-- Clone [MetOs dotcime repo](https://github.com/MetOs-UiO/dotcime):
+3. Clone [MetOs dotcime repo](https://github.com/MetOs-UiO/dotcime):
 
     `git clone https://github.com/MetOs-UiO/dotcime ~/.cime`
-- Clone [ESCOMP/CTSM](https://github.com/escomp/ctsm) into `~/ctsm_escomp`:
+4. Clone [ESCOMP/CTSM](https://github.com/escomp/ctsm) into `~/ctsm_escomp`:
 
     `git clone https://github.com/escomp/ctsm ~/ctsm_escomp`.
-- Go to the cloned repo:
+5. Go to the cloned repo:
 
     `cd ~/ctsm_escomp`.
-- Switch to `ctsm5.1.dev098`:
+6. Switch to `ctsm5.1.dev098`:
 
     `git checkout ctsm5.1.dev098`.
-- Get the external dependencies/repos:
+7. Get the external dependencies/repos:
 
     `./manage_externals/checkout_externals`.
-- Adjust and export the following variables in your workspace:
+8. Adjust and export the following variables in your workspace:
 
     ```bash
     export MACHINE=<machine_name> # e.g. saga or fram
     export PROJECT=<project_name> # e.g. nn2806k
-    export CTSM_ROOT=/cluster/home/$USER/ctsm_escomp
-    export CESM_DATA=/cluster/shared/noresm/inputdata
     ```
-- Run the following to create a new case:
+9. Run the following to create a new case:
 
     `~/ctsm_escomp/cime/scripts/create_newcase --case ~/cases/I2000Clm50Sp --compset I2000Clm50Sp --res f19_g17 --machine $MACHINE --run-unsupported --handle-preexisting-dirs r --project $PROJECT`.
-- If everything goes fine, there should be a new folder for your case in `~/cases`. Switch to the case folder:
+10. If everything goes fine, there should be a new folder for your case in `~/cases`. Switch to the case folder:
 
     `cd ~/cases/I2000Clm50Sp`.
-- Set up the case:
+11. Set up the case:
 
     `./case.setup`.
-- Build the case:
+12. Build the case:
 
     `./case.build`.
-- Submit the case:
+13. Submit the case:
 
     `./case.submit`.
-- If there's no error in the previous steps, there should be a line towards the end of `CaseStatus` file that contains `case.submit success`. You can check it with this:
+14. If there's no error in the previous steps, there should be a line towards the end of `CaseStatus` file that contains `case.submit success`. You can check it with this:
 
     `cat CaseStatus`.
-- If the submission is successful, your case goes in the execution queue. You can check the latest status in the same `CaseStatus` file. After a successful run, you should see messages like this:
+15. If the submission is successful, your case goes in the execution queue. You can check the latest status in the same `CaseStatus` file. After a successful run, you should see messages like this:
     ```
     2022-06-17 14:00:01: case.setup starting 
     ---------------------------------------------------
@@ -113,6 +111,6 @@ The guide works with ESCOMP CTSM ctsm5.1.dev098. All commands should work as the
     2022-06-17 14:16:17: case.submit success 5979969
     ---------------------------------------------------
     ```
-- The last line means the execution was successful and the output is put in your user archive folder. You can see the output here:
+16. The last line means the execution was successful and the output is put in your user archive folder. You can see the output here:
 
     `ls /cluster/work/users/$USER/archive/I2000Clm50Sp`.

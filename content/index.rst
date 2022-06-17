@@ -27,6 +27,7 @@ and NorESM's `documentation <https://noresm-docs.readthedocs.io/en/latest/config
    :caption: Content
 
    quick-start.md
+   quick-start-single-point.md
    get.md
    run.md
    spinup.md
