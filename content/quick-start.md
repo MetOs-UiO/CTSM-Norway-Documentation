@@ -1,78 +1,49 @@
 # Quick start
 
-This guide helps you set up your workspace and submit a case on FRAM machine. See the following sections for more details of how to get CTSM and create and submit cases.
+This guide helps you set up your workspace and submit a case on a [Sigma2 machine](https://documentation.sigma2.no/index.html) (Fram, Saga). See the following sections for detailed instructions on how to get and set up CTSM and create and submit cases.
 
-The guide works with ESCOMP CTSM v5.0.34. All commands should work as they are, so you can just copy and paste them into your terminal. If there's a parameter in a command wrapped in `<` and `>`, it means it should be replaced with your own values.
+The guide works with ESCOMP CTSM ctsm5.1.dev098. All commands should work as they are, so you can just copy and paste them into your terminal. If there's a parameter in a command wrapped in `<` and `>`, it means it should be replaced with your own values.
 
-## Create and run a case on FRAM:
+## Create and run a case:
 
 - If you don't already have a Sigma2 account, request one here (talk to your supervisor for project name to include in the application form): https://www.metacenter.no/user/application/.
-- After your account is activated, ssh into FRAM:
+- After your account is activated, ssh into one of the Sigma2 machines you have access to, e.g. fram:
 
     `ssh <your-sigma2-username>@fram.sigma2.no`.
     ```{keypoints} Note
     This command works on Linux and Mac systems.
-    For access on Windows see [here]((https://documentation.sigma2.no/getting_started/create_ssh_keys.html#login-via-ssh-keys)).
+    For access on Windows see [here](https://documentation.sigma2.no/getting_started/create_ssh_keys.html#login-via-ssh-keys).
     The link also has detailed description of ssh access for all systems.
     ```
-- [*Optional*] Create a Workspace folder in your home directory and switch to it:
+- Clone [MetOs dotcime repo](https://github.com/MetOs-UiO/dotcime):
 
-    `mkdir ~/Workspace && cd ~/Workspace`.
-    ```{keypoints} Note
-    This step is optional, but the guide assumes you have created this folder and are working in it.
-    If you skip this, make sure to adjust any path that mentions `Workspace`.
-    ```
-- Clone [ESCOMP/CTSM](https://github.com/escomp/ctsm) into `~/Workspace/ctsm_escomp`:
+    `git clone https://github.com/MetOs-UiO/dotcime ~/.cime`
+- Clone [ESCOMP/CTSM](https://github.com/escomp/ctsm) into `~/ctsm_escomp`:
 
-    `git clone https://github.com/escomp/ctsm ~/Workspace/ctsm_escomp`.
+    `git clone https://github.com/escomp/ctsm ~/ctsm_escomp`.
 - Go to the cloned repo:
 
-    `cd ~/Workspace/ctsm_escomp`.
-- Switch to `release-clm.5.0.34`:
+    `cd ~/ctsm_escomp`.
+- Switch to `ctsm5.1.dev098`:
 
-    `git fetch --all && git checkout release-clm.5.0.34`.
-- Edit `Externals.cfg` in the repo root and update the cime config section so it uses v5.6.10 by NorESMhub:
-
-    ```bash
-    sed -i 's/ESMCI/NorESMhub/' Externals.cfg
-    sed -i 's/cime5.6.33/cime5.6.10_cesm2_1_rel_06-Nor-dev/' Externals.cfg
-    ```
-
-    These commands should replace the cime config. Check the content of `Externals.cfg` with `cat Externals.cfg` to make sure cime config looks like:
-
-    ``` 
-    [cime] 
-    local_path = cime 
-    protocol = git 
-    repo_url = https://github.com/NorESMhub/cime 
-    tag = cime5.6.10_cesm2_1_rel_06-Nor-dev 
-    required = True 
-    ``` 
+    `git checkout ctsm5.1.dev098`.
 - Get the external dependencies/repos:
 
     `./manage_externals/checkout_externals`.
 - Adjust and export the following variables in your workspace:
 
     ```bash
-    export CESM_ACCOUNT=nn2806k
-    export PROJECT=nn2806k
-    export CTSM_ROOT=/cluster/home/$USER/Workspace/ctsm_escomp
+    export MACHINE=<machine_name> # e.g. saga or fram
+    export PROJECT=<project_name> # e.g. nn2806k
+    export CTSM_ROOT=/cluster/home/$USER/ctsm_escomp
     export CESM_DATA=/cluster/shared/noresm/inputdata
     ```
-- Go to `cime/scripts/`:
-    `cd cime/script`
 - Run the following to create a new case:
 
-    `./create_newcase --case ~/Workspace/cases/I2000Clm50Sp --compset I2000Clm50Sp --res f19_g17 --machine fram --run-unsupported --project $CESM_ACCOUNT`.
-- If everything goes fine, there should be a new folder for your case in `~/Ẁorkspace/cases`. Switch to the case folder:
+    `~/ctsm_escomp/cime/scripts/create_newcase --case ~/cases/I2000Clm50Sp --compset I2000Clm50Sp --res f19_g17 --machine $MACHINE --run-unsupported --handle-preexisting-dirs r --project $PROJECT`.
+- If everything goes fine, there should be a new folder for your case in `~/cases`. Switch to the case folder:
 
-    `cd ~/Workspace/cases/I2000Clm50Sp`.
-- Check that `DIN_LOC_ROOT_CLMFORC` is set to `/cluster/shared/noresm/inputdata/atm/datm7`:
-
-    `./xmlquery DIN_LOC_ROOT_CLMFORC`.
-- If the previous step returns `UNSET`, you can set `DIN_LOC_ROOT_CLMFORC` with `xmlchange`:
-
-    `./xmlchange DIN_LOC_ROOT_CLMFORC=/cluster/shared/noresm/inputdata/atm/datm7`.
+    `cd ~/cases/I2000Clm50Sp`.
 - Set up the case:
 
     `./case.setup`.
@@ -87,21 +58,59 @@ The guide works with ESCOMP CTSM v5.0.34. All commands should work as they are, 
     `cat CaseStatus`.
 - If the submission is successful, your case goes in the execution queue. You can check the latest status in the same `CaseStatus` file. After a successful run, you should see messages like this:
     ```
-    2022-01-25 12:00:22: case.submit starting 
+    2022-06-17 14:00:01: case.setup starting 
     ---------------------------------------------------
-    2022-01-25 12:00:31: case.submit success case.run:4020255, case.st_archive:4020256
+    2022-06-17 14:00:07: case.setup success 
     ---------------------------------------------------
-    2022-01-25 12:00:32: case.run starting 
+    2022-06-17 14:02:23: case.build starting 
     ---------------------------------------------------
-    2022-01-25 12:00:37: model execution starting 
+    CESM version is ctsm5.1.dev098
+    Processing externals description file : Externals.cfg
+    Processing externals description file : Externals_CLM.cfg
+    Processing externals description file : Externals_CISM.cfg
+    Processing externals description file : .gitmodules
+    Processing submodules description file : .gitmodules
+    Processing externals description file : Externals_CDEPS.cfg
+    Checking status of externals: clm, fates, cism, source_cism, rtm, mosart, mizuroute, ccs_config, cime, cmeps, cdeps, fox, genf90, cpl7, share, mct, parallelio, doc-builder, 
+        ./ccs_config
+            clean sandbox, on ccs_config_cesm0.0.36
+        ./cime
+            clean sandbox, on cime6.0.27
+        ./components/cdeps
+            clean sandbox, on cdeps0.12.41
+        ./components/cdeps/fox
+            clean sandbox, on 4.1.2.1
+        ./components/cdeps/share/genf90
+            clean sandbox, on genf90_200608
+        ./components/cism
+            clean sandbox, on cismwrap_2_1_95
+        ./components/cism/source_cism
+            clean sandbox, on cism_main_2.01.011
+        ./components/cmeps
+            clean sandbox, on cmeps0.13.63
+        ./components/cpl7
+            clean sandbox, on cpl7.0.12
+        ./components/mizuRoute
+            clean sandbox, on 34723c2e4df7caa16812770f8d53ebc83fa22360
+        ./components/mosart
+            clean sandbox, on mosart1_0_45
+        ./components/rtm
+            clean sandbox, on rtm1_0_78
+    e-o ./doc/doc-builder
+            -, not checked out --> v1.0.8
+        ./libraries/mct
+            clean sandbox, on MCT_2.11.0
+        ./libraries/parallelio
+            clean sandbox, on pio2_5_7
+        ./share
+            clean sandbox, on share1.0.11
+        ./src/fates
+            clean sandbox, on sci.1.56.0_api.23.0.0
+    2022-06-17 14:14:50: case.build success 
     ---------------------------------------------------
-    2022-01-25 12:01:31: model execution success 
+    2022-06-17 14:16:17: case.submit starting 5979969
     ---------------------------------------------------
-    2022-01-25 12:01:31: case.run success 
-    ---------------------------------------------------
-    2022-01-25 12:01:34: st_archive starting 
-    ---------------------------------------------------
-    2022-01-25 12:01:45: st_archive success 
+    2022-06-17 14:16:17: case.submit success 5979969
     ---------------------------------------------------
     ```
 - The last line means the execution was successful and the output is put in your user archive folder. You can see the output here:
