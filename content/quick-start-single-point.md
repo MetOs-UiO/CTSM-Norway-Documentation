@@ -46,6 +46,7 @@ This should generate all the data for the given latitude and longitude and perio
         --create-domain \
         --create-surface \
         --create-landuse \
+        --create-user-mods \
         --create-datm \
         --datm-syr 1970 \
         --datm-eyr 1972 \
