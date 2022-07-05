@@ -16,7 +16,7 @@ The instructions assume CTSM repo is cloned in `~/ctsm_escomp`.
 
     ```bash
     module load git/2.33.1-GCCcore-11.2.0-nodocs
-    module load Anaconda3/2019.7
+    module load Anaconda3/2019.07
     ```
 
 3. Set up and Install dependencies for `subset_data`:
@@ -43,6 +43,7 @@ This should generate all the data for the given latitude and longitude and perio
         --site finse \
         --lat 60.59383774 \
         --lon 7.527008533 \
+        --create-user-mods \
         --create-domain \
         --create-surface \
         --create-landuse \
