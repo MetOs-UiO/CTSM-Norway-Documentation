@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Single Point Quick Start &mdash; CTSM-Norway  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Get CTSM" href="../get/" />
+    <link rel="prev" title="Quick start" href="../quick-start/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../" class="icon icon-home"> CTSM-Norway
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Prerequisite</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../prerequisite/">Prerequisites</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Content</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/">Quick start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Single Point Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-data-for-a-point">Create data for a point</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../get/">Get CTSM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/">Run CTSM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinup/">Spin-up CTSM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrf-ctsm/">WRF-CTSM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop/">Tips for developing CTSM</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../license/">Credit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution/">Contribution</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">CTSM-Norway</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home"></a> &raquo;</li>
+      <li>Single Point Quick Start</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/MetOs-UiO/CTSM-Norway-Documentation/blob/main/content/quick-start-single-point.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="single-point-quick-start">
+<h1>Single Point Quick Start<a class="headerlink" href="#single-point-quick-start" title="Permalink to this heading"></a></h1>
+<p>The instructions below are tested with <code class="docutils literal notranslate"><span class="pre">ctsm5.1.dev098</span></code>, and ran on <code class="docutils literal notranslate"><span class="pre">fram</span></code> machine.
+Change the machine name accordingly.
+The instructions assume CTSM repo is cloned in <code class="docutils literal notranslate"><span class="pre">~/ctsm_escomp</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>```{keypoints} Note
+Check out [this tutorial](https://ncar.github.io/CTSM-Tutorial-2022/notebooks/Day2a_GenericSinglePoint.html) by NCAR for more details.
+Note that the tutorial is written for NCAR&#39;s machines.
+```
+</pre></div>
+</div>
+<section id="create-data-for-a-point">
+<h2>Create data for a point<a class="headerlink" href="#create-data-for-a-point" title="Permalink to this heading"></a></h2>
+<ol class="arabic">
+<li><p>If you haven’t set up CTSM yet, check out steps 1 to 8 on the <span class="xref myst">quick start guide</span>.</p></li>
+<li><p>Load the required modules:
+If any of the modules in the following list is not available, search for the module name with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">spider</span> <span class="pre">&lt;module_name&gt;</span></code> and use the latest available version instead.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load git/2.33.1-GCCcore-11.2.0-nodocs
+module load Anaconda3/2019.7
+</pre></div>
+</div>
+</li>
+<li><p>Set up and Install dependencies for <code class="docutils literal notranslate"><span class="pre">subset_data</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>/cluster/software/Anaconda3/2019.07/bin/conda shell.bash hook<span class="k">)</span><span class="s2">&quot;</span>
+
+conda create --name subset_data <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9 xarray netcdf4 -y
+conda activate subset_data
+</pre></div>
+</div>
+</li>
+<li><p>Update the input data paths for <code class="docutils literal notranslate"><span class="pre">./subset_data</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sed -i <span class="s1">&#39;s/glade\/p\/cesmdata\/inputdata/cluster\/shared\/noresm\/inputdata/&#39;</span> ~/ctsm_escomp/tools/site_and_regional/default_data.cfg
+sed -i <span class="s1">&#39;s/glade\/p\/cgd\/tss\/CTSM_datm_forcing_data/cluster\/shared\/noresm\/inputdata\/atm\/datm7/&#39;</span> ~/ctsm_escomp/tools/site_and_regional/default_data.cfg
+</pre></div>
+</div>
+</li>
+<li><p>Generate input data for a single point:
+This should generate all the data for the given latitude and longitude and period in ~/finse.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/ctsm_escomp/tools/site_and_regional/subset_data <span class="se">\</span>
+    point <span class="se">\</span>
+    --site finse <span class="se">\</span>
+    --lat <span class="m">60</span>.59383774 <span class="se">\</span>
+    --lon <span class="m">7</span>.527008533 <span class="se">\</span>
+    --create-domain <span class="se">\</span>
+    --create-surface <span class="se">\</span>
+    --create-landuse <span class="se">\</span>
+    --create-user-mods <span class="se">\</span>
+    --create-datm <span class="se">\</span>
+    --datm-syr <span class="m">1970</span> <span class="se">\</span>
+    --datm-eyr <span class="m">1972</span> <span class="se">\</span>
+    --dompft <span class="m">7</span> <span class="se">\</span>
+    --outdir ~/finse <span class="se">\</span>
+    --overwrite
+</pre></div>
+</div>
+</li>
+<li><p>Run a case for the given point:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/ctsm_escomp/cime/scripts/create_newcase <span class="se">\</span>
+    --case ~/cases/finse <span class="se">\</span>
+    --compset I2000Clm51BgcCrop <span class="se">\</span>
+    --res CLM_USRDAT <span class="se">\</span>
+    --machine fram <span class="se">\</span>
+    --run-unsupported <span class="se">\</span>
+    --user-mods-dirs ~/finse/user_mods <span class="se">\ </span>   <span class="c1"># This contains the generated namelists and a shell command that CTSM uses to configure your case with the given input data.</span>
+    --handle-preexisting-dirs r <span class="se">\</span>
+    --project &lt;project_name&gt; <span class="se">\ </span><span class="c1"># e.g. nn2806k</span>
+
+<span class="nb">cd</span> ~/cases/finse
+
+./xmlchange <span class="nv">MPILIB</span><span class="o">=</span>impi
+./xmlchange <span class="nv">STOP_OPTION</span><span class="o">=</span>nyears
+./xmlchange <span class="nv">STOP_N</span><span class="o">=</span><span class="m">1</span>
+./xmlchange <span class="nv">RUN_STARTDATE</span><span class="o">=</span><span class="s1">&#39;2001-01-01&#39;</span>
+./xmlchange <span class="nv">DATM_YR_ALIGN</span><span class="o">=</span><span class="m">2001</span>
+./xmlchange <span class="nv">DATM_YR_START</span><span class="o">=</span><span class="m">2001</span>
+./xmlchange <span class="nv">DATM_YR_END</span><span class="o">=</span><span class="m">2002</span>
+
+./case.setup
+./case.build
+./case.submit
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../quick-start/" class="btn btn-neutral float-left" title="Quick start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../get/" class="btn btn-neutral float-right" title="Get CTSM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CTSM-Norway team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
