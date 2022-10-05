@@ -1,6 +1,6 @@
 # Single Point Quick Start
 The instructions below are tested with `ctsm5.1.dev098`, and ran on `fram` machine.
-Change the machine name accordingly.
+Change the machine and module names and paths accordingly.
 The instructions assume CTSM repo is cloned in `~/ctsm_escomp`.
 
     ```{keypoints} Note
@@ -73,10 +73,10 @@ This should generate all the data for the given latitude and longitude and perio
     ./xmlchange MPILIB=impi
     ./xmlchange STOP_OPTION=nyears
     ./xmlchange STOP_N=1
-    ./xmlchange RUN_STARTDATE='2001-01-01'
-    ./xmlchange DATM_YR_ALIGN=2001
-    ./xmlchange DATM_YR_START=2001
-    ./xmlchange DATM_YR_END=2002
+    ./xmlchange RUN_STARTDATE='1970-01-01'
+    ./xmlchange DATM_YR_ALIGN=1970
+    ./xmlchange DATM_YR_START=1970
+    ./xmlchange DATM_YR_END=1971
 
     ./case.setup
     ./case.build
