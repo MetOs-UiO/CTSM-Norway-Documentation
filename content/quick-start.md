@@ -1,8 +1,8 @@
 # Quick start
 
-This guide helps you set up your workspace and submit a case on a [Sigma2 machine](https://documentation.sigma2.no/index.html) (Fram, Saga). See the following sections for detailed instructions on how to get and set up CTSM and create and submit cases.
+This guide helps you set up your workspace and submit a case on a [Sigma2 machine](https://documentation.sigma2.no/index.html) (Betzy, Fram, Saga). See the following sections for detailed instructions on how to get and set up CTSM and create and submit cases.
 
-The guide works with ESCOMP CTSM ctsm5.1.dev098. All commands should work as they are, so you can just copy and paste them into your terminal. If there's a parameter in a command wrapped in `<` and `>`, it means it should be replaced with your own values.
+The guide works with MetOs-UiO CTSM version. All commands should work as they are, so you can just copy and paste them into your terminal. If there's a parameter in a command wrapped in `<` and `>`, it means it should be replaced with your own values.
 
 ## Create and run a case:
 
@@ -11,34 +11,40 @@ The guide works with ESCOMP CTSM ctsm5.1.dev098. All commands should work as the
 
     `ssh <your-sigma2-username>@fram.sigma2.no`.
     ```{keypoints} Note
-    This command works on Linux and Mac systems.
-    For access on Windows see [here](https://documentation.sigma2.no/getting_started/create_ssh_keys.html#login-via-ssh-keys).
-    The link also has detailed description of ssh access for all systems.
+    O Windows you will need OpenSSH -- see [here](https://documentation.sigma2.no/getting_started/ssh.html).
+    Alternatively, you can do everything through [VS Code](https://documentation.sigma2.no/code_development/guides/vs_code/connect_to_server.html).
     ```
-3. Clone [MetOs dotcime repo](https://github.com/MetOs-UiO/dotcime):
+3. Clone [MetOS-UiO/CTSM](https://github.com/MetOs-UiO/ctsm) into `~/ctsm`:
 
-    `git clone https://github.com/MetOs-UiO/dotcime ~/.cime`
-4. Clone [ESCOMP/CTSM](https://github.com/escomp/ctsm) into `~/ctsm_escomp`:
+    `git clone https://github.com/MetOs-UiO/CTSM.git ~/ctsm`.
+ 
+4. Go to the cloned repo:
 
-    `git clone https://github.com/escomp/ctsm ~/ctsm_escomp`.
-5. Go to the cloned repo:
+    `cd ~/ctsm`.
+5. Switch to `stable_sigma2` branch:
 
-    `cd ~/ctsm_escomp`.
-6. Switch to `ctsm5.1.dev098`:
+    `git checkout stable_sigma2`.
 
-    `git checkout ctsm5.1.dev098`.
+6. Make sure you have a newer git version:
+    `git --version`
+  if you have anything older than 2.18 you must load a newer one, f.e.:
+
+    `module load git/2.36.0-GCCcore-11.3.0-nodocs`
+
+     or better add such line to your .bashrc (do `module spider git` to see available versions).
+
 7. Get the external dependencies/repos:
 
     `./manage_externals/checkout_externals`.
-8. Adjust and export the following variables in your workspace:
+8. Adjust and export the following variables in your workspace (or better add this to ~/.bashrc):
 
     ```bash
-    export MACHINE=<machine_name> # e.g. saga or fram
-    export PROJECT=<project_name> # e.g. nn2806k
+    export MACHINE=<machine_name> # e.g. betzy, saga or fram
+    export PROJECT=<project_name> # e.g. nnXXXXk
     ```
 9. Run the following to create a new case:
 
-    `~/ctsm_escomp/cime/scripts/create_newcase --case ~/cases/I2000Clm50Sp --compset I2000Clm50Sp --res f19_g17 --machine $MACHINE --run-unsupported --handle-preexisting-dirs r --project $PROJECT`.
+    `~/ctsm/cime/scripts/create_newcase --case ~/cases/I2000Clm50Sp --compset I2000Clm50Sp --res f19_g17 --machine $MACHINE --run-unsupported --handle-preexisting-dirs r --project $PROJECT`.
 10. If everything goes fine, there should be a new folder for your case in `~/cases`. Switch to the case folder:
 
     `cd ~/cases/I2000Clm50Sp`.
@@ -114,3 +120,6 @@ The guide works with ESCOMP CTSM ctsm5.1.dev098. All commands should work as the
 16. The last line means the execution was successful and the output is put in your user archive folder. You can see the output here:
 
     `ls /cluster/work/users/$USER/archive/I2000Clm50Sp`.
+
+17. The case that you have just run was a 1.95x2.5 degree resolution global case with GSWP3v1 forcing and satellite phenology that have lasted 5 dyas. You can learn more about [resolutions](https://www2.cesm.ucar.edu/models/cesm2/config/grids.html), [component sets](https://www2.cesm.ucar.edu/models/cesm2/config/2.1.0/compsets.html).
+
