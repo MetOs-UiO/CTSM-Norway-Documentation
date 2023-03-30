@@ -11,7 +11,7 @@ The guide works with MetOs-UiO CTSM version. All commands should work as they ar
 
     `ssh <your-sigma2-username>@fram.sigma2.no`.
     ```{keypoints} Note
-    O Windows you will need OpenSSH -- see [here](https://documentation.sigma2.no/getting_started/ssh.html).
+    On Windows you might need OpenSSH -- see [here](https://documentation.sigma2.no/getting_started/ssh.html).
     Alternatively, you can do everything through [VS Code](https://documentation.sigma2.no/code_development/guides/vs_code/connect_to_server.html).
     ```
 3. Clone [MetOS-UiO/CTSM](https://github.com/MetOs-UiO/ctsm) into `~/ctsm`:
