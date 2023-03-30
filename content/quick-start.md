@@ -121,5 +121,5 @@ The guide works with MetOs-UiO CTSM version. All commands should work as they ar
 
     `ls /cluster/work/users/$USER/archive/I2000Clm50Sp`.
 
-17. The case that you have just run was a 1.95x2.5 degree resolution global case with GSWP3v1 forcing and satellite phenology that have lasted 5 dyas. You can learn more about [resolutions](https://www2.cesm.ucar.edu/models/cesm2/config/grids.html), [component sets](https://www2.cesm.ucar.edu/models/cesm2/config/2.1.0/compsets.html).
+17. The case that you have just run was a 1.95x2.5 degree resolution global case with GSWP3v1 forcing and satellite phenology that have lasted 5 days. You can learn more about [resolutions](https://www2.cesm.ucar.edu/models/cesm2/config/grids.html), [component sets](https://www2.cesm.ucar.edu/models/cesm2/config/2.1.0/compsets.html).
 
