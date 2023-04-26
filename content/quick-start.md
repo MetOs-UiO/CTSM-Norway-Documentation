@@ -24,7 +24,9 @@ The guide works with MetOs-UiO CTSM version. All commands should work as they ar
 5. Switch to `stable_sigma2` branch:
 
     `git checkout stable_sigma2`.
-
+    ```{keypoints} Note
+    Alternatively, you can clone [NorESMhub/CTSM](https://github.com/NorESMhub/CTSM) and checkout `noresm` branch. Both of those are up-to-date with `master` on `ESCOMP/CTSM`.
+    ```
 6. Make sure you have a newer git version:
     `git --version`
   if you have anything older than 2.18 you must load a newer one, f.e.:
