@@ -9,7 +9,7 @@ The instructions assume CTSM repo is cloned in `~/ctsm_escomp`.
     ```
 ## Create data for a point
 
-1. If you haven't set up CTSM yet, check out steps 1 to 8 on the [quick start guide](/CTSM-Norway-Documentation/quick-start/).
+1. If you haven't set up CTSM yet, check out steps 1 to 8 on the [quick start guide](quick-start).
 
 2. Load the required modules:
     If any of the modules in the following list is not available, search for the module name with `module spider <module_name>` and use the latest available version instead.
@@ -23,10 +23,15 @@ The instructions assume CTSM repo is cloned in `~/ctsm_escomp`.
     ```bash    
     eval "$(/cluster/software/Anaconda3/2019.07/bin/conda shell.bash hook)"
 
-    conda create --name subset_data python=3.9 xarray netcdf4 -y
+    conda create --prefix <path> --name subset_data python=3.9 xarray netcdf4 -y
     conda activate subset_data
     ```
+    ```{keypoints} IMPORTANT
+    You do not have to specify `--prefix <path>` if you want your environment to sit at your `$HOME`.
+    However, it is not a very good idea to have conda environments there since they consists of lots of files.
+    You can check the discspace and file quota with `dusage`. You might also want to add a path to `env_dirs` (if you haven't done so). You can do this with `conda config --prepend env_dirs <path>`. Make sure it is set by doing `conda config --show env_dirs`. You might want to put your conda environment into the project folder but be aware that those too have file limits.
 
+    ```
 4. Update the input data paths for `./subset_data`:
     
     ```bash
