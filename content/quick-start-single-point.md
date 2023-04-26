@@ -1,7 +1,7 @@
 # Single Point Quick Start
 The instructions below are tested with `ctsm5.1.dev098`, and ran on `fram` machine.
 Change the machine and module names and paths accordingly.
-The instructions assume CTSM repo is cloned in `~/ctsm_escomp`.
+The instructions assume CTSM repo is cloned in `~/ctsm`.
 
     ```{keypoints} Note
     Check out [this tutorial](https://ncar.github.io/CTSM-Tutorial-2022/notebooks/Day2a_GenericSinglePoint.html) by NCAR for more details.
@@ -35,15 +35,15 @@ The instructions assume CTSM repo is cloned in `~/ctsm_escomp`.
 4. Update the input data paths for `./subset_data`:
     
     ```bash
-    sed -i 's/glade\/p\/cesmdata\/inputdata/cluster\/shared\/noresm\/inputdata/' ~/ctsm_escomp/tools/site_and_regional/default_data.cfg
-    sed -i 's/glade\/p\/cgd\/tss\/CTSM_datm_forcing_data/cluster\/shared\/noresm\/inputdata\/atm\/datm7/' ~/ctsm_escomp/tools/site_and_regional/default_data.cfg
+    sed -i 's/glade\/p\/cesmdata\/inputdata/cluster\/shared\/noresm\/inputdata/' ~/ctsm/tools/site_and_regional/default_data.cfg
+    sed -i 's/glade\/p\/cgd\/tss\/CTSM_datm_forcing_data/cluster\/shared\/noresm\/inputdata\/atm\/datm7/' ~/ctsm/tools/site_and_regional/default_data.cfg
     ```
 
 5. Generate input data for a single point:
 This should generate all the data for the given latitude and longitude and period in ~/finse.
     
     ```bash
-    ~/ctsm_escomp/tools/site_and_regional/subset_data \
+    ~/ctsm/tools/site_and_regional/subset_data \
         point \
         --site finse \
         --lat 60.59383774 \
@@ -63,7 +63,7 @@ This should generate all the data for the given latitude and longitude and perio
 6. Run a case for the given point:
 
     ```bash
-    ~/ctsm_escomp/cime/scripts/create_newcase \
+    ~/ctsm/cime/scripts/create_newcase \
         --case ~/cases/finse \
         --compset I2000Clm51BgcCrop \
         --res CLM_USRDAT \
