@@ -14,6 +14,7 @@ This tutorial assumes that you are logged into one of the clusters of Sigma2. (S
 Currently (February 2022), we support machine configurations for: 
 -   saga (sigma2, Norway)
 -   fram (sigma2, Norway)
+-   betzy (sigma2, Norway)
 
 If your machine is not on the list and you would like us to support it,
 please contact us.
@@ -121,29 +122,40 @@ can be done in two ways (check the
 [original](https://esmci.github.io/cime/versions/master/html/users_guide/porting-cime.html#steps-for-porting)
 documentation for a detailed explanation):
 
-##### 1) Replace the default configurations
 
-You can replace some default configuration files with configuration files that contain details for these clusters.
-Execute the following steps:
-
-1. Go into the cime-config folder
-
-        [~/CTSM_ROOT]$ cd cime/config/cesm/machines
-
-2. Delete the default files:
-
-        [~/CTSM_ROOT/cime/config/cesm/machine]$ rm config_machines.xml config_batch.xml config_compilers.xml
-
-3. Fetch replacement files from [this](https://github.com/gunnartl/config_files_sigma2.git) repository by typing
-
-        [~/CTSM_ROOT/cime/config/cesm/machine]$ git init
-        [~/CTSM_ROOT/cime/config/cesm/machine]$ git remote add origin https://github.com/gunnartl/config_files_sigma2.git
-        [~/CTSM_ROOT/cime/config/cesm/machine]$ git pull origin main
-
-##### 2) Create a .cime folder
+##### 1) Create a .cime folder (not recommended right now)
 
 You can create a **.cime** folder with the machine configurations under your home directory.
 
 Clone [this](https://github.com/MetOs-UiO/dotcime) repository and
 consult the `README.md` file for the details when making a new
 case.
+
+
+##### 2) Checkout ccs_config_noresm from NorESMhub
+
+This is useful for anything based on CTSM(>dev120) or relies on cmeps>=0.14.13 (you can check this in Externals.cfg or by going to /component/cmeps and doing `git describe`).
+``` {keypoints} Important
+You should get rid of your `.cime` folder. Since it will take priority over machine configs at ccs_config.
+```
+
+This config is kept currently up-to-date to make it possible to run on betzy, fram and saga.
+In your CTSM clone (assuming it is your fork that is cloned and you want to update it), navigate to ccs_config and check what remotes do you have there:
+
+        [~/CTSM_ROOT]$ cd $CTSM_ROOT/ccs_config
+        [~/CTSM_ROOT/ccs_config]$ git remote -v 
+
+This will give you something like:
+
+        origin  https://github.com/ESMCI/ccs_config_cesm.git (fetch)
+        origin  https://github.com/ESMCI/ccs_config_cesm.git (push)
+
+You can add a new remote and fetch:
+
+         [~/CTSM_ROOT/ccs_config]$ git remote add noresm https://github.com/NorESMhub/ccs_config_noresm.git
+         [~/CTSM_ROOT/ccs_config]$ git fetch --all
+
+Now, you can checkout a specific tag:
+
+        [~/CTSM_ROOT/ccs_config]$ git checkout ccs_config_noresm0.0.3
+Usually, you can just check out the last tag that was posted on NorESMhub/ccs_config_noresm.
