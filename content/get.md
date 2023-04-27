@@ -11,7 +11,7 @@ Throughout all this documentation we define some path variables:
 ## Supported machines
 This tutorial assumes that you are logged into one of the clusters of Sigma2. (See [here](https://metos-uio.github.io/CTSM-Norway-Documentation/prerequisite/#needed-accesses) for how to get cluster access). 
 
-Currently (February 2022), we support machine configurations for: 
+Currently (April 2023), we support machine configurations for: 
 -   saga (sigma2, Norway)
 -   fram (sigma2, Norway)
 -   betzy (sigma2, Norway)
