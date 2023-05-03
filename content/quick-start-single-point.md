@@ -23,13 +23,17 @@ The instructions assume CTSM repo is cloned in `~/ctsm`.
     ```bash    
     eval "$(/cluster/software/Anaconda3/2019.07/bin/conda shell.bash hook)"
 
-    conda create --prefix <path> --name subset_data python=3.9 xarray netcdf4 -y
+    conda create --name subset_data python=3.9 xarray netcdf4 -y
     conda activate subset_data
     ```
-    ```{keypoints} IMPORTANT
-    You do not have to specify `--prefix <path>` if you want your environment to sit at your `$HOME`.
-    However, it is not a very good idea to have conda environments there since they consists of lots of files.
-    You can check the discspace and file quota with `dusage`. You might also want to add a path to `env_dirs` (if you haven't done so). You can do this with `conda config --prepend env_dirs <path>`. Make sure it is set by doing `conda config --show env_dirs`. You might want to put your conda environment into the project folder but be aware that those too have file limits.
+    ```{keypoints} Note
+    Instead of  `--name <name>` you can specify `--prefix <path>` if you want your environment to sit somewhere else then your `$HOME/.conda`.
+
+    In general it is not a very good idea to have conda environments at home since they consists of lots of files and home has filequota ~100k files.
+
+    You can check the discspace and file quota with `dusage`. You might also want to add a path to `env_dirs` (if you haven't done so) and/or `pkgs_dirs` (packages also take have lots of files). You can do this with `conda config --prepend env_dirs <path>` and `conda config --prepend pkgs_dirs <path>`. Make sure it is set by doing `conda config --show env_dirs` and/or `conda config --show pkgs_dirs`. In this case, any new conda environmet and/or package will end up in the path you provided.
+
+    By default conda will show the environment name in the prompt if it is in the default path and environments in other locations will be shown with their full path in prompt. In order to not to see this you can do `conda config --set env_prompt '({name})'` to leave only environment's name in the prompt.
 
     ```
 4. Update the input data paths for `./subset_data`:
