@@ -1,15 +1,16 @@
 # Single Point Quick Start
 The instructions below are tested with `ctsm5.1.dev098`, and ran on `fram` machine.
 Change the machine and module names and paths accordingly.
-The instructions assume CTSM repo is cloned in `~/ctsm_escomp`.
+The instructions assume CTSM repo is cloned in `~/ctsm`.
 
-    ```{keypoints} Note
-    Check out [this tutorial](https://ncar.github.io/CTSM-Tutorial-2022/notebooks/Day2a_GenericSinglePoint.html) by NCAR for more details.
-    Note that the tutorial is written for NCAR's machines.
-    ```
+```{keypoints} Note
+Check out [this tutorial](https://ncar.github.io/CTSM-Tutorial-2022/notebooks/Day2a_GenericSinglePoint.html) by NCAR for more details.
+Note that the tutorial is written for NCAR's machines.
+```
+
 ## Create data for a point
 
-1. If you haven't set up CTSM yet, check out steps 1 to 8 on the [quick start guide](/CTSM-Norway-Documentation/quick-start/).
+1. If you haven't set up CTSM yet, check out steps 1 to 8 on the [quick start guide](quick-start).
 
 2. Load the required modules:
     If any of the modules in the following list is not available, search for the module name with `module spider <module_name>` and use the latest available version instead.
@@ -20,25 +21,35 @@ The instructions assume CTSM repo is cloned in `~/ctsm_escomp`.
     ```
 
 3. Set up and Install dependencies for `subset_data`:
-    ```bash    
+    ```bash
     eval "$(/cluster/software/Anaconda3/2019.07/bin/conda shell.bash hook)"
 
     conda create --name subset_data python=3.9 xarray netcdf4 -y
     conda activate subset_data
     ```
+    
+    ```{keypoints} Note
+    Instead of  `--name <name>` you can specify `--prefix <path>` if you want your environment to sit somewhere else then your `$HOME/.conda`.
+    ```
+
+    In general it is not a very good idea to have conda environments in the home directory since they consists of lots of files and home has a filequota of ~100k files.
+
+    You can check the disk space and file quota with `dusage`. You might also want to add a path to `env_dirs` (if you haven't done so) and/or `pkgs_dirs` (packages also contain lots of files). You can do this with `conda config --prepend env_dirs <path>` and `conda config --prepend pkgs_dirs <path>`. Make sure it is set by entering `conda config --show env_dirs` and/or `conda config --show pkgs_dirs`. In this case, any new conda environment and/or package will end up in the path you provided.
+
+    By default conda will show the environment name in the prompt if it is in the default path, and environments in other locations will be shown with their full path. In order to not display the full path, enter `conda config --set env_prompt '({name})'` to leave only the environment's name in the prompt.
 
 4. Update the input data paths for `./subset_data`:
     
     ```bash
-    sed -i 's/glade\/p\/cesmdata\/inputdata/cluster\/shared\/noresm\/inputdata/' ~/ctsm_escomp/tools/site_and_regional/default_data.cfg
-    sed -i 's/glade\/p\/cgd\/tss\/CTSM_datm_forcing_data/cluster\/shared\/noresm\/inputdata\/atm\/datm7/' ~/ctsm_escomp/tools/site_and_regional/default_data.cfg
+    sed -i 's/glade\/p\/cesmdata\/inputdata/cluster\/shared\/noresm\/inputdata/' ~/ctsm/tools/site_and_regional/default_data.cfg
+    sed -i 's/glade\/p\/cgd\/tss\/CTSM_datm_forcing_data/cluster\/shared\/noresm\/inputdata\/atm\/datm7/' ~/ctsm/tools/site_and_regional/default_data.cfg
     ```
 
 5. Generate input data for a single point:
 This should generate all the data for the given latitude and longitude and period in ~/finse.
     
     ```bash
-    ~/ctsm_escomp/tools/site_and_regional/subset_data \
+    ~/ctsm/tools/site_and_regional/subset_data \
         point \
         --site finse \
         --lat 60.59383774 \
@@ -59,7 +70,7 @@ This should generate all the data for the given latitude and longitude and perio
 6. Run a case for the given point:
 
     ```bash
-    ~/ctsm_escomp/cime/scripts/create_newcase \
+    ~/ctsm/cime/scripts/create_newcase \
         --case ~/cases/finse \
         --compset I2000Clm51BgcCrop \
         --res CLM_USRDAT \
