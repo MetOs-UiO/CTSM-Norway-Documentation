@@ -3,10 +3,11 @@ The instructions below are tested with `ctsm5.1.dev098`, and ran on `fram` machi
 Change the machine and module names and paths accordingly.
 The instructions assume CTSM repo is cloned in `~/ctsm`.
 
-    ```{keypoints} Note
-    Check out [this tutorial](https://ncar.github.io/CTSM-Tutorial-2022/notebooks/Day2a_GenericSinglePoint.html) by NCAR for more details.
-    Note that the tutorial is written for NCAR's machines.
-    ```
+```{keypoints} Note
+Check out [this tutorial](https://ncar.github.io/CTSM-Tutorial-2022/notebooks/Day2a_GenericSinglePoint.html) by NCAR for more details.
+Note that the tutorial is written for NCAR's machines.
+```
+
 ## Create data for a point
 
 1. If you haven't set up CTSM yet, check out steps 1 to 8 on the [quick start guide](quick-start).
@@ -20,22 +21,23 @@ The instructions assume CTSM repo is cloned in `~/ctsm`.
     ```
 
 3. Set up and Install dependencies for `subset_data`:
-    ```bash    
+    ```bash
     eval "$(/cluster/software/Anaconda3/2019.07/bin/conda shell.bash hook)"
 
     conda create --name subset_data python=3.9 xarray netcdf4 -y
     conda activate subset_data
     ```
+    
     ```{keypoints} Note
     Instead of  `--name <name>` you can specify `--prefix <path>` if you want your environment to sit somewhere else then your `$HOME/.conda`.
-
-    In general it is not a very good idea to have conda environments at home since they consists of lots of files and home has filequota ~100k files.
-
-    You can check the discspace and file quota with `dusage`. You might also want to add a path to `env_dirs` (if you haven't done so) and/or `pkgs_dirs` (packages also take have lots of files). You can do this with `conda config --prepend env_dirs <path>` and `conda config --prepend pkgs_dirs <path>`. Make sure it is set by doing `conda config --show env_dirs` and/or `conda config --show pkgs_dirs`. In this case, any new conda environment and/or package will end up in the path you provided.
-
-    By default conda will show the environment name in the prompt if it is in the default path and environments in other locations will be shown with their full path in prompt. In order to not to see this you can do `conda config --set env_prompt '({name})'` to leave only environment's name in the prompt.
-
     ```
+
+    In general it is not a very good idea to have conda environments in the home directory since they consists of lots of files and home has a filequota of ~100k files.
+
+    You can check the disk space and file quota with `dusage`. You might also want to add a path to `env_dirs` (if you haven't done so) and/or `pkgs_dirs` (packages also contain lots of files). You can do this with `conda config --prepend env_dirs <path>` and `conda config --prepend pkgs_dirs <path>`. Make sure it is set by entering `conda config --show env_dirs` and/or `conda config --show pkgs_dirs`. In this case, any new conda environment and/or package will end up in the path you provided.
+
+    By default conda will show the environment name in the prompt if it is in the default path, and environments in other locations will be shown with their full path. In order to not display the full path, enter `conda config --set env_prompt '({name})'` to leave only the environment's name in the prompt.
+
 4. Update the input data paths for `./subset_data`:
     
     ```bash
