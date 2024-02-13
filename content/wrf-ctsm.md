@@ -4,37 +4,75 @@
 A detailed documentation](https://escomp.github.io/ctsm-docs/versions/master/html/lilac/specific-atm-models/index.html)] about how to set up and run CTSM with WRF can be found in the original. 
 ```
 
-Please follow the steps described there!
-Special advices for the supported HPC machines at UiO are given in the following.
+What follows here is a modified version of that workflow that works on the SIGMA2 HPC systems (As of right now Fram with some parts having to be run on Saga). 
 
-```{discussion} Build directory
-- It is good practice to NOT build your software in the source directory.
-- Choose a build directory, e.g. in your home or project directory
-```
+## 3.4.1.1. Clone WRF and CTSM Repositories
+
+    [~/HOME]$ git clone https://github.com/wrf-model/WRF.git WRF-CTSM
+    [~/HOME]$ cd WRF-CSTM
+    [~/WRF-CTSM]$ git checkout develop
     
-    [~/HOME]$ export CTSM_BUILD_DIRECTORY=~/ctsm_build_directory
-    
+
+    [~/WRF-CTSM]$ git clone https://github.com/NorESMhub/CTSM.git
+    [~/WRF-CTSM]$ cd CTSM
+    [~/WRF-CTSM/CTSM]$ git checkout ctsm5.1.dev151-noresm_v1
+    [~/WRF-CTSM/CTSM]$ ./manage_externals/checkout_externals
+
+
+change the content of WRF-CTS/CTSM/src/cpl/utils/lnd_import_export_utils.F90 and WRF-CTSM/phys/module_sf_mynn.F 
+
+WRF-CTSM/phys/module_sf_mynn.F from line 1147 should look like this (that is insert the if-block in the middle):
+
+        Q2(I)=QSFCMR(I)+(QV1D(I)-QSFCMR(I))*PSIQ2/PSIQ
+        Q2(I)= MAX(Q2(I), MIN(QSFCMR(I), QV1D(I)))
+        Q2(I)= MIN(Q2(I), 1.05*QV1D(I))
+
+        IF (Q2(I) .LT. 0.0) THEN
+            print*,"DEBUG: NEGATIVE Q2 VALUE IN MYNN SFCLAYER",&
+            I,J, "Q2: ",Q2(I)
+            print*,"WARNING: NEGATIVE Q2 SET TO ZERO"
+            Q2(I)=0.0
+        ENDIF
+        IF (QSFC(I) .LT. 0.0) THEN
+            print*,"DEBUG: NEGATIVE QSFC VALUE IN MYNN SFCLAYER",&
+            I,J, "QSFC: ",QSFC(I)
+        ENDIF
+
+        IF ( debug_code ) THEN
+            yesno = 0
+
+WRF-CTS/CTSM/src/cpl/utils/lnd_import_export_utils.F90 from line 128 should look like this: 
+
+       end if
+       if ( wateratm2lndbulk_inst%forc_q_not_downscaled_grc(g) < 0.0_r8 )then
+         write(iulog,*) 'Value of wateratm2 = ', wateratm2lndbulk_inst%forc_q_not_downscaled_grc(g)  
+         write(iulog,*) 'Value of g = ', g
+         !call shr_sys_abort( subname//&                                                                                                                                                                          
+         !     ' ERROR: Bottom layer specific humidty sent from the atmosphere model is less than zero' )  
+       end if
+    end do
 
 ## 3.4.1.2 Building CTSM
 
-```{discussion} ESMF
-A 3. party software (ESMF) is needed for coupling to WRF. 
-- The version required (currently >= 8.1.0, 2018-09-10) is only available on FRAM.
-- Update or clone `dotcime` to include ESMF (commit 092d9f9).
-```
-For building CTSM with LILAC the path variable `ESMFMKFILE` has to be set in `config_machines`. 
+    [~/WRF-CTSM/CTSM]$ ./lilac/build_ctsm ctsm_build_dir --compiler intel --machine fram
 
 ## 3.4.1.3. Building WRF with CTSM
+
+    [~/WRF-CTSM/CTSM]$ source ctsm_build_dir/ctsm_build_environment.sh
+    [~/WRF-CTSM/CTSM]$ export WRF_CTSM_MKFILE=/cluster/home/$USER/WRF-CTSM/CTSM/ctsm_build_dir/bld/ctsm.mk
 
 ```{discussion} NETCDF
 In addition to the decribed steps, it is necessary to set the path to the Fortran NetCDF on FRAM before running `./configure`.
 ```
 Set the path variables
 
-    [~/HOME]$ export NETCDF=${EBROOTNETCDFMINFORTRAN}
-    [~/HOME]$ export NETCDF_classic=1
-    
-When running `./configure` you will be asked for a set of compiler options [1-75]. A good choice is 15.
+    [~/WRF-CTSM/CTSM]$ export NETCDF=${EBROOTNETCDFMINFORTRAN}
+    [~/WRF-CTSM/CTSM]$ export NETCDF_classic=1
+    [~/WRF-CTSM/CTSM]$ cd ..
+    [~/WRF-CTSM]$ ./clean -a
+    [~/WRF-CTSM/CTSM]$ ./configure
+
+When running `./configure` you will be asked for a set of compiler options [1-75]. A good choice is 16. followed by 1 as the nesting option.
 
 ```{discussion} Compiling WRF
 Compiling WRF takes a long time. Therefore, you should put the compiling job into the background. If your conection to FRAM breaks the job will still run!
@@ -43,34 +81,32 @@ Compiling WRF takes a long time. Therefore, you should put the compiling job int
     
 ## 3.4.1.4 Building WPS
 
-The automatic creation of the configuration (option 19 is a good choice) fails to recognize the compilers, therefore you have to make some changes in `configure.wps` manually.
+    [~/WRF-CTSM]$ git clone https://github.com/wrf-model/WPS
+    [~/WRF-CTSM]$ cd WPS
+    [~/WRF-CTSM/WPS]$ git checkout v4.3
+    [~/WRF-CTSM/WPS]$ export WRF_DIR=../
+    [~/WRF-CTSM/WPS]$ ./configure
 
-    [~/WRF-CTSM/WPS] nano configure.wps
+The automatic creation of the configuration (option 19 is a good choice) fails to recognize the compilers, therefore you have to make some changes in `configure.wps` manually.
 
 Change 
 
     DM_FC= mpiifort
     DM_CC= mpiicc
     
-and add `-gopenmp` to the end of the line which reads `LDFLAGS`.
+and add `-qopenmp` to the end of the line which reads `LDFLAGS`.
 Because `jasper` is one of the compiler options you have to load two additional modules beforehand
     
-    [~/WRF-CTSM/WPS] module load JasPer/2.0.28-GCCcore-10.3.0
-    [~/WRF-CTSM/WPS] module load libpng/1.6.37-GCCcore-10.3.0
+    [~/WRF-CTSM/WPS]$ ml JasPer/2.0.33-GCCcore-11.3.0
+    [~/WRF-CTSM/WPS]$ ml libpng/1.6.37-GCCcore-11.3.0
+    [~/WRF-CTSM/WPS]$ ml CMake/3.23.1-GCCcore-11.3.0
+    [~/WRF-CTSM/WPS]$ ml JasPer/2.0.33-GCCcore-11.3.0
+    [~/WRF-CTSM/WPS]$ ml PnetCDF/1.12.3-iimpi-2022a
+    [~/WRF-CTSM/WPS]$ ./compile >& compile.log
     
 ## 3.4.1.5. Run WPS Programs
 
-```{discussion} plotgrid_new.ncl
-To have a look at your created domain you need to load NCL.
-
-`module load NCL/6.6.2-intel-2018b`
-
-Because we are using a new version of NCL, `plotgrid.ncl` may not work.
-Note: `namelist.wps` has to be in your working directory! But you can call it from anywhere using its absolute path. 
-
-```
-
-    [WORK/cases] ncl ${WPS_ROOT}/util/plotgrid_new.ncl
+To create boundary conditions we use the WPS programs. 
     
 ## Example scripts
 
