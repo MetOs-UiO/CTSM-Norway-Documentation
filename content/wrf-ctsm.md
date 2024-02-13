@@ -119,7 +119,7 @@ Edit namelist.wps :
     interval_seconds = 21600
     /
 
-Link the apropriate table to the folder, for ERA5 this is the ECMWF table. For other data google will be your friend. 
+Link the appropriate table to the folder, for ERA5 this is the ECMWF table. For other data google will be your friend. 
 
     [~/WRF-CTSM/WPS]$ ln -sf ungrib/Variable_Tables/Vtable.ECMWF Vtable
 
@@ -166,4 +166,63 @@ Run Geogrid and metgrid
     [~/WRF-CTSM/WPS]$ mpirun -np 2 ./metgrid.exe
 
 ## 3.4.1.6. Run real.exe
+Link the metfiles to the run directory. 
 
+    [~/WRF-CTSM/run]$ ln -sf ../WPS/met_em.do* .
+
+Edit namelist.input so i fits your times and your domain. Here: 
+
+    &time_control
+    run_days                            = 0,
+    run_hours                           = 48,
+    run_minutes                         = 0,
+    run_seconds                         = 0,
+    start_year                          = 2016,
+    start_month                         = 10,   
+    start_day                           = 06,  
+    start_hour                          = 00,  
+    end_year                            = 2016,
+    end_month                           = 10,  
+    end_day                             = 08,  
+    end_hour                            = 00, 
+    interval_seconds                    = 21600,
+    input_from_file                     = .true.,
+    history_interval                    = 180,
+    frames_per_outfile                  = 1000,
+    restart                             = .false.,
+    restart_interval                    = 1449,
+    io_form_history                     = 2
+    io_form_restart                     = 2
+    io_form_input                       = 2
+    io_form_boundary                    = 2
+    /
+
+    &domains
+    time_step                           = 90,
+    time_step_fract_num                 = 0,
+    time_step_fract_den                 = 1,
+    max_dom                             = 1,
+    e_we                                = 121,  
+    e_sn                                = 91,   
+    e_vert                              = 35,
+    !dzstretch_s                         = 1.1
+    p_top_requested                     = 5000,
+    num_metgrid_levels                  = 38,
+    num_metgrid_soil_levels             = 4,
+    dx                                  = 5000,
+    dy                                  = 5000,
+    grid_id                             = 1,     
+    parent_id                           = 0,     
+    i_parent_start                      = 1,     
+    j_parent_start                      = 1,     
+    parent_grid_ratio                   = 1,     
+    parent_time_step_ratio              = 1,   
+    feedback                            = 1,
+    smooth_option                       = 0
+    /
+
+run real.exe 
+
+    [~/WRF-CTSM/run]$ mpirun -np 2 ./real.exe
+
+Check rsl.error.0000 for the line "real_em: SUCCESS COMPLETE REAL_EM INIT" to know if the program succesfully completed. 
