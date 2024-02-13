@@ -100,170 +100,70 @@ Because `jasper` is one of the compiler options you have to load two additional 
     [~/WRF-CTSM/WPS]$ ml JasPer/2.0.33-GCCcore-11.3.0
     [~/WRF-CTSM/WPS]$ ml libpng/1.6.37-GCCcore-11.3.0
     [~/WRF-CTSM/WPS]$ ml CMake/3.23.1-GCCcore-11.3.0
-    [~/WRF-CTSM/WPS]$ ml JasPer/2.0.33-GCCcore-11.3.0
     [~/WRF-CTSM/WPS]$ ml PnetCDF/1.12.3-iimpi-2022a
     [~/WRF-CTSM/WPS]$ ./compile >& compile.log
+
+If ungrib.exe is not created just do a module purge and load everything except libpng and compile again. 
     
 ## 3.4.1.5. Run WPS Programs
 
-To create boundary conditions use the WPS programs. This is an example using ERA5 data: 
+To create boundary conditions use the WPS programs. This is an example using ERA5 data for a 48 hour run from from October 6th-8th 2016. 
 
+Edit namelist.wps : 
 
-    
-## Example scripts
+    &share
+    wrf_core = 'ARW',
+    max_dom = 1,
+    start_date = '2016-10-06_00:00:00',
+    end_date   = '2016-10-08_00:00:00',
+    interval_seconds = 21600
+    /
 
-Reoccuring setting of environmental variables and loading of modules can be automated. We assume that you have set
+Link the apropriate table to the folder, for ERA5 this is the ECMWF table. For other data google will be your friend. 
 
-`export WORK=/cluster/work/users/${USER}`
+    [~/WRF-CTSM/WPS]$ ln -sf ungrib/Variable_Tables/Vtable.ECMWF Vtable
 
-`````{tabs}
+make a folder for the data you need and link the data there : 
 
-````{tab} setpaths
-This example Bash script shows the environment needed to run WSP and WRF on FRAM.
-You would copy it to your home directory (e.g. to a subfolder bin) and execute it
+    [~/WRF-CTSM/WPS]$ mkdir DATA
+    [~/WRF-CTSM/WPS]$ cd DATA
+    [~/WRF-CTSM/WPS/DATA]$ ln /cluster/shared/wrf/climate/ERA5_EUR/ERA5_grib1_2016/*20161006* .
+    [~/WRF-CTSM/WPS/DATA]$ ln /cluster/shared/wrf/climate/ERA5_EUR/ERA5_grib1_2016/*20161007* .
+    [~/WRF-CTSM/WPS/DATA]$ ln /cluster/shared/wrf/climate/ERA5_EUR/ERA5_grib1_2016/*20161008* .
 
-    [~] source ~/bin/setpaths
+Link the grib data: 
 
-```bash
-#! /bin/bash
+    [~/WRF-CTSM/WPS]$ ./link_grib.csh DATA
 
-# Location of your CTSM clone
-export CTSM_ROOT=~/WRF-CTSM/CTSM/
-# Location of your CTSM build
-export CTSM_BUILD_DIRECTORY=~/ctsm_build_directory
-# Load all modules which WRF and CTSM have in common
-source $CTSM_BUILD_DIR/ctsm_build_environment.sh
-# For building WRF
-export WRF_ROOT=$WORKSPACE/WRF-CTSM
-export WRF_CTSM_MKFILE=$CTSM_BUILD_DIR/bld/ctsm.mk
-export WRF_EM_CORE=1
-export WRF_DA_CORE=0
-export NETCDF=${EBROOTNETCDFMINFORTRAN}
-export NETCDF_classic=1
-# For building WPS
-export WPS_ROOT=$WORKSPACE/WPS
-export WRF_DIR=$WRF_ROOT
-module load JasPer/2.0.28-GCCcore-10.3.0
-module load libpng/1.6.37-GCCcore-10.3.0
-# For running WRF
-export WRF_GEOG_PATH=/cluster/shared/wrf/geog_wrfv4
+Rung ungrib.exe
 
-```
-````
+    [~/WRF-CTSM/WPS]$ ./ungrib.exe
 
-````{tab} run_wps
-This example Bash script shows how to use WSP to process WRF input data (e.g. atmosphere and sea surface temperature).
+Edit namelist.wps again to fit your domain and , here a portion of South Norway: 
 
-```bash
-#! /bin/bash
-# Before running this script for the first time 
-# make a new case directory in your home and
-# put a copy of $WPS_ROOT/namelist.wps into it.
-# Edit namelist.wps according to your domain.
-# Usage: ./run_wps <case_name>
-# Specify data source
-data_dir=$WORKSPACE/DATA/matthew
-# Reference to the case
-case=${1}
+    &geogrid
+    parent_id         =   1,
+    parent_grid_ratio =   1, 
+    i_parent_start    =   1,
+    j_parent_start    =   1,
+    e_we              =   121,
+    e_sn              =   91,
+    geog_data_res = 'default',
+    dx = 5000,
+    dy = 5000,
+    map_proj = 'mercator',
+    ref_lat   =  61.6,
+    ref_lon   =   9.4,
+    truelat1  =  30.0,
+    truelat2  =  60.0,
+    stand_lon =   0,
+    geog_data_path = '/cluster/shared/wrf/geog'
+    /
 
-case_root=${HOME}/wrf_cases
-tmp_dir=(atm sst)
+Run Geogrid and metgrid
 
-# Loop through the data
-for each in ${tmp_dir[@]}; do
-    if [ ! -d ${case_root}/${case}/${case}.${each} ]; then
-        echo "Make new directory ${case_root}/${case}/${case}.${each}"
-        mkdir -p ${case_root}/${case}/${case}.${each}
-    fi
+    [~/WRF-CTSM/WPS]$ mpirun -np 2 ./geogrid.exe
+    [~/WRF-CTSM/WPS]$ mpirun -np 2 ./metgrid.exe
 
-    cd  ${case_root}/${case}/${case}.${each}
-
-    if [ $each == atm ]; then
-        echo "Ungribing the atmosphere"
-        ln -sf ${WPS_ROOT}/ungrib/Variable_Tables/Vtable.GFS Vtable
-        ${WPS_ROOT}/link_grib.csh ${data_dir}/fnl
-        ln -sf ${case_root}/${case}/namelist.wps.atm namelist.wps
-    else 
-        echo "Ungribing the the sea surface temperatures"
-        ln -sf ${WPS_ROOT}/ungrib/Variable_Tables/Vtable.SST Vtable
-        ${WPS_ROOT}/link_grib.csh ${data_dir}_sst/rtg_sst_grb
-        ln -sf ${case_root}/${case}/namelist.wps.sst namelist.wps
-    fi
-
-    #if [ ls FILE | grep -c FILE == 0 -o ]
-    ${WPS_ROOT}/ungrib.exe
-
-    for exe in (geogrid metgrid); do
-        mkdir ${exe} && ln -s ${WPS_ROOT}/${exe}/${exe^^}.TBL.ARW ${exe}/${exe^^}.TBL
-        mpirun -np 2 ${WPS_ROOT}/${exe}.exe
-    done
-done
-
-```
-````
-
-````{tab} submit_wrf
-This example Bash script shows how to submit a WRF case to the queueing system on FRAM.
-
-
-```bash
-#! /bin/bash
-# Script for running on Abel. (c) Johanne Rydsaa
-# 2021-09-14 Update for fram. (c) Stefanie Falk
-# --------------------------------------------------------------------------
-# Job name:
-#SBATCH --job-name=wrf_exe
-#
-# Project:
-#SBATCH --account=nn2806k
-#
-# Number of cores/nodes:
-#SBATCH --ntasks=4
-#
-# Wall clock limit:
-#SBATCH --time=1:59:00
-#
-# Development queue for testing
-#SBATCH --qos=short
-#
-#
-## Recommended safety settings:
-set -o errexit # Make bash exit on any error
-#set -o nounset # Treat unset variables as errors
-# Must set large stack size (unlimited for simplicity)
-ulimit -s unlimited
-#
-# Set environment variables specifically used by WRF
-source ~/bin/setpaths
-# --------------------------------------------------------------------------
-# Make your changes here
-# WRF case name (create subcases by writing, e.g. matthew/01)
-CASE=matthew
-# Directory of WRF executable
-WRF_EXE=${WRF_DIR}/test/em_real
-
-#----------------------------------------------------------------------------
-# No need to change this section
-# Output directory
-SCRATCH=${WORK}/${CASE}
-# Make the work directory if not existent
-if [ ! -d $SCRATCH ]; then mkdir -p $SCRATCH; fi 
-
-## Copy files to work directory:
-cp ${WRF_EXE}/ozone*            $SCRATCH
-cp ${WRF_EXE}/RRTM*             $SCRATCH
-cp ${WRF_EXE}/wrf.exe           $SCRATCH
-## Change to work directory
-cd ${SCRATCH}
-
-## Run command
-mpirun -np 4 ./wrf.exe
-
-## Finish the script
-exit 0
-
-
-```
-````
-`````
+## 3.4.1.6. Run real.exe
 
