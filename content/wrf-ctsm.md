@@ -62,7 +62,7 @@ WRF-CTS/CTSM/src/cpl/utils/lnd_import_export_utils.F90 from line 128 should look
     [~/WRF-CTSM/CTSM]$ export WRF_CTSM_MKFILE=/cluster/home/$USER/WRF-CTSM/CTSM/ctsm_build_dir/bld/ctsm.mk
 
 ```{discussion} NETCDF
-In addition to the decribed steps, it is necessary to set the path to the Fortran NetCDF on FRAM before running `./configure`.
+In addition to the described steps, it is necessary to set the path to the Fortran NetCDF on FRAM before running `./configure`.
 ```
 Set the path variables
 
@@ -75,7 +75,7 @@ Set the path variables
 When running `./configure` you will be asked for a set of compiler options [1-75]. A good choice is 16. followed by 1 as the nesting option.
 
 ```{discussion} Compiling WRF
-Compiling WRF takes a long time. Therefore, you should put the compiling job into the background. If your conection to FRAM breaks the job will still run!
+Compiling WRF takes a long time. Therefore, you should put the compiling job into the background. If your connection to FRAM breaks the job will still run!
 ```
     [~/WRF-CTSM]$ nohup ./compile em_real 2>&1 > compile.log & 
     
@@ -106,7 +106,9 @@ Because `jasper` is one of the compiler options you have to load two additional 
     
 ## 3.4.1.5. Run WPS Programs
 
-To create boundary conditions we use the WPS programs. 
+To create boundary conditions use the WPS programs. This is an example using ERA5 data: 
+
+
     
 ## Example scripts
 
