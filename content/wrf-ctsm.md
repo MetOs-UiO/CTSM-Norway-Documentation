@@ -227,9 +227,12 @@ run real.exe
 
 Check rsl.error.0000 for the line "real_em: SUCCESS COMPLETE REAL_EM INIT" to know if the program successfully completed. 
 
-## Creating a surface data file
+## Creating a mapping files, domains and surface data. 
+
 
 The first part of this step has do be done on saga currently as saga has the modules NCL and NCO installed. So log in  to saga and install CTSM as above. 
+
+### Creating Mapping files
 
 Copy geo_em.d01.nc to Saga for instance done from Saga: 
 
@@ -393,3 +396,238 @@ Submit the job :
     [~/WRF-CTSM/CTSM/tools/mkmapdata]$ sbatch regridbatch.sh
 
 This will take some hours depending on the size and resolution of your domain you might have to change the available memory per cpu and allocated time and such. 
+
+When this is done you should copy the resulting files back to fram and place them in the corresponding directories there, and the rest is fiished on Fram. 
+
+### Generating domains: 
+
+Create a file in ~/WRF-CTSM/CTSM/cime/tools named configure that contains this: 
+
+    #!/usr/bin/env python3
+
+    """This script writes CIME build information to a directory.
+
+    The pieces of information that will be written include:
+
+    1. Machine-specific build settings (i.e. the "Macros" file).
+    2. File-specific build settings (i.e. "Depends" files).
+    3. Environment variable loads (i.e. the env_mach_specific files).
+
+    The .env_mach_specific.sh and .env_mach_specific.csh files are specific to a
+    given compiler, MPI library, and DEBUG setting. By default, these will be the
+    machine's default compiler, the machine's default MPI library, and FALSE,
+    respectively. These can be changed by setting the environment variables
+    COMPILER, MPILIB, and DEBUG, respectively.
+    """
+
+    # pylint: disable=W1505
+
+    import os
+    import sys
+
+    real_file_dir = os.path.dirname(os.path.realpath(__file__))
+    cimeroot = os.path.abspath(os.path.join(real_file_dir, ".."))
+    sys.path.insert(0, cimeroot)
+
+    from CIME.Tools.standard_script_setup import *
+    from CIME.utils import expect, get_model
+    from CIME.BuildTools.configure import configure
+    from CIME.XML.machines import Machines
+
+    logger = logging.getLogger(__name__)
+
+
+    def parse_command_line(args):
+        """Command line argument parser for configure."""
+        description = __doc__
+        parser = argparse.ArgumentParser(description=description)
+        CIME.utils.setup_standard_logging_options(parser)
+
+        parser.add_argument(
+            "--machine", help="The machine to create build information for."
+        )
+        parser.add_argument(
+            "--machines-dir",
+            help="The machines directory to take build information "
+            "from. Overrides the CIME_MODEL environment variable, "
+            "and must be specified if that variable is not set.",
+        )
+        parser.add_argument(
+            "--macros-format",
+            action="append",
+            choices=["Makefile", "CMake"],
+            help="The format of Macros file to generate. If "
+            "'Makefile' is passed in, a file called 'Macros.make' "
+            "is generated. If 'CMake' is passed in, a file called "
+            "'Macros.cmake' is generated. This option can be "
+            "specified multiple times to generate multiple files. "
+            "If not used at all, Macros generation is skipped. "
+            "Note that Depends files are currently always in "
+            "Makefile format, regardless of this option.",
+        )
+        parser.add_argument(
+            "--output-dir",
+            default=os.getcwd(),
+            help="The directory to write files to. If not "
+            "specified, defaults to the current working directory.",
+        )
+
+        parser.add_argument(
+            "--compiler",
+            "-compiler",
+            help="Specify a compiler. "
+            "To see list of supported compilers for each machine, use the utility query_config in this directory",
+        )
+
+        parser.add_argument(
+            "--mpilib",
+            "-mpilib",
+            help="Specify the mpilib. "
+            "To see list of supported mpilibs for each machine, use the utility query_config in this directory. "
+            "The default is the first listing in MPILIBS in config_machines.xml",
+        )
+
+        parser.add_argument(
+            "--clean",
+            action="store_true",
+            help="Remove old Macros and env files before attempting to create new ones",
+        )
+
+        parser.add_argument(
+            "--comp-interface",
+            default="mct",
+            help="""The cime driver/cpl interface to use.""",
+        )
+
+        argcnt = len(args)
+        args = parser.parse_args()
+        CIME.utils.parse_args_and_handle_standard_logging_options(args)
+
+        opts = {}
+        if args.machines_dir is not None:
+            machines_file = os.path.join(args.machines_dir, "config_machines.xml")
+            machobj = Machines(infile=machines_file, machine=args.machine)
+        else:
+            model = get_model()
+            if model is not None:
+                machobj = Machines(machine=args.machine)
+            else:
+                expect(
+                    False,
+                    "Either --mach-dir or the CIME_MODEL environment "
+                    "variable must be specified!",
+                )
+
+        opts["machobj"] = machobj
+
+        if args.macros_format is None:
+            opts["macros_format"] = []
+        else:
+            opts["macros_format"] = args.macros_format
+
+        expect(
+            os.path.isdir(args.output_dir),
+            "Output directory '%s' does not exist." % args.output_dir,
+        )
+
+        opts["output_dir"] = args.output_dir
+
+        # Set compiler.
+        if args.compiler is not None:
+            compiler = args.compiler
+        elif "COMPILER" in os.environ:
+            compiler = os.environ["COMPILER"]
+        else:
+            compiler = machobj.get_default_compiler()
+            os.environ["COMPILER"] = compiler
+        expect(
+            opts["machobj"].is_valid_compiler(compiler),
+            "Invalid compiler vendor given in COMPILER environment variable: %s" % compiler,
+        )
+        opts["compiler"] = compiler
+        opts["os"] = machobj.get_value("OS")
+        opts["comp_interface"] = args.comp_interface
+
+        if args.clean:
+            files = [
+                "Macros.make",
+                "Macros.cmake",
+                "env_mach_specific.xml",
+                ".env_mach_specific.sh",
+                ".env_mach_specific.csh",
+                "Depends.%s" % compiler,
+                "Depends.%s" % args.machine,
+                "Depends.%s.%s" % (args.machine, compiler),
+            ]
+            for file_ in files:
+                if os.path.isfile(file_):
+                    logger.warn("Removing file %s" % file_)
+                    os.remove(file_)
+            if argcnt == 2:
+                opts["clean_only"] = True
+                return opts
+
+        # Set MPI library.
+        if args.mpilib is not None:
+            mpilib = args.mpilib
+        elif "MPILIB" in os.environ:
+            mpilib = os.environ["MPILIB"]
+        else:
+            mpilib = machobj.get_default_MPIlib(attributes={"compiler": compiler})
+            os.environ["MPILIB"] = mpilib
+
+        expect(
+            opts["machobj"].is_valid_MPIlib(mpilib, attributes={"compiler": compiler}),
+            "Invalid MPI library name given in MPILIB environment variable: %s" % mpilib,
+        )
+        opts["mpilib"] = mpilib
+
+        # Set DEBUG flag.
+        if "DEBUG" in os.environ:
+            expect(
+                os.environ["DEBUG"].lower() in ("true", "false"),
+                "Invalid DEBUG environment variable value (must be 'TRUE' or "
+                "'FALSE'): %s" % os.environ["DEBUG"],
+            )
+            debug = os.environ["DEBUG"].lower() == "true"
+        else:
+            debug = False
+            os.environ["DEBUG"] = "FALSE"
+        opts["debug"] = debug
+
+        return opts
+
+
+    def _main():
+        opts = parse_command_line(sys.argv)
+        if "clean_only" not in opts or not opts["clean_only"]:
+            configure(
+                opts["machobj"],
+                opts["output_dir"],
+                opts["macros_format"],
+                opts["compiler"],
+                opts["mpilib"],
+                opts["debug"],
+                opts["comp_interface"],
+                opts["os"],
+            )
+
+
+    if __name__ == "__main__":
+        _main()
+
+Give the file permission s to execute: 
+
+    [~/WRF-CTSM/CTSM/cime/tools]$ chmod +x configure
+
+go to ~/WRF-CTSM/CTSM/cime/tools/mapping/gen_domain_files/src and run it from there
+
+    [~/WRF-CTSM/CTSM/cime/tools/mapping/gen_domain_files/src]$ ../../../configure --machine fram --compiler intel --mpilib impi --macros-format Makefile
+
+    [~/WRF-CTSM/CTSM/cime/tools/mapping/gen_domain_files/src]$ . ./.env_mach_specific.sh ; make
+
+move one folder up and renerate the domain with the mapping file as input : 
+
+    [~/WRF-CTSM/CTSM/cime/tools/mapping/gen_domain_files/src]$ cd ..
+    [~/WRF-CTSM/CTSM/cime/tools/mapping/gen_domain_files]$ ./gen_domain -m ~/WRF-CTSM/CTSM/tools/mkmapdata/wrf2clm_mapping.nc -o wrf2clm_ocn_noneg -l wrf2clm_lnd_noneg
+    
