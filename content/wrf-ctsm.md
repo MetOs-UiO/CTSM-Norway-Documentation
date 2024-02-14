@@ -225,4 +225,171 @@ run real.exe
 
     [~/WRF-CTSM/run]$ mpirun -np 2 ./real.exe
 
-Check rsl.error.0000 for the line "real_em: SUCCESS COMPLETE REAL_EM INIT" to know if the program succesfully completed. 
+Check rsl.error.0000 for the line "real_em: SUCCESS COMPLETE REAL_EM INIT" to know if the program successfully completed. 
+
+## Creating a surface data file
+
+The first part of this step has do be done on saga currently as saga has the modules NCL and NCO installed. So log in  to saga and install CTSM as above. 
+
+Copy geo_em.d01.nc to Saga for instance done from Saga: 
+
+    [~]$ scp gunnartl@fram.sigma2.no:~/WRF-CTSM/WPS/geo_em.d01.nc .
+
+cd to the contrib folder
+
+    [~]$ cd WRF-CTSM/CTSM/tools/contrib
+
+and edit create_scrip_file.ncl to fit the newly added geo_em file. 
+
+    line 15ish: wrf_file  = addfile("~/geo_em.d01.nc", "r")
+
+laod NCL and run create_scrip_file.ncl
+
+    [~/WRF-CTSM/CTSM/tools/contrib]$ ml NCL/6.6.2-foss-2021a
+    [~/WRF-CTSM/CTSM/tools/contrib]$ ncl create_scrip_file.ncl
+
+this creates two files: wrf2clm_land.nc and wrf2clm_ocean.nc. Now cd to ../site_and_regional where the lines 74-78 are commented out in mkunitymap.ncl: 
+
+    ;if ( any(ncb->grid_imask .ne. 1.0d00) )then
+    ;   print( "ERROR: the mask of the second file isn't identically 1!" );
+    ;   print( "(second file should be land grid file)");
+    ;   exit
+    ;end if
+
+set the names of the inputfiles just created and the name of the outputfile: 
+
+    [~/WRF-CTSM/CTSM/tools/contrib]$ export GRIDFILE1='/cluster/home/$USER/WRF-CTSM/CTSM/tools/contrib/wrf2clm_ocean.nc'
+    [~/WRF-CTSM/CTSM/tools/contrib]$ export GRIDFILE2='/cluster/home/$USER/WRF-CTSM/CTSM/tools/contrib/wrf2clm_land.nc'
+    [~/WRF-CTSM/CTSM/tools/contrib]$ export MAPFILE='wrf2clm_mapping.nc'
+    [~/WRF-CTSM/CTSM/tools/contrib]$ PRINT=TRUE
+
+cd to ../mkmapdata and create the file regridbatch.sh that looks like this: 
+
+    #!/bin/bash
+    #
+    #
+    # Batch script to submit to create mapping files for all standard
+    # resolutions.  If you provide a single resolution via "$RES", only
+    # that resolution will be used. In that case: If it is a regional or
+    # single point resolution, you should set '#PBS -n' to 1, and be sure
+    # that '-t regional' is specified in cmdargs.
+    #
+    #SBATCH --account=nn2806k 
+    #SBATCH --job-name=mkmapdata
+    #SBATCH --mem-per-cpu=124G
+    #SBATCH --ntasks=1
+    #SBATCH --time=03:00:00
+
+    source /cluster/bin/jobsetup
+    module load ESMF/8.1.1-foss-2021a
+    module load NCO/5.0.1-foss-2021a
+    module load NCL/6.6.2-foss-2021a
+
+    export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lnetcdf_c++"
+    #export ESMF_DIR=/usit/abel/u1/huit/ESMF/esmf
+    export ESMF_COMPILER=intel
+    export ESMF_COMM=openmpi
+    #export ESMF_NETCDF="test"
+    export ESMF_NETCDF_LIBPATH=/cluster/software/ESMF/8.1.1-foss-2021a/lib
+    export ESMF_NETCDF_INCLUDE=/cluster/software/ESMF/8.1.1-foss-2021a/include
+    ulimit -s unlimited
+    
+    export ESMFBIN_PATH=/cluster/software/ESMF/8.1.1-foss-2021a/bin
+    export CSMDATA=/cluster/shared/noresm/inputdata
+    export MPIEXEC=mpirun
+
+    RES=1x1
+    GRIDFILE=/cluster/home/gunnartl/WRF-CTSM/CTSM/tools/contrib/wrf2clm_land.nc
+    phys="clm4_5"
+
+    #----------------------------------------------------------------------
+    # Set parameters
+    #----------------------------------------------------------------------
+
+    #----------------------------------------------------------------------
+    # Begin main script
+    #----------------------------------------------------------------------
+
+    if [ -z "$RES" ]; then
+    echo "Run for all valid resolutions"
+    resols=`../../bld/queryDefaultNamelist.pl -res list -silent`
+    if [ ! -z "$GRIDFILE" ]; then
+        echo "When GRIDFILE set RES also needs to be set for a single resolution"
+        exit 1
+    fi
+    else
+    resols="$RES"
+    fi
+    if [ -z "$GRIDFILE" ]; then
+    grid=""
+    else
+    if [[ ${#resols[@]} > 1 ]]; then
+        echo "When GRIDFILE is specificed only one resolution can also be given (# resolutions ${#resols[@]})"
+        echo "Resolutions input is: $resols"
+        exit 1
+    fi
+    grid="-f $GRIDFILE"
+    fi
+
+    if [ -z "$MKMAPDATA_OPTIONS" ]; then
+    echo "Run with standard options"
+    options=" "
+    else
+    options="$MKMAPDATA_OPTIONS"
+    fi
+    echo "Create mapping files for this list of resolutions: $resols"
+
+    #----------------------------------------------------------------------
+
+    for res in $resols; do
+    echo "Create mapping files for: $res"
+    #----------------------------------------------------------------------
+    cmdargs="-r $res $grid $options"
+
+    # For single-point and regional resolutions, tell mkmapdata that
+    # output type is regional
+    if [[ `echo "$res" | grep -c "1x1"` -gt 0 || `echo "$res" | grep -c "5x5_"` -gt 0 ]]; then
+        res_type="regional"
+    else
+        res_type="global"
+    fi
+    # Assume if you are providing a gridfile that the grid is regional
+    if [ $grid != "" ];then
+        res_type="regional"
+    fi
+
+    cmdargs="$cmdargs -t $res_type"
+
+    echo "$res_type"
+    if [ "$res_type" = "regional" ]; then
+        echo "regional"
+        # For regional and (especially) single-point grids, we can get
+        # errors when trying to use multiple processors - so just use 1.
+        # We also do NOT set batch mode in this case, because some
+        # machines (e.g., yellowstone) do not listen to REGRID_PROC, so to
+        # get a single processor, we need to run mkmapdata.sh in
+        # interactive mode.
+        regrid_num_proc=1
+    else
+        echo "global"
+        regrid_num_proc=8
+        if [ ! -z "$LSFUSER" ]; then
+            echo "batch"
+        cmdargs="$cmdargs -b"
+        fi
+        if [ ! -z "$PBS_O_WORKDIR" ]; then
+            cd $PBS_O_WORKDIR
+        cmdargs="$cmdargs -b"
+        fi
+    fi
+
+    echo "args: $cmdargs"
+    echo "time env REGRID_PROC=$regrid_num_proc ./mkmapdata.sh $cmdargs\n"
+    time env REGRID_PROC=$regrid_num_proc ./mkmapdata.sh $cmdargs
+    done
+
+Submit the job : 
+
+    [~/WRF-CTSM/CTSM/tools/mkmapdata]$ sbatch regridbatch.sh
+
+This will take some hours depending on the size and resolution of your domain you might have to change the available memory per cpu and allocated time and such. 
