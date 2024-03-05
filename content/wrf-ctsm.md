@@ -171,7 +171,7 @@ Link the metfiles to the run directory.
 
     [~/WRF-CTSM/run]$ ln -sf ../WPS/met_em.d* .
 
-Edit namelist.input sections time_controll and domains so i fits your times and your domain. Here: 
+Edit namelist.input sections time_control and domains so i fits your times and your domain. Here: 
 
     &time_control
     run_days                            = 0,
