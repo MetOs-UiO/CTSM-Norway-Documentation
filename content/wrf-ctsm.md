@@ -19,9 +19,9 @@ What follows here is a modified version of that workflow that works on the SIGMA
     [~/WRF-CTSM/CTSM]$ ./manage_externals/checkout_externals
 
 
-change the content of WRF-CTS/CTSM/src/cpl/utils/lnd_import_export_utils.F90 and WRF-CTSM/phys/module_sf_mynn.F 
+change the content of WRF-CTSM/CTSM/src/cpl/utils/lnd_import_export_utils.F90 and WRF-CTSM/phys/module_sf_mynn.F 
 
-WRF-CTSM/phys/module_sf_mynn.F from line 1147 should look like this (that is insert the if-block in the middle):
+WRF-CTSM/phys/module_sf_mynn.F from line 1147 should look like this (that is insert the if-blocks in the middle):
 
         Q2(I)=QSFCMR(I)+(QV1D(I)-QSFCMR(I))*PSIQ2/PSIQ
         Q2(I)= MAX(Q2(I), MIN(QSFCMR(I), QV1D(I)))
@@ -41,7 +41,7 @@ WRF-CTSM/phys/module_sf_mynn.F from line 1147 should look like this (that is ins
         IF ( debug_code ) THEN
             yesno = 0
 
-WRF-CTS/CTSM/src/cpl/utils/lnd_import_export_utils.F90 from line 128 should look like this: 
+WRF-CTSM/CTSM/src/cpl/utils/lnd_import_export_utils.F90 from line 128 should look like this: 
 
        end if
        if ( wateratm2lndbulk_inst%forc_q_not_downscaled_grc(g) < 0.0_r8 )then
@@ -109,14 +109,14 @@ If ungrib.exe is not created just do a module purge and load everything except l
 
 To create boundary conditions use the WPS programs. This is an example using ERA5 data for a 48 hour run from from October 6th-8th 2016. 
 
-Edit namelist.wps : 
+Edit the &share section of namelist.wps : 
 
     &share
-    wrf_core = 'ARW',
-    max_dom = 1,
-    start_date = '2016-10-06_00:00:00',
-    end_date   = '2016-10-08_00:00:00',
-    interval_seconds = 21600
+     wrf_core = 'ARW',
+     max_dom = 1,
+     start_date = '2016-10-06_00:00:00',
+     end_date   = '2016-10-08_00:00:00',
+     interval_seconds = 21600
     /
 
 Link the appropriate table to the folder, for ERA5 this is the ECMWF table. For other data google will be your friend. 
@@ -125,40 +125,41 @@ Link the appropriate table to the folder, for ERA5 this is the ECMWF table. For 
 
 make a folder for the data you need and link the data there : 
 
-    [~/WRF-CTSM/WPS]$ mkdir DATA
-    [~/WRF-CTSM/WPS]$ cd DATA
-    [~/WRF-CTSM/WPS/DATA]$ ln /cluster/shared/wrf/climate/ERA5_EUR/ERA5_grib1_2016/*20161006* .
-    [~/WRF-CTSM/WPS/DATA]$ ln /cluster/shared/wrf/climate/ERA5_EUR/ERA5_grib1_2016/*20161007* .
-    [~/WRF-CTSM/WPS/DATA]$ ln /cluster/shared/wrf/climate/ERA5_EUR/ERA5_grib1_2016/*20161008* .
+    [~/WRF-CTSM/WPS]$ mkdir ../DATA
+    [~/WRF-CTSM/WPS]$ cd ../DATA
+    [~/WRF-CTSM/DATA]$ ln -sf /cluster/shared/wrf/climate/ERA5_EUR/ERA5_grib1_2016/*20161006* .
+    [~/WRF-CTSM/DATA]$ ln -sf /cluster/shared/wrf/climate/ERA5_EUR/ERA5_grib1_2016/*20161007* .
+    [~/WRF-CTSM/DATA]$ ln -sf /cluster/shared/wrf/climate/ERA5_EUR/ERA5_grib1_2016/*20161008* .
 
 Link the grib data: 
 
-    [~/WRF-CTSM/WPS]$ ./link_grib.csh DATA
+    [~/WRF-CTSM/WPS]$ ./link_grib.csh ../DATA/
 
 Rung ungrib.exe
 
     [~/WRF-CTSM/WPS]$ ./ungrib.exe
 
-Edit namelist.wps again to fit your domain and , here a portion of South Norway: 
+Edit the geogrid-setion of namelist.wps to fit your domain and , here a portion of South Norway: 
 
     &geogrid
-    parent_id         =   1,
-    parent_grid_ratio =   1, 
-    i_parent_start    =   1,
-    j_parent_start    =   1,
-    e_we              =   121,
-    e_sn              =   91,
-    geog_data_res = 'default',
-    dx = 5000,
-    dy = 5000,
-    map_proj = 'mercator',
-    ref_lat   =  61.6,
-    ref_lon   =   9.4,
-    truelat1  =  30.0,
-    truelat2  =  60.0,
-    stand_lon =   0,
-    geog_data_path = '/cluster/shared/wrf/geog'
+     parent_id         =   1,
+     parent_grid_ratio =   1, 
+     i_parent_start    =   1,
+     j_parent_start    =   1,
+     e_we              =   121,
+     e_sn              =   91,
+     geog_data_res = 'default',
+     dx = 5000,
+     dy = 5000,
+     map_proj = 'mercator',
+     ref_lat   =  61.6,
+     ref_lon   =   9.4,
+     truelat1  =  30.0,
+     truelat2  =  60.0,
+     stand_lon =   0,
+     geog_data_path = '/cluster/shared/wrf/geog'
     /
+
 
 Run Geogrid and metgrid
 
@@ -168,9 +169,9 @@ Run Geogrid and metgrid
 ## 3.4.1.6. Run real.exe
 Link the metfiles to the run directory. 
 
-    [~/WRF-CTSM/run]$ ln -sf ../WPS/met_em.do* .
+    [~/WRF-CTSM/run]$ ln -sf ../WPS/met_em.d* .
 
-Edit namelist.input so i fits your times and your domain. Here: 
+Edit namelist.input sections time_controll and domains so i fits your times and your domain. Here: 
 
     &time_control
     run_days                            = 0,
@@ -265,6 +266,8 @@ set the names of the inputfiles just created and the name of the outputfile:
     [~/WRF-CTSM/CTSM/tools/contrib]$ export GRIDFILE2='/cluster/home/$USER/WRF-CTSM/CTSM/tools/contrib/wrf2clm_land.nc'
     [~/WRF-CTSM/CTSM/tools/contrib]$ export MAPFILE='wrf2clm_mapping.nc'
     [~/WRF-CTSM/CTSM/tools/contrib]$ PRINT=TRUE
+    [~/WRF-CTSM/CTSM/tools/contrib]$ ncl mkunitymap.ncl
+
 
 cd to ../mkmapdata and create the file regridbatch.sh that looks like this: 
 
@@ -396,6 +399,11 @@ Submit the job :
     [~/WRF-CTSM/CTSM/tools/mkmapdata]$ sbatch regridbatch.sh
 
 This will take some hours depending on the size and resolution of your domain you might have to change the available memory per cpu and allocated time and such. 
+ie. : 
+
+#SBATCH --mem-per-cpu=128G --partition=bigmem                                                                                                                                                                      
+#SBATCH --ntasks=8                                                                                                                                                                                                 
+#SBATCH --time=15:00:00   
 
 When this is done you should copy the resulting files back to fram and place them in the corresponding directories there, and the rest is fiished on Fram. 
 
@@ -630,4 +638,27 @@ move one folder up and renerate the domain with the mapping file as input :
 
     [~/WRF-CTSM/CTSM/cime/tools/mapping/gen_domain_files/src]$ cd ..
     [~/WRF-CTSM/CTSM/cime/tools/mapping/gen_domain_files]$ ./gen_domain -m ~/WRF-CTSM/CTSM/tools/mkmapdata/wrf2clm_mapping.nc -o wrf2clm_ocn_noneg -l wrf2clm_lnd_noneg
-    
+
+### Generating Surface data
+
+cd to ~/WRF-CTSM/CTSM/tools/mksurfdata_map/src and edit Makefile.common change lines 33 and 37: sp they say;  
+
+    LIB_NETCDF := /cluster/software/netCDF-Fortran/4.6.0-iimpi-2022a/lib
+    INC_NETCDF := /cluster/software/netCDF-Fortran/4.6.0-iimpi-2022a/include
+
+laod NETcdf module and make: 
+
+    [~/wrf-ctsm/CTSM/tools/mksurfdata_map/src]$ ml netCDF-Fortran/4.6.0-iimpi-2022a
+    [~/wrf-ctsm/CTSM/tools/mksurfdata_map/src]$ gmake
+    [~/wrf-ctsm/CTSM/tools/mksurfdata_map/src]$ cd ..
+
+edit mksurfdata.pl line 830 so that it says (just remove the underscore):
+
+    if (index($res, '1x1') != -1) {
+
+and run mksurfdata.pl to create surface files:
+
+    ./mksurfdata.pl -res usrspec -usr_gname "1x1" -usr_gdate "240208" -usr_mapdir "/cluster/home/$USER/WRF-CTSM/CTSM/tools/mkmapdata" -y 2000 -exedir "/cluster/home/$USER/WRF-CTSM/CTSM/tools/mksurfdata_map" -no-crop -dinlc /cluster/shared/noresm/inputdata
+
+"1x1" denotes the regional run, "240208" should be changed according to the date when mapping files resulting from ./regridbatch.sh were created which can be checked in their .nc names under /cluster/home/$USER/WRF-CTSM/CTSM/tools/mkmapdata, "-y 2000" refers to the present day year, "-dinlc" denotes the location of the rawdata
+
