@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Run CTSM &mdash; CTSM-Norway  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/minipres.js"></script>
+        <script src="../_static/tabs.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Spin-up CTSM" href="../spinup/" />
+    <link rel="prev" title="Get CTSM" href="../get/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            CTSM-Norway
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Prerequisite</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../prerequisite/">Prerequisites</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Content</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start-single-point/">Single Point Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get/">Get CTSM</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Run CTSM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#use-your-project">Use your project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#environmental-variables">Environmental variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#your-first-ctsm-case">Your first CTSM case</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-case">Create a case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-your-case">Configure your case</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-a-fates-case">Running a FATES case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-a-single-cell-case">Run a single cell case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-a-single-cell-case-by-creating-surface-data-tested-with-ctsm5-1-dev081">Run a single cell case by creating surface data (tested with ctsm5.1.dev081)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-subset-data">Create subset data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-case-for-finse-site-simulation-using-the-bash-script">create a case for finse site simulation using the bash script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#run-a-regional-case">Run a regional case</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#domain-and-surface-data">Domain and surface data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-case-for-the-compset-of-your-interest">Create a case for the compset of your interest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inputdata">Inputdata</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#customizing-the-clm-namelist">Customizing the CLM namelist</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-and-submit-the-case">Build and submit the case</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#example-scripts">Example scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#regional-simulations">Regional simulations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../spinup/">Spin-up CTSM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrf-ctsm/">WRF-CTSM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop/">Tips for developing CTSM</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../license/">Credit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution/">Contribution</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">CTSM-Norway</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Run CTSM</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/MetOs-UiO/CTSM-Norway-Documentation/blob/main/content/run.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="run-ctsm">
+<h1>Run CTSM<a class="headerlink" href="#run-ctsm" title="Permalink to this heading"></a></h1>
+<p>The <a class="reference external" href="https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/setting-up-and-running-a-case/index.html">original documentation</a> gives a detailed description of how to create and run a case. If this is the first time you use CTSM you should always start there.</p>
+<p>The examples you can find on this page are tailored to the Norwegian clusters.</p>
+<section id="use-your-project">
+<h2>Use your project<a class="headerlink" href="#use-your-project" title="Permalink to this heading"></a></h2>
+<p>For running CTSM on the Norwegian cluster you will be affiliated with a project account.
+To check which project you are affiliated with can run by typing</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/HOME]$ projects
+</pre></div>
+</div>
+<p>after logging into a remote HPC-cluster. This will return something that looks like this</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nn2806k
+nn1000k
+</pre></div>
+</div>
+<p>In the example above, two projects can be used (nn2806k and nn1000k). Most of our examples are connected to project <code class="docutils literal notranslate"><span class="pre">nn2806k</span></code>. The project you are affiliated with will depend on the account you used when you applied for resources. Make sure you choose the right project when running CTSM.</p>
+<div class="admonition-change-account discussion important admonition" id="discussion-0">
+<p class="admonition-title">Change account  </p>
+<p>To change the variable <code class="docutils literal notranslate"><span class="pre">CESM_ACCOUNT</span></code> in a script</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>export CESM_ACCOUNT=nn2806k
+</pre></div>
+</div>
+</div>
+<section id="environmental-variables">
+<h3>Environmental variables<a class="headerlink" href="#environmental-variables" title="Permalink to this heading"></a></h3>
+<p>Along with the proper definition of your project, you should make sure that some other environmental variables are properly defined.</p>
+<p>An example of environmental variables your might want to change are</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/HOME]$ export CESM_ACCOUNT=nn2806k
+[~/HOME]$ export PROJECT=nn2806k
+[~/HOME]$ export CTSM_ROOT=/cluster/home/$USER/ctsm
+
+[~/HOME]$ export INC_NETCDF=/cluster/software/netCDF/4.4.0-intel-2016a/
+[~/HOME]$ export LIB_NETCDF=/cluster/software/netCDF/4.4.0-intel-2016a/
+[~/HOME]$ export NETCDF_ROOT=/cluster/software/netCDF/4.4.0-intel-2016a/
+</pre></div>
+</div>
+<p>You can store all these variables in a shell script file and enable them in your workspace by sourcing that file.
+E.g. create a file in <code class="docutils literal notranslate"><span class="pre">~/Workspace/scripts/</span></code> called <code class="docutils literal notranslate"><span class="pre">ctsm_setup.sh</span></code> with the following content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export CESM_ACCOUNT=nn2806k
+export PROJECT=nn2806k
+export CTSM_ROOT=/cluster/home/$USER/Workspace/ctsm
+export CESM_DATA=/cluster/shared/noresm/inputdata
+</pre></div>
+</div>
+<p>You can now run <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/Workspace/scripts/ctsm_setup.sh</span></code> to activate all these variables.</p>
+</section>
+</section>
+<section id="your-first-ctsm-case">
+<h2>Your first CTSM case<a class="headerlink" href="#your-first-ctsm-case" title="Permalink to this heading"></a></h2>
+<div class="admonition-updating-fates discussion important admonition" id="discussion-1">
+<p class="admonition-title">Updating Fates?  </p>
+<p>If you are updating FATES go <a class="reference external" href="https://github.com/NordicESMhub/ctsm-dev/blob/master/Updating_FATES.md">here</a> first.</p>
+</div>
+<div class="admonition-for-reference-manage-externals discussion important admonition" id="discussion-2">
+<p class="admonition-title">For reference: manage_externals  </p>
+<p>Whenever you want to update to the most recent version of the external components, you need to rerun the command below.</p>
+<p>If you are doing changes to the code, remember to create your own branches for the external repositories before you run the command (see <a class="reference external" href="https://metos-uio.github.io/CTSM-Norway-Documentation/get/#from-the-nordicesm-hub">here</a>).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/CTSM_ROOT]$ ./manage_externals/checkout_externals
+</pre></div>
+</div>
+<p>Read more about how <code class="docutils literal notranslate"><span class="pre">manage_externals/checkout_externals</span></code> work <a class="reference external" href="https://github.com/ESMCI/manage_externals">here</a>.</p>
+</div>
+<section id="create-a-case">
+<h3>Create a case<a class="headerlink" href="#create-a-case" title="Permalink to this heading"></a></h3>
+<p>Before you can run the model you must create a new case.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/CTSM_ROOT/cime/scripts]$ ./create_newcase --case ~/cases/I2000Clm50BgcCruGs  --compset I2000Clm50BgcCruGs   --res f19_g17 --machine saga --run-unsupported --project $CESM_ACCOUNT
+</pre></div>
+</div>
+<p>Make sure that you set the arguments for <code class="docutils literal notranslate"><span class="pre">--machine</span></code> and <code class="docutils literal notranslate"><span class="pre">--project</span></code> which are relevant for yourself.</p>
+</section>
+<section id="configure-your-case">
+<h3>Configure your case<a class="headerlink" href="#configure-your-case" title="Permalink to this heading"></a></h3>
+<p>To properly configure your case there are several steps you might need to do.</p>
+<ol class="arabic">
+<li><p>Navigate to your newly created case folder</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> [~/CTSM_ROOT/cime/scripts]$ cd ~/cases/I2000Clm50BgcCruGs
+</pre></div>
+</div>
+</li>
+<li><p>Check the current configuration</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> [~/cases/I2000Clm50BgcCruGs]$ ./xmlquery --l #(--l list --f file) 
+</pre></div>
+</div>
+<p>e.g.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> [~/cases/I2000Clm50BgcCruGs]$ ./xmlquery STOP_OPTION
+</pre></div>
+</div>
+</li>
+<li><p>Change the current configuration</p>
+<p>For instance, you might want to change the duration of a simulation to 5 days:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> [~/cases/I2000Clm50BgcCruGs]$ ./xmlchange STOP_OPTION=ndays #(nyears, nmonths)
+ [~/cases/I2000Clm50BgcCruGs]$ ./xmlchange STOP_N=5 #(then 5 days)
+</pre></div>
+</div>
+<div class="admonition-xlm-files discussion important admonition" id="discussion-3">
+<p class="admonition-title">xlm-files</p>
+<p>To manually edit the <code class="docutils literal notranslate"><span class="pre">*.xlm</span></code>-files is <strong>not</strong> recommended!</p>
+</div>
+</li>
+<li><p>Setup your case</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> [~/cases/I2000Clm50BgcCruGs]$ ./case.setup 
+</pre></div>
+</div>
+</li>
+<li><p>Change history filelds</p>
+<p>The history filelds controls which variables that are written to file during a run. <code class="docutils literal notranslate"><span class="pre">hist_mfilt</span></code> allows you to specify the number of output
+files and <code class="docutils literal notranslate"><span class="pre">hist_nhtfrq</span></code> the frequency.</p>
+<p>To change the history files you can edit the <code class="docutils literal notranslate"><span class="pre">user_nl_clm.xlm</span></code> add the following lines below</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> hist_mfilt=5 #(number of output files)
+ hist_nhtfrq=-24 #(means daily outputs)
+</pre></div>
+</div>
+</li>
+<li><p>Build your case</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> [~/cases/I2000Clm50BgcCruGs]$ ./case.build
+</pre></div>
+</div>
+<div class="admonition-build-failed discussion important admonition" id="discussion-4">
+<p class="admonition-title">Build failed?  </p>
+<p>Make sure you clean the previous build</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/cases/I2000Clm50BgcCruGs] ./case.build --clean
+</pre></div>
+</div>
+</div>
+</li>
+<li><p>Run your case</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> [~/cases/I2000Clm50BgcCruGs]$ ./case.submit 
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="running-a-fates-case">
+<h2>Running a FATES case<a class="headerlink" href="#running-a-fates-case" title="Permalink to this heading"></a></h2>
+<p>Follow the tips given at <a class="reference external" href="https://github.com/ESCOMP/ctsm/wiki/Protocols-on-updating-FATES-within-CTSM">ESCOMP guide</a>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/CTSM_ROOT/cime/scripts]$ ./create_newcase --case ../../../ctsm_cases/fates_f19_g17 --compset 2000_DATM%GSWP3v1_CLM50%FATES_SICE_SOCN_MOSART_SGLC_SWAV --res f19_g17 --machine saga --run-unsupported --project $CESM_ACCOUNT
+</pre></div>
+</div>
+</section>
+<section id="run-a-single-cell-case">
+<h2>Run a single cell case<a class="headerlink" href="#run-a-single-cell-case" title="Permalink to this heading"></a></h2>
+<p>CLM supports running single-point simulations. Available options are summarized at <a class="reference external" href="https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/single-point-and-regional-grid-configurations.html#single-and-regional-grid-configurations">ESCOMP guide</a>.</p>
+<p>For testing purpose, we recommend running a single point using global data, i.e., <a class="reference external" href="https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/running-pts_mode-configurations.html#running-a-single-point-using-global-data-pts-mode">PTS_MODE</a>. Below we show you how to create a single-point case using global data.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/CTSM_ROOT/cime/scripts]$ export CESM_ACCOUNT=nn2806k
+[~/CTSM_ROOT/cime/scripts]$ ./create_newcase --case ~/cases/testPTS_MODE --res f19_g17_gl4 --compset I1850Clm50BgcCropCru --machine saga --run-unsupported --project $CESM_ACCOUNT
+</pre></div>
+</div>
+<p>Now go to the new case folder and update the point latitude and longitude:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/cases/testPTS_MODE] ./xmlchange PTS_LAT=40.0
+[~/cases/testPTS_MODE] ./xmlchange PTS_LON=-105
+</pre></div>
+</div>
+<p>For dedicated single-cell simulation in order to compare with site-level observation data, we recommend running single-cell simulation using your own datasets following the examples (1.6.3.4 - 1.6.3.6) from <a class="reference external" href="https://escomp.github.io/ctsm-docs/versions/master/html/users_guide/running-single-points/running-single-point-configurations.html#example-using-clm-usrdat-name-to-run-a-simulation-using-user-datasets-for-a-specific-region-over-alaska">ESCOMP guide</a>.</p>
+<p>There are dedicated tools and workflow for running single-cell simulations over Norwegian ecological observation sites using CLM and CLM-FATES, please check <a class="reference external" href="https://github.com/NorESMhub/NorESM_LandSites_Platform">NorESM_LandSites_Platform</a> and follow the instructions there.</p>
+</section>
+<section id="run-a-single-cell-case-by-creating-surface-data-tested-with-ctsm5-1-dev081">
+<h2>Run a single cell case by creating surface data (tested with ctsm5.1.dev081)<a class="headerlink" href="#run-a-single-cell-case-by-creating-surface-data-tested-with-ctsm5-1-dev081" title="Permalink to this heading"></a></h2>
+<p>CLM also supports running single-point simulations by creating single point surface data.</p>
+<section id="create-subset-data">
+<h3>Create subset data<a class="headerlink" href="#create-subset-data" title="Permalink to this heading"></a></h3>
+<ul>
+<li><p>Create a conda environment and install the following in it: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">numpy</span> <span class="pre">xarray</span> <span class="pre">netcdf4</span> <span class="pre">cftime</span></code>.</p></li>
+<li><p>Make sure you have the latest version of git loaded on your system (the default git on Fram and Saga as of 25/2/2022 is 1.8, which doesn’t support some of the flags used by <code class="docutils literal notranslate"><span class="pre">subset_data.py</span></code>): e.g. <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">git/2.33.1-GCCore-11.2.0-nodocs</span></code>.</p></li>
+<li><p>Go to <code class="docutils literal notranslate"><span class="pre">$CTSM_ROOT/tools/site_and_regional</span></code> and edit <code class="docutils literal notranslate"><span class="pre">default_data.cfg</span></code> with to the following diff:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">--</span><span class="n">git</span> <span class="n">a</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">site_and_regional</span><span class="o">/</span><span class="n">default_data</span><span class="o">.</span><span class="n">cfg</span> <span class="n">b</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">site_and_regional</span><span class="o">/</span><span class="n">default_data</span><span class="o">.</span><span class="n">cfg</span>
+<span class="n">index</span> <span class="n">f689c9904</span><span class="o">..</span><span class="n">a1f8347b7</span> <span class="mi">100644</span>
+<span class="o">---</span> <span class="n">a</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">site_and_regional</span><span class="o">/</span><span class="n">default_data</span><span class="o">.</span><span class="n">cfg</span>
+<span class="o">+++</span> <span class="n">b</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">site_and_regional</span><span class="o">/</span><span class="n">default_data</span><span class="o">.</span><span class="n">cfg</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span> <span class="o">@@</span>
+<span class="p">[</span><span class="n">main</span><span class="p">]</span>
+<span class="o">-</span><span class="n">clmforcingindir</span> <span class="o">=</span> <span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">p</span><span class="o">/</span><span class="n">cesmdata</span><span class="o">/</span><span class="n">inputdata</span>
+<span class="o">+</span><span class="n">clmforcingindir</span> <span class="o">=</span> <span class="o">/</span><span class="n">cluster</span><span class="o">/</span><span class="n">shared</span><span class="o">/</span><span class="n">noresm</span><span class="o">/</span><span class="n">inputdata</span>
+
+<span class="p">[</span><span class="n">datm_gswp3</span><span class="p">]</span>
+<span class="o">-</span><span class="nb">dir</span> <span class="o">=</span> <span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">p</span><span class="o">/</span><span class="n">cgd</span><span class="o">/</span><span class="n">tss</span><span class="o">/</span><span class="n">CTSM_datm_forcing_data</span><span class="o">/</span><span class="n">atm_forcing</span><span class="o">.</span><span class="n">datm7</span><span class="o">.</span><span class="n">GSWP3</span><span class="mf">.0.5</span><span class="n">d</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">c170516</span>
+<span class="o">+</span><span class="nb">dir</span> <span class="o">=</span> <span class="o">/</span><span class="n">cluster</span><span class="o">/</span><span class="n">shared</span><span class="o">/</span><span class="n">noresm</span><span class="o">/</span><span class="n">inputdata</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">domains</span><span class="o">/</span><span class="n">atm_forcing</span><span class="o">.</span><span class="n">datm7</span><span class="o">.</span><span class="n">GSWP3</span><span class="mf">.0.5</span><span class="n">d</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">c170516</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">lnd</span><span class="mf">.360</span><span class="n">x720_gswp3</span><span class="mf">.0</span><span class="n">v1</span><span class="o">.</span><span class="n">c170606</span><span class="o">.</span><span class="n">nc</span>
+<span class="n">solardir</span> <span class="o">=</span> <span class="n">Solar</span>
+<span class="n">precdir</span> <span class="o">=</span> <span class="n">Precip</span>
+</pre></div>
+</div>
+</li>
+<li><p>You can now run the script to generate the data for your case. Here’s a sample run: <code class="docutils literal notranslate"><span class="pre">./subset_data</span> <span class="pre">point</span> <span class="pre">--site</span> <span class="pre">finse</span> <span class="pre">--lat</span> <span class="pre">60.59383774</span> <span class="pre">--lon</span> <span class="pre">7.527008533</span> <span class="pre">--create-domain</span> <span class="pre">--create-surface</span> <span class="pre">--create-landuse</span> <span class="pre">--create-datm</span> <span class="pre">--datm-syr</span> <span class="pre">1970</span> <span class="pre">--datm-eyr</span> <span class="pre">1972</span> <span class="pre">--dompft</span> <span class="pre">7</span></code>. This generates the data in <code class="docutils literal notranslate"><span class="pre">subset_data_single_point</span></code> in the working directory. Run <code class="docutils literal notranslate"><span class="pre">./subset_data</span> <span class="pre">--help</span></code> to see all the available flags and their descriptions.</p></li>
+</ul>
+<div class="admonition-note discussion important admonition" id="discussion-5">
+<p class="admonition-title">Note</p>
+<p>Not all the required data for different periods exist on Sigma2 server. If you get an error about missing files, you can download them from https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/atm/datm7/ and put them in <code class="docutils literal notranslate"><span class="pre">/cluster/shared/noresm/inputdata/share/domains</span></code> and the relevant sub-folders there. The data for the example above should already exist on Fram.</p>
+</div>
+</section>
+<section id="create-a-case-for-finse-site-simulation-using-the-bash-script">
+<h3>create a case for finse site simulation using the bash script<a class="headerlink" href="#create-a-case-for-finse-site-simulation-using-the-bash-script" title="Permalink to this heading"></a></h3>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Finse Site</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><p>This example Bash script shows the steps needed to create a case for site simulation on Fram</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT</span><span class="o">=</span>nn2806k
+<span class="nb">export</span><span class="w"> </span><span class="nv">CTSM_ROOT</span><span class="o">=</span>/cluster/home/<span class="nv">$USER</span>/ctsm
+<span class="nb">export</span><span class="w"> </span><span class="nv">MYSITEDATA</span><span class="o">=</span>/cluster/projects/nn2806k/dev/sites_forcing/
+<span class="c1"># Input</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DIR_SURF</span><span class="o">=</span><span class="nv">$MYSITEDATA</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DIR_DOM</span><span class="o">=</span><span class="nv">$MYSITEDATA</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DOMFILE</span><span class="o">=</span>domain.lnd.fv0.9x1.25_gx1v7_finse_c220225.nc
+<span class="nb">export</span><span class="w"> </span><span class="nv">SURF_DATA</span><span class="o">=</span><span class="si">${</span><span class="nv">DIR_SURF</span><span class="si">}</span>/surfdata_hist_16pfts_Irrig_CMIP6_simyr2000_finse-c3arcgr_c220225.nc
+<span class="nb">export</span><span class="w"> </span><span class="nv">DIR_DATM</span><span class="o">=</span><span class="nv">$MYSITEDATA</span>/datmdata
+<span class="c1"># Model components (COMPSET)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">COMPSET</span><span class="o">=</span>2000_DATM%GSWP3v1_CLM50%SP_SICE_SOCN_SROF_SGLC_SWAV
+<span class="c1"># (listed by $CTSM_ROOT/cime/scripts/query_config --COMPSETs clm)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CLM_USRDAT</span><span class="o">=</span>f09_g17
+<span class="nb">export</span><span class="w"> </span><span class="nv">CASENAME</span><span class="o">=</span>Finse_I2000Clm50SpRs_f09_g17
+<span class="nb">export</span><span class="w"> </span><span class="nv">DIR_CASE</span><span class="o">=</span>/cluster/home/<span class="nv">$USER</span>/cases_site/<span class="nv">$CASENAME</span>
+
+<span class="c1"># Create case</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$DIR_CASE</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$CTSM_ROOT</span>/cime/scripts
+<span class="w">    </span>./create_newcase<span class="w"> </span>--case<span class="w"> </span><span class="nv">$DIR_CASE</span><span class="w"> </span>--compset<span class="w"> </span><span class="nv">$COMPSET</span><span class="w"> </span>--res<span class="w"> </span><span class="nv">$CLM_USRDAT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--machine<span class="w"> </span>fram<span class="w"> </span>--driver<span class="w"> </span>mct<span class="w"> </span>--run-unsupported<span class="w"> </span>--project<span class="w"> </span><span class="nv">$PROJECT</span>
+<span class="k">fi</span><span class="p">;</span>
+
+<span class="c1"># Modify XML configuration files generated by case creation</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$DIR_CASE</span>
+./xmlchange<span class="w"> </span><span class="nv">ATM_DOMAIN_PATH</span><span class="o">=</span><span class="nv">$DIR_DOM</span>,LND_DOMAIN_PATH<span class="o">=</span><span class="nv">$DIR_DOM</span>
+./xmlchange<span class="w"> </span><span class="nv">ATM_DOMAIN_FILE</span><span class="o">=</span><span class="nv">$DOMFILE</span>,LND_DOMAIN_FILE<span class="o">=</span><span class="nv">$DOMFILE</span>
+./xmlchange<span class="w"> </span><span class="nv">CLM_USRDAT_NAME</span><span class="o">=</span><span class="nv">$CASENAME</span>
+./xmlchange<span class="w"> </span><span class="nv">STOP_OPTION</span><span class="o">=</span><span class="s2">&quot;nyears&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">STOP_N</span><span class="o">=</span><span class="m">30</span>
+./xmlchange<span class="w"> </span><span class="nv">NTASKS</span><span class="o">=</span><span class="m">1</span>
+./xmlchange<span class="w"> </span><span class="nv">JOB_WALLCLOCK_TIME</span><span class="o">=</span><span class="s2">&quot;00:30:00&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">PROJECT</span><span class="o">=</span><span class="nv">$PROJECT</span>
+./xmlchange<span class="w"> </span><span class="nv">RUN_STARTDATE</span><span class="o">=</span><span class="s2">&quot;2000-01-01&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DATM_CLMNCEP_YR_ALIGN</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DATM_CLMNCEP_YR_START</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DATM_CLMNCEP_YR_END</span><span class="o">=</span><span class="s2">&quot;2014&quot;</span>
+
+<span class="c1"># Case setup</span>
+./case.setup
+
+<span class="c1"># Add surface data to user namelist</span>
+
+cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; user_nl_clm</span>
+<span class="s">fsurdat=&quot;$SURF_DATA&quot;</span>
+<span class="s">EOF</span>
+
+cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt;user_nl_datm</span>
+<span class="s">mapalgo=&#39;nn&#39;,&#39;nn&#39;,&#39;nn&#39;,&#39;nn&#39;,&#39;nn&#39;</span>
+<span class="s">EOF</span>
+./preview_namelists
+ls<span class="w"> </span>CaseDocs/datm.streams.txt.*
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Copy CaseDocs/datm.streams.&quot;</span>
+cp<span class="w"> </span>CaseDocs/datm.streams.txt.*<span class="w"> </span>.
+mv<span class="w"> </span>datm.streams.txt.CLMGSWP3v1.Precip<span class="w"> </span>user_datm.streams.txt.CLMGSWP3v1.Precip
+mv<span class="w"> </span>datm.streams.txt.CLMGSWP3v1.Solar<span class="w"> </span>user_datm.streams.txt.CLMGSWP3v1.Solar
+mv<span class="w"> </span>datm.streams.txt.CLMGSWP3v1.TPQW<span class="w"> </span>user_datm.streams.txt.CLMGSWP3v1.TPQW
+mv<span class="w"> </span>datm.streams.txt.presaero.clim_2000<span class="w"> </span>user_datm.streams.txt.presaero.clim_2000
+mv<span class="w"> </span>datm.streams.txt.topo.observed<span class="w"> </span>user_datm.streams.txt.topo.observed
+
+./preview_namelists
+</pre></div>
+</div>
+</div></div>
+<p>After creating the case, edit the files(<code class="docutils literal notranslate"><span class="pre">user_datm.streams.txt.CLMGSWP3v1.Precip,</span> <span class="pre">user_datm.streams.txt.CLMGSWP3v1.Solar,</span> <span class="pre">and</span> <span class="pre">user_datm.streams.txt.CLMGSWP3v1.TPQW</span></code>) to change the directory path for climate forcing data and domain file name.
+More details can be found at the NCAR <a class="reference external" href="https://www.cgd.ucar.edu/events/2019/ctsm/files/practical4-wieder.pdf">tutorial</a></p>
+<p>Build and submit the case.</p>
+</section>
+</section>
+<section id="run-a-regional-case">
+<h2>Run a regional case<a class="headerlink" href="#run-a-regional-case" title="Permalink to this heading"></a></h2>
+<p>Follow the below procedure to run CTSM over a specific region of interest for a specific resolution.</p>
+<section id="domain-and-surface-data">
+<h3>Domain and surface data<a class="headerlink" href="#domain-and-surface-data" title="Permalink to this heading"></a></h3>
+<p>To run over the Scandinavia region (latitude 48N to 81N, longitude 4E to 42E) at 0.5 degree resolution you first need to produce the domain and surface data files for the region using the python script <code class="docutils literal notranslate"><span class="pre">subset_data.py</span></code> available under the CTSM tools directory <code class="docutils literal notranslate"><span class="pre">CTSM_ROOT/tools/site_and_regional/subset_data.py</span></code>. The python script file can also be found <a class="reference external" href="https://github.com/ESCOMP/CTSM/blob/master/tools/site_and_regional/subset_data.py">here</a>.</p>
+<p>The python scripts requires input arguments corresponding to your region of interest. Command below helps you to understand on how to provide
+input argument variables:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./subset_data.py reg --help
+</pre></div>
+</div>
+<p>First, you need to change the global input data directory variable inside the script (standard global CTSM dataset) as below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>dir_inputdata=&#39;/cluster/shared/noresm/inputdata/&#39;  (few lines after region.create-tag())
+</pre></div>
+</div>
+<p>Choose a location for storing the domain and surface data files for Scandinavia (eg. /cluster/projects/nn2806k/$USER/regiondata).
+Set the environment variable for the directory as below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>MYREGDATA=/cluster/projects/nn2806k/$USER/regiondata/
+</pre></div>
+</div>
+<div class="admonition-choose-the-global-surface-data-file-corresponding-to-the-resolution discussion important admonition" id="discussion-6">
+<p class="admonition-title">Choose the global surface data file corresponding to the resolution! </p>
+<p>For example: for 0.5x0.5 resolution, choose <code class="docutils literal notranslate"><span class="pre">surfdata_360x720cru_16pfts_Irrig_CMIP6_simyr2000_c170824.nc</span></code> (under shared noresm folder)
+and add this file location in the python script <code class="docutils literal notranslate"><span class="pre">subset_data.py</span></code>.</p>
+</div>
+<p>Run the script as below with the input arguments for Scandinavia region. Make sure you have created a conda environment for python3 including xarray, netcdf4 installed:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/CTSM_ROOT/tools/site_and_regional] ./subset_data.py reg --reg scand --lat1 48.0 --lat2 81.0 --lon1 4.0 --lon2 42.0 --create_domain True --create_surface True --outdir $MYREGDATA
+</pre></div>
+</div>
+</section>
+<section id="create-a-case-for-the-compset-of-your-interest">
+<h3>Create a case for the compset of your interest<a class="headerlink" href="#create-a-case-for-the-compset-of-your-interest" title="Permalink to this heading"></a></h3>
+<p>You can see the available compset aliases and their long names by typing the following :</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/CTSM_ROOT/cime/scripts]$ ./query_config --compsets clm
+</pre></div>
+</div>
+<p>The compset chosen here is I2000Clm50BgcCropGs. Initializes the model for the year 2000 conditions with GSWP3 atmospheric forcing data.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/CTSM_ROOT/cime/scripts]$ export CESM_ACCOUNT=nn2806k
+[~/CTSM_ROOT/cime/scripts]$ ./create_newcase -case ~/cases/scand --res CLM_USRDAT --compset I2000Clm50BgcCropGs  --machine fram --run-unsupported --project $CESM_ACCOUNT
+</pre></div>
+</div>
+</section>
+<section id="inputdata">
+<h3>Inputdata<a class="headerlink" href="#inputdata" title="Permalink to this heading"></a></h3>
+<p>Change data atmosphere domain (ATM_DOMAIN_PATH) and land domain (LND_DOMAIN_PATH) paths following below commands in the case directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/cases/scand]$./xmlchange ATM_DOMAIN_PATH=$MYREGDATA,LND_DOMAIN_PATH=$MYREGDATA
+</pre></div>
+</div>
+<div class="admonition-xml-files discussion important admonition" id="discussion-7">
+<p class="admonition-title">xml-files</p>
+<p>Manually editing the <code class="docutils literal notranslate"><span class="pre">*.xml</span></code>-files is <strong>not</strong> advised!</p>
+</div>
+<p>To add the domain file names (same domain file for both ATM_DOMAIN_FILE and LND_DOMAIN_FILE) first set the environment variable for file name:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/cases/scand]$export DOMFILE=domain.0.5x0.5_scand.nc
+</pre></div>
+</div>
+<p>and use the xmlchange command to add the file names into the xml files.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/cases/scand]$./xmlchange ATM_DOMAIN_FILE=$DOMFILE,LND_DOMAIN_FILE=$DOMFILE
+</pre></div>
+</div>
+<p>Add region name into env_run.xml file (eg.choose the same name as created case name):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/cases/scand]$./xmlchange CLM_USRDAT_NAME=scand
+</pre></div>
+</div>
+<p>Change the number of CPUs and project number:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/cases/scand]$./xmlchange NTASKS=32
+[~/cases/scand]$./xmlchange PROJECT=$CESM_ACCOUNT
+</pre></div>
+</div>
+<p>Setup the case:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/cases/scand]$ ./case.setup
+[~/cases/scand]$ ./preview_run
+</pre></div>
+</div>
+<section id="customizing-the-clm-namelist">
+<h4>Customizing the CLM namelist<a class="headerlink" href="#customizing-the-clm-namelist" title="Permalink to this heading"></a></h4>
+<p>Specify the location of surface data created for the region in the file <code class="docutils literal notranslate"><span class="pre">user_nl_ctsm</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fsurdat=&quot;$MYREGDATA/surfdata_0.5_scand_hist_16pfts_Irrig_CMIP6_simyr2000_c190814.nc&quot;
+</pre></div>
+</div>
+<div class="admonition-single-point-and-regional-cases discussion important admonition" id="discussion-8">
+<p class="admonition-title">Single-point and regional cases </p>
+<p>You can only use the compsets with <code class="docutils literal notranslate"><span class="pre">SGLC</span></code> (Stub glacier (land ice) component) for single-point and regional cases. Otherwise, the simulation will fail. WHY??? SHOULD HAVE AN EXPLANATION HERE I (Sunniva) THINK?</p>
+</div>
+<p>If you want to print out only selected variables with hourly resolution in
+the model output files for each year you would need to update the file <code class="docutils literal notranslate"><span class="pre">~/cases/scand/user_nl_ctsm</span></code> to contain the following variables</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>hist_empty_htapes = .true.
+hist_fincl1 = &#39;TSA&#39;, &#39;TSKIN&#39;, &#39;EFLX_LH_TOT&#39;, &#39;FSH&#39;, &#39;WIND&#39;, &#39;TWS&#39;, &#39;SNOWLIQ&#39;, &#39;SNOWICE&#39;, &#39;SNOW_DEPTH&#39;, &#39;TSOI&#39;, &#39;H2OSOI&#39;
+hist_nhtfrq = -1
+hist_mfilt = 365
+</pre></div>
+</div>
+<div class="admonition-variable-naming-convention discussion important admonition" id="discussion-9">
+<p class="admonition-title">Variable naming convention</p>
+<p>The variable names (e.g. <code class="docutils literal notranslate"><span class="pre">TSA</span></code>, <code class="docutils literal notranslate"><span class="pre">TSKIN</span></code>,
+<code class="docutils literal notranslate"><span class="pre">EFLX_LH_TOT</span></code>, etc.) are following the CESM name convention.</p>
+</div>
+</section>
+</section>
+<section id="build-and-submit-the-case">
+<h3>Build and submit the case<a class="headerlink" href="#build-and-submit-the-case" title="Permalink to this heading"></a></h3>
+<p>Now you can perform the final steps to build and submit the case to the job queue.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[~/cases/SCA_SpRun]$ ./case.build
+[~/cases/SCA_SpRun]$ ./case.submit
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example-scripts">
+<h2>Example scripts<a class="headerlink" href="#example-scripts" title="Permalink to this heading"></a></h2>
+<section id="regional-simulations">
+<h3>Regional simulations<a class="headerlink" href="#regional-simulations" title="Permalink to this heading"></a></h3>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">Scandinavia (0.5°)</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">N. Europe (0.25°)</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><p>This example Bash script shows the steps needed to run a regional simulation
+on Fram, using the setup explained in the
+<a class="reference external" href="https://metos-uio.github.io/CTSM-Norway-Documentation/run/#run-a-regional-case">“Run a regional case” section</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Project accounting</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CESM_ACCOUNT</span><span class="o">=</span>nn2806k
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT</span><span class="o">=</span>nn2806k
+
+<span class="c1"># Paths: CLM and NetCDF</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CTSM_ROOT</span><span class="o">=</span><span class="nv">$HOME</span>/ctsm_fates_emerald
+<span class="nb">export</span><span class="w"> </span><span class="nv">INC_NETCDF</span><span class="o">=</span>/cluster/software/VERSIONS/netcdf.intel-4.3.3.1/
+<span class="nb">export</span><span class="w"> </span><span class="nv">LIB_NETCDF</span><span class="o">=</span>/cluster/software/VERSIONS/netcdf.intel-4.3.3.1/
+<span class="nb">export</span><span class="w"> </span><span class="nv">NETCDF_ROOT</span><span class="o">=</span>/cluster/software/VERSIONS/netcdf.intel-4.3.3.1/
+
+<span class="c1"># Input</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CESM_DATA</span><span class="o">=</span>/cluster/shared/noresm/inputdata
+<span class="nb">export</span><span class="w"> </span><span class="nv">DIR_DOM</span><span class="o">=</span><span class="si">${</span><span class="nv">CESM_DATA</span><span class="si">}</span>/share/domains
+<span class="nb">export</span><span class="w"> </span><span class="nv">DOMFILE</span><span class="o">=</span>domain.0.5x0.5_scand.nc
+<span class="nb">export</span><span class="w"> </span><span class="nv">SURF_DATA</span><span class="o">=</span><span class="si">${</span><span class="nv">CESM_DATA</span><span class="si">}</span>/lnd/clm2/surfdata_map/surfdata_0.5_scand_hist_16pfts_Irrig_CMIP6_simyr2000_c190814.nc
+<span class="nb">export</span><span class="w"> </span><span class="nv">ROOT_FRC</span><span class="o">=</span>/cluster/shared/noresm/inputdata/atm/datm7
+
+<span class="c1"># Model components (COMPSET)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">COMPSET</span><span class="o">=</span>I2000Clm50SpGs
+<span class="c1"># (listed by $CTSM_ROOT/cime/scripts/query_config --COMPSETs clm)</span>
+
+<span class="c1"># Case folder</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GRID_NAME</span><span class="o">=</span><span class="m">0</span>.5_scand
+<span class="nb">export</span><span class="w"> </span><span class="nv">CASE_NAME</span><span class="o">=</span><span class="si">${</span><span class="nv">COMPSET</span><span class="si">}</span>_<span class="si">${</span><span class="nv">GRID_NAME</span><span class="si">}</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DIR_CASE</span><span class="o">=</span>~/cases/<span class="nv">$CASE_NAME</span>
+
+<span class="c1"># Get CLM from NordicESMhub and externals</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$CTSM_ROOT</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>module<span class="w"> </span>load<span class="w"> </span>git/2.23.0-GCCcore-8.3.0
+<span class="w">    </span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>release-clm5.0<span class="w"> </span>https://github.com/NordicESMhub/ctsm.git<span class="w"> </span><span class="nv">$CTSM_ROOT</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$CTSM_ROOT</span>
+<span class="w">    </span>./manage_externals/checkout_externals
+<span class="k">fi</span><span class="p">;</span>
+
+<span class="c1"># Create case</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$DIR_CASE</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$CTSM_ROOT</span>/cime/scripts
+<span class="w">    </span>./create_newcase<span class="w"> </span>--case<span class="w"> </span><span class="nv">$DIR_CASE</span><span class="w"> </span>--compset<span class="w"> </span><span class="nv">$COMPSET</span><span class="w"> </span>--res<span class="w"> </span>CLM_USRDAT<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--machine<span class="w"> </span>fram<span class="w"> </span>--run-unsupported<span class="w"> </span>--project<span class="w"> </span><span class="nv">$CESM_ACCOUNT</span>
+<span class="k">fi</span><span class="p">;</span>
+
+<span class="c1"># Modify XML configuration files generated by case creation</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$DIR_CASE</span>
+./xmlchange<span class="w"> </span><span class="nv">DIN_LOC_ROOT</span><span class="o">=</span><span class="nv">$CESM_DATA</span>
+./xmlchange<span class="w"> </span><span class="nv">DIN_LOC_ROOT_CLMFORC</span><span class="o">=</span><span class="nv">$ROOT_FRC</span>
+./xmlchange<span class="w"> </span><span class="nv">ATM_DOMAIN_PATH</span><span class="o">=</span><span class="nv">$DIR_DOM</span>,LND_DOMAIN_PATH<span class="o">=</span><span class="nv">$DIR_DOM</span>
+./xmlchange<span class="w"> </span><span class="nv">ATM_DOMAIN_FILE</span><span class="o">=</span><span class="nv">$DOMFILE</span>,LND_DOMAIN_FILE<span class="o">=</span><span class="nv">$DOMFILE</span>
+./xmlchange<span class="w"> </span><span class="nv">CLM_USRDAT_NAME</span><span class="o">=</span><span class="nv">$GRID_NAME</span>
+./xmlchange<span class="w"> </span><span class="nv">STOP_OPTION</span><span class="o">=</span><span class="s2">&quot;ndays&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">STOP_N</span><span class="o">=</span><span class="m">5</span>
+./xmlchange<span class="w"> </span><span class="nv">NTASKS</span><span class="o">=</span><span class="m">16</span>
+./xmlchange<span class="w"> </span><span class="nv">JOB_WALLCLOCK_TIME</span><span class="o">=</span><span class="s2">&quot;00:05:00&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">PROJECT</span><span class="o">=</span><span class="nv">$CESM_ACCOUNT</span>
+./xmlchange<span class="w"> </span><span class="nv">RUN_STARTDATE</span><span class="o">=</span><span class="s2">&quot;2000-01-01&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">RESUBMIT</span><span class="o">=</span><span class="s2">&quot;0&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DATM_CLMNCEP_YR_ALIGN</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DATM_CLMNCEP_YR_START</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DATM_CLMNCEP_YR_END</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DOUT_S</span><span class="o">=</span><span class="s2">&quot;FALSE&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">GMAKE_J</span><span class="o">=</span><span class="s2">&quot;8&quot;</span>
+
+<span class="c1"># Case setup</span>
+./case.setup
+
+<span class="c1"># Add surface data to user namelist</span>
+cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; user_nl_clm</span>
+<span class="s">fsurdat=&quot;$SURF_DATA&quot;</span>
+<span class="s">hist_nhtfrq=-24</span>
+<span class="s">EOF</span>
+<span class="c1"># (if restart file is available from spin-up ($RESTART), add: finidat=&quot;$RESTART&quot;)</span>
+
+<span class="c1"># Preview</span>
+./preview_run
+
+<span class="c1"># Compile</span>
+./case.build
+<span class="c1">#./case.build --clean</span>
+
+<span class="c1"># Run</span>
+./case.submit
+
+<span class="c1"># Check output files</span>
+ll<span class="w"> </span><span class="nv">$USERWORK</span>/noresm/<span class="nv">$CASE_NAME</span>/run/<span class="si">${</span><span class="nv">CASE_NAME</span><span class="si">}</span>.clm2.h0.*.nc
+
+<span class="c1"># View slurm log</span>
+cat<span class="w"> </span><span class="nv">$DIR_CASE</span>/<span class="si">${</span><span class="nv">CASE_NAME</span><span class="si">}</span>.run
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><p>This example Bash script shows the steps needed to run a regional simulation
+over Northern Europe at 0.25° resolution on Fram, using
+<a class="reference external" href="https://github.com/NordicESMhub/ctsm">CLM from NordicESM hub</a>.
+It differs from the
+<a class="reference external" href="https://metos-uio.github.io/CTSM-Norway-Documentation/run/#run-a-regional-case">regional case workflow</a>
+in the following ways:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">$CTSM_ROOT/tools/contrib/subset_data.py</span></code> is not used.</p></li>
+<li><p>it relies on domain and surface files located in
+<code class="docutils literal notranslate"><span class="pre">/cluster/projects/nn9373k/data_regional_SBS/</span></code>.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Project accounting</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CESM_ACCOUNT</span><span class="o">=</span>nn9373k
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT</span><span class="o">=</span>nn9373k
+
+<span class="c1"># Paths: CLM, CIME and NetCDF</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CTSMROOT</span><span class="o">=</span><span class="nv">$HOME</span>/ctsm_fates_emerald
+<span class="nb">export</span><span class="w"> </span><span class="nv">CIMEROOT</span><span class="o">=</span><span class="nv">$CTSMROOT</span>/cime
+<span class="nb">export</span><span class="w"> </span><span class="nv">INC_NETCDF</span><span class="o">=</span>/cluster/software/VERSIONS/netcdf.intel-4.3.3.1/
+<span class="nb">export</span><span class="w"> </span><span class="nv">LIB_NETCDF</span><span class="o">=</span>/cluster/software/VERSIONS/netcdf.intel-4.3.3.1/
+<span class="nb">export</span><span class="w"> </span><span class="nv">NETCDF_ROOT</span><span class="o">=</span>/cluster/software/VERSIONS/netcdf.intel-4.3.3.1/
+
+<span class="c1"># Input</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CESM_DATA</span><span class="o">=</span>/cluster/shared/noresm/inputdata
+<span class="nb">export</span><span class="w"> </span><span class="nv">MYCTSMDATA</span><span class="o">=</span><span class="nv">$USERWORK</span>/inputdata
+<span class="nb">export</span><span class="w"> </span><span class="nv">REG_DATA</span><span class="o">=</span>/cluster/projects/nn9373k/data_regional_SBS
+<span class="nb">export</span><span class="w"> </span><span class="nv">root_frc</span><span class="o">=</span>/cluster/shared/noresm/inputdata/atm/datm7
+
+<span class="c1"># Model components (compset)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">compset</span><span class="o">=</span>I2000Clm50SpGs
+<span class="c1"># (listed by $CTSMROOT/cime/scripts/query_config --compsets clm)</span>
+
+<span class="c1"># Domain info</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GRIDNAME</span><span class="o">=</span><span class="m">0</span>.25_SBS
+<span class="nb">export</span><span class="w"> </span><span class="nv">ATMDOM</span><span class="o">=</span>domain.0.25x0.25_SBS.nc
+
+<span class="c1"># Case folder</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">case_name</span><span class="o">=</span><span class="si">${</span><span class="nv">compset</span><span class="si">}</span>_<span class="si">${</span><span class="nv">GRIDNAME</span><span class="si">}</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">casedir</span><span class="o">=</span>~/cases/<span class="nv">$case_name</span>
+
+<span class="c1"># Get CLM from NordicESMhub and externals</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$CTSMROOT</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>module<span class="w"> </span>load<span class="w"> </span>git/2.23.0-GCCcore-8.3.0
+<span class="w">    </span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>release-clm5.0<span class="w"> </span>https://github.com/NordicESMhub/ctsm.git<span class="w"> </span><span class="nv">$CTSMROOT</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$CTSMROOT</span>
+<span class="w">    </span>./manage_externals/checkout_externals
+<span class="k">fi</span><span class="p">;</span>
+
+<span class="c1"># Link shared input folder to user&#39;s work folder</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$MYCTSMDATA</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$CIMEROOT</span>/scripts
+<span class="w">    </span>./link_dirtree<span class="w"> </span><span class="nv">$CESM_DATA</span><span class="w"> </span><span class="nv">$MYCTSMDATA</span>
+<span class="k">fi</span><span class="p">;</span>
+
+<span class="c1"># Create case</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$casedir</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$CIMEROOT</span>/scripts
+<span class="w">    </span>./create_newcase<span class="w"> </span>--case<span class="w"> </span><span class="nv">$casedir</span><span class="w"> </span>--compset<span class="w"> </span><span class="nv">$compset</span><span class="w"> </span>--res<span class="w"> </span>CLM_USRDAT<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--machine<span class="w"> </span>fram<span class="w"> </span>--run-unsupported<span class="w"> </span>--project<span class="w"> </span><span class="nv">$CESM_ACCOUNT</span>
+<span class="k">fi</span><span class="p">;</span>
+
+<span class="c1"># Modify XML configuration files generated by case creation</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$casedir</span>
+./xmlchange<span class="w"> </span><span class="nv">DIN_LOC_ROOT</span><span class="o">=</span><span class="nv">$MYCTSMDATA</span>
+./xmlchange<span class="w"> </span><span class="nv">DIN_LOC_ROOT_CLMFORC</span><span class="o">=</span><span class="nv">$root_frc</span>
+./xmlchange<span class="w"> </span><span class="nv">ATM_DOMAIN_PATH</span><span class="o">=</span><span class="nv">$REG_DATA</span>,LND_DOMAIN_PATH<span class="o">=</span><span class="nv">$REG_DATA</span>
+./xmlchange<span class="w"> </span><span class="nv">ATM_DOMAIN_FILE</span><span class="o">=</span><span class="nv">$ATMDOM</span>,LND_DOMAIN_FILE<span class="o">=</span><span class="nv">$ATMDOM</span>
+./xmlchange<span class="w"> </span><span class="nv">CLM_USRDAT_NAME</span><span class="o">=</span><span class="nv">$GRIDNAME</span>
+./xmlchange<span class="w"> </span><span class="nv">STOP_OPTION</span><span class="o">=</span><span class="s2">&quot;nyears&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">STOP_N</span><span class="o">=</span><span class="m">1</span>
+./xmlchange<span class="w"> </span><span class="nv">NTASKS</span><span class="o">=</span><span class="m">16</span>
+./xmlchange<span class="w"> </span><span class="nv">JOB_WALLCLOCK_TIME</span><span class="o">=</span><span class="s2">&quot;01:40:00&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">PROJECT</span><span class="o">=</span><span class="nv">$CESM_ACCOUNT</span>
+./xmlchange<span class="w"> </span><span class="nv">RUN_STARTDATE</span><span class="o">=</span><span class="s2">&quot;2000-01-01&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">RESUBMIT</span><span class="o">=</span><span class="s2">&quot;0&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DATM_CLMNCEP_YR_ALIGN</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DATM_CLMNCEP_YR_START</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DATM_CLMNCEP_YR_END</span><span class="o">=</span><span class="s2">&quot;2000&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">DOUT_S</span><span class="o">=</span><span class="s2">&quot;FALSE&quot;</span>
+./xmlchange<span class="w"> </span><span class="nv">GMAKE_J</span><span class="o">=</span><span class="s2">&quot;8&quot;</span>
+
+<span class="c1"># Case setup</span>
+./case.setup
+
+<span class="c1"># Add surface data to user namelist</span>
+cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; user_nl_clm</span>
+<span class="s">fsurdat=&quot;$REG_DATA/surfdata_0.25_SBS_hist_16pfts_Irrig_CMIP6_simyr2000_c191002.nc&quot;</span>
+<span class="s">hist_nhtfrq=-24</span>
+<span class="s">EOF</span>
+<span class="c1"># (if restart file is available from spin-up ($RESTART), add: finidat=&quot;$RESTART&quot;)</span>
+
+<span class="c1"># Preview</span>
+./preview_run
+
+<span class="c1"># Compile</span>
+<span class="c1">#./case.build --clean</span>
+./case.build
+
+<span class="c1"># Run</span>
+./case.submit
+
+<span class="c1"># Check output files</span>
+ll<span class="w"> </span><span class="nv">$USERWORK</span>/noresm/<span class="nv">$case_name</span>/run/<span class="si">${</span><span class="nv">case_name</span><span class="si">}</span>.clm2.h0.*.nc
+
+<span class="c1"># View slurm log</span>
+cat<span class="w"> </span><span class="nv">$casedir</span>/<span class="si">${</span><span class="nv">case_name</span><span class="si">}</span>.run
+</pre></div>
+</div>
+</div></div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../get/" class="btn btn-neutral float-left" title="Get CTSM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../spinup/" class="btn btn-neutral float-right" title="Spin-up CTSM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CTSM-Norway team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

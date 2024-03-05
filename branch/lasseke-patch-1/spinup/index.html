@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spin-up CTSM &mdash; CTSM-Norway  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/minipres.js"></script>
+        <script src="../_static/tabs.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="WRF-CTSM" href="../wrf-ctsm/" />
+    <link rel="prev" title="Run CTSM" href="../run/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../" class="icon icon-home"> CTSM-Norway
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Prerequisite</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../prerequisite/">Prerequisites</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Content</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick-start/">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start-single-point/">Single Point Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get/">Get CTSM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/">Run CTSM</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spin-up CTSM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#which-variables-are-important-to-check">Which variables are important to check?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#biogeochemistry-mode">BioGeoChemistry mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#how-long-should-a-spin-up-be">How long should a spin-up be?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-does-equilibrium-mean">What does equilibrium mean?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-perform-a-spin-up">How to perform a spin-up?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../wrf-ctsm/">WRF-CTSM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop/">Tips for developing CTSM</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../license/">Credit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution/">Contribution</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">CTSM-Norway</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home"></a> &raquo;</li>
+      <li>Spin-up CTSM</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/MetOs-UiO/CTSM-Norway-Documentation/blob/main/content/spinup.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="spin-up-ctsm">
+<h1>Spin-up CTSM<a class="headerlink" href="#spin-up-ctsm" title="Permalink to this heading"></a></h1>
+<p>The idea behind doing a so-called <strong>spin-up</strong> is to reach an
+equilibrium state in your model. Typically any perturbation (e.g. 2x CO2) experiment starts from such a state.</p>
+<p>Running our perturbed system into equilibrium again will give you
+the maximum impact of the perturbation.</p>
+<section id="which-variables-are-important-to-check">
+<h2>Which variables are important to check?<a class="headerlink" href="#which-variables-are-important-to-check" title="Permalink to this heading"></a></h2>
+<p>Since we are interested in the equilibrium state of our system, the
+“slowest” variables matter the most (e.g. terrestrial soil
+carbon).</p>
+<section id="biogeochemistry-mode">
+<h3>BioGeoChemistry mode<a class="headerlink" href="#biogeochemistry-mode" title="Permalink to this heading"></a></h3>
+<p>If you are running in BioGeoChemistry (BGC) mode, it is important to
+check the <em>health</em> of your vegetation. The variable directly associated with the health
+is <code class="docutils literal notranslate"><span class="pre">Total</span> <span class="pre">Leaf</span> <span class="pre">Area</span> <span class="pre">Index</span> <span class="pre">(TLAI)</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">TLAI=0</span></code> your vegetation is dead and something went
+wrong.</p>
+</section>
+</section>
+<section id="how-long-should-a-spin-up-be">
+<h2>How long should a spin-up be?<a class="headerlink" href="#how-long-should-a-spin-up-be" title="Permalink to this heading"></a></h2>
+<p>The overall duration (years before an equilibrium state is reached)
+varies. As mentioned above, the variables with the slowest turnover rate
+will define the time you’d need to spend for your spin-up.</p>
+<p>The rule of thumb for single-cell simulation is the higher the
+latitude the longer the spin-up. Spinning up a single cell case in the Tropics will approximately
+take 2x100 years after which the terrestrial carbon pools are in
+equilibrium (Fig.1). In the polar regions, this means that the spin-up time is a couple of 1000 years!</p>
+<figure class="align-default" id="id1">
+<img alt="Spin-up for a single cell case in the Tropics" src="../_images/spinup_brazil_example.png" />
+<figcaption>
+<p><span class="caption-text">Spin-up for a single cell case in the Tropics</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="what-does-equilibrium-mean">
+<h2>What does equilibrium mean?<a class="headerlink" href="#what-does-equilibrium-mean" title="Permalink to this heading"></a></h2>
+<p>Typically you’d cycle through a range of given meteorological
+years - referred to as time-slice (e.g. 1990-2000).</p>
+<p>After an initial rapid increase/decrease in your variables, you will
+start to see the interannual variability of the chosen time slice
+(wiggling). Equilibrium is reached as soon as consecutive time slices differ by
+less than a threshold that you have to choose (&lt; 0.1-1%).</p>
+</section>
+<section id="how-to-perform-a-spin-up">
+<h2>How to perform a spin-up?<a class="headerlink" href="#how-to-perform-a-spin-up" title="Permalink to this heading"></a></h2>
+<p>Usually, we do a two-staged spin-up. See the necessary XML change commands below (NB you have to stand in the folder where you created your case for this to work!).</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Accelerated decomposition</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Normal spin-up</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><p>Can be used for a reduced size of the carbon pools.
+The following code would be saved in the script <code class="docutils literal notranslate"><span class="pre">~/MY_CASE/tailor_my_case_acc_spin_up.sh</span></code>,
+to tailor the type of case you want to run</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  ./xmlchange CLM_FORCE_COLDSTART=&quot;on&quot;
+  ./xmlchange CLM_NML_USE_CASE=&quot;2000_control&quot;
+  ./xmlchange DATM_CLMNCEP_YR_START=&quot;1991&quot;
+  ./xmlchange DATM_CLMNCEP_YR_END=&quot;2010&quot;
+  ./xmlchange DATM_PRESAERO=&quot;clim_2000&quot;
+  ./xmlchange CCSM_CO2_PPMV=&quot;369.&quot;
+  ./xmlchange STOP_OPTION=&quot;nyears&quot;
+  ./xmlchange RUN_REFDATE=&quot;0001-01-01&quot;
+  ./xmlchange RUN_STARTDATE=&quot;0001-01-01&quot;
+
+  #Additional xml changes for AD mode
+  ./xmlchange CLM_ACCELERATED_SPINUP=&quot;on&quot;
+
+  #Number of years for spin-up 
+  #For Tropics only STOP_N=100 is needed!
+  ./xmlchange STOP_N=100
+
+  #Frequency of restart files (1/4 of STOP_N)
+  ./xmlchange REST_N=25
+
+  #Setting wall clock time (on saga 5 years / 30 min)
+  ./xmlchange JOB_WALLCLOCK_TIME=36:00:00
+  ./case.setup
+  ./preview_namelists
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><p>Can be used for a normal size of the carbon pools.
+The following code would be saved in the script <code class="docutils literal notranslate"><span class="pre">~/MY_CASE/tailor_my_case_normal_spinup.sh</span></code>,
+to tailor the type of case you want to run</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  # Switch off cold start
+  ./xmlchange CLM_FORCE_COLDSTART=&quot;off&quot;
+  ./xmlchange CONTINUE_RUN=&quot;FALSE&quot;
+
+  # Factory but re-define reference time
+  ./xmlchange RUN_REFDATE=&quot;0401-01-01&quot;
+  ./xmlchange RUN_STARTDATE=&quot;0401-01-01&quot;
+
+  #Additional xml changes for AD mode
+  ./xmlchange CLM_ACCELERATED_SPINUP=&quot;off&quot;
+  ./xmlchange STOP_N=100
+
+  #Frequency of restart files (1/4 of STOP_N)
+  ./xmlchange REST_N=25
+
+  #Setting wall clock time
+  ./xmlchange JOB_WALLCLOCK_TIME=36:00:00
+  ./case.setup
+
+  #Point to restart file (IMPORTANT: Do not forget the single-quotation marks &#39;&lt;path to restart file&gt;&#39;)
+  echo &quot;finidat = &#39;${restart_file}&#39;&quot; &gt;&gt; user_nl_clm
+  echo &quot;Restart file: ${restart_file}&quot;
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div></div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../run/" class="btn btn-neutral float-left" title="Run CTSM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../wrf-ctsm/" class="btn btn-neutral float-right" title="WRF-CTSM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, CTSM-Norway team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
